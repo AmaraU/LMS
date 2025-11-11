@@ -3180,7 +3180,7 @@ const sendConfirmationEmail = async (userEmail, confirmationLink) => {
         // await transporter.sendMail(mailOptions);
         console.log('hereeee')
         const { data, error } = await resend.emails.send({
-            from: "CWG Academy <academy.cwg@gmail.com>",
+            from: "CWG Academy <onboarding@resend.dev>",
             to: [userEmail],
             subject: "Confirm Your Email",
             html: `
@@ -3220,7 +3220,7 @@ const sendNewTeacherEmail = async (userEmail, confirmationLink) => {
         console.log('hereeee')
         // await transporter.sendMail(mailOptions);
         const { data, error } = await resend.emails.send({
-            from: "CWG Academy <academy.cwg@gmail.com>",
+            from: "CWG Academy <onboarding@resend.dev>",
             to: [userEmail],
             subject: "Welcome to CWG Academy",
             html: `
