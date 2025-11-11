@@ -1,0 +1,297 @@
+.whole {
+    margin-left: 280px;
+    margin-top: 80px;
+    width: 100%;
+    max-width: 1500px;
+    padding: 16px 24px;
+    background: #FFFFFF;
+}
+
+.whole a {
+    font-size: 14px;
+    font-weight: 500;
+    color: #505296;
+}
+
+.teacherHeader {
+    margin-top: 40px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 26px;
+    font-weight: 600;
+    color: #272727;
+}
+.buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.buttons .buttonOne {
+    display: inline-flex;
+    align-items: center;
+    background: #F0F0F0;
+    padding: 7px 12px;
+    gap: 4px;
+    border-radius: 7px;
+    color: #606060;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    outline: none;
+}
+.buttons .buttonTwo {
+    display: inline-flex;
+    align-items: center;
+    background: #2C2F7E;
+    padding: 7px 12px;
+    gap: 4px;
+    border-radius: 7px;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    outline: none;
+}
+.buttons button img {
+    width: 20px;
+    height: 20px;
+}
+
+
+
+.teacherTable {
+    width: 100%;
+    border-spacing: 0 8px;
+}
+.teacherTable thead {
+    background: #F9F9F9;
+    border: 1px solid #E4E4E4;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2C2F7E;
+}
+.teacherTable th {
+    padding: 12px 10px;
+    text-align: left;
+    border-top: 1px solid #E4E4E4;
+    border-bottom: 1px solid #E4E4E4;
+}
+.teacherTable td {
+    padding: 8px 10px;
+    border-top: 1px solid #E4E4E4;
+    border-bottom: 1px solid #E4E4E4;
+}
+.teacherTable th:first-child,
+.teacherTable td:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border: 1px solid #E4E4E4;
+    border-right: none;
+    padding-left: 10px;
+}
+.teacherTable th:last-child,
+.teacherTable td:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border: 1px solid #E4E4E4;
+    border-left: none;
+}
+.teacherTable td img {
+    width: 16px;
+    height: 16px;
+}
+.teacherTable tr {
+    background: #FFFFFF;
+    font-size: 12px;
+    font-weight: 500;
+    color: #545454;
+}
+.teacherTable tr span {
+    font-weight: 700;
+    color: #2C2F7E;
+}
+.teacherTable .actionsButton {
+    border: 1px solid #A1B2D1;
+    outline: none;
+    background-color: transparent;
+    padding: 4px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+.teacherTable .actionsButton img {
+    width: 20px;
+    height: 20px;
+}
+
+.teacherTable select {
+    padding: 6px;
+    border-radius: 8px;
+    border: 1.5px solid #CBD0DC;
+    color: #5C5C5C;
+    font-size: 12px;
+    outline: none;
+}
+
+.actionsClosed {
+    display: none;
+}
+.theActions {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0px 4px 12px 0px #9CA3AF33;
+    border-radius: 10px;
+    padding: 8px;
+    position: absolute;
+    z-index: 5;
+    width: 220px;
+    margin-top: 5px;
+    margin-left: -150px;
+}
+.theActions h5 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #4B5563;
+}
+.theActions button {
+    border: none;
+    outline: none;
+    background: #FFFFFF;
+    color: #4B5563;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+}
+.theActions button:hover {
+    background: #4b55632a;
+}
+.theActions button img {
+    width: 24px;
+    height: 24px;
+}
+
+
+
+
+.showRows {
+    flex: 70%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 500;
+    color: #000000;
+}
+.showRows select {
+    border: 1px solid #BDD9FF;
+    box-shadow: 0px 3.76px 5.64px 0px #00000017;
+    border-radius: 6px;
+    padding: 4px 0 4px 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #000000;
+    outline: none;
+}
+.pag {
+    flex: 30%
+}
+
+.course_modal{
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    padding: 16px;
+    gap:8 ;
+    border: 1px solid #BDD9FF;
+    box-shadow: 0px 3px 5px 0px #00000017;
+    background-color: #Fff;
+    height: fit-content;
+    min-width: 460px;
+    max-height: 80vh;
+}
+.close{
+    background: #fff;
+    border: none;
+}
+.submit{
+    margin-top: 24px;
+    align-items: center;
+    background: #2C2F7E;
+    padding: 14px 20px;
+    gap: 4px;
+    border-radius: 7px;
+    color: #F0F0F0;
+    font-size: 18px;
+    font-weight: 500;
+    border: none;
+    outline: none;
+}
+.head {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid #F3F4F6;
+}
+.theForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: auto;
+}
+.theForm .formFlex {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 3%;
+}
+.formFlex div {
+    width: 100%;
+}
+.theForm h5 {
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #4B5563;
+}
+.theForm input,
+.theForm select {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px 12px 10px 12px;
+    border-radius: 8px 8px 8px 8px;
+    border: 1px solid #B4BCDD;
+}
+.contain input::placeholder {
+    font-size: 14px;
+    font-weight: 400;
+    color: #9CA3AF;
+}
+
+
+
+.loading {
+    width: 100%;
+    margin-top: 24px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 400;
+    color: #2C2F7E;
+}
+
+.none {
+    width: 100%;
+    margin-top: 24px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: #2C2F7E;
+}

@@ -1,0 +1,460 @@
+.whole {
+    margin-left: 280px;
+    margin-top: 80px;
+    width: 100%;
+    max-width: 1500px;
+    height: 100%;
+    min-height: 100vh;
+    padding: 16px 24px;
+    background: #FFFFFF;
+}
+.whole a {
+    font-size: 14px;
+    font-weight: 500;
+    color: #7375AD;
+}
+
+
+.overview {
+    border-radius: 12px;
+    padding: 10px 0;
+    margin-top: 24px;
+}
+.overview h5 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #272727;
+}
+
+.overviews {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 12px;
+}
+.eachOverview {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 10px;
+    padding: 16px;
+    gap: 8px;
+    box-shadow: 0px 3px 5px 0px #00000017;
+    background-color:#2c2f7e ;
+}
+.overviewText {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 26px;
+    font-weight: 500;
+    color: #ffff;
+    line-height: 30px;
+    gap: 12px;
+}
+.whiteBox {
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 11px 13px;
+    display: flex;
+    align-items: center;
+}
+.whiteBox img {
+    width: 36px;
+    height: 36px;
+}
+
+.loader {
+    display: flex;
+    flex-direction: column;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 32px;
+    color: #ffff;
+}
+
+
+.courses {
+    width: 100%;
+    border-radius: 12px;
+    padding: 20px 0;
+    margin-top: 24px;
+}
+
+.coursesHeader {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 600;
+    color: #272727;
+}
+.coursesHeader button {
+    display: inline-flex;
+    align-items: center;
+    background: #F0F0F0;
+    padding: 4px 6px;
+    gap: 4px;
+    border-radius: 7px;
+    color: #606060;
+    font-size: 12px;
+    font-weight: 500;
+    border: none;
+    outline: none;
+}
+.coursesHeader button img {
+    width: 20px;
+    height: 20px;
+}
+
+.loading {
+    width: 100%;
+    margin-top: 24px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 400;
+    color: #2C2F7E;
+}
+.none {
+    width: 100%;
+    margin-top: 24px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 400;
+    color: #2C2F7E;
+}
+
+
+.flow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3%;
+    padding-bottom: 20px;
+}
+
+.course {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #FAFAFA;
+    border: 1px solid #BDD9FF;
+    box-shadow: 0px 3px 4px 0px #00000017;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.courseImage img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px 0 0 6px;
+}
+
+.courseInfo {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.courseInfo h3 {
+    color: #2C2F7E;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+}
+.courseInfo h3 span {
+    background: #CCCDE8;
+    padding: 4px 6px;
+    color: #0C359E;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.courseInfo p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #4d4d4d;
+}
+
+.courseData {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+.courseData img {
+    width: 16px;
+    height: 16px;
+}
+.courseData div {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.progress {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 18px;
+    overflow: hidden;
+    align-self: center;
+    color: #2C2F7E;
+    margin-top: 6px;
+}
+
+.progress::-webkit-progress-bar {
+    background: #ABC0E5;
+}
+.progress::-webkit-progress-value {
+    background: #2C2F7E;
+    border-radius: 18px;
+}
+.progress::-ms-progress-bar {
+    background-color: #ABC0E5;
+}
+.progress::-ms-progress-value {
+    background: #2C2F7E;
+    border-radius: 18px;
+}
+.progress::-moz-progress-bar {
+    background-color: #ABC0E5;
+}
+.progress::-moz-progress-value {
+    background: #2C2F7E;
+    border-radius: 18px;
+}
+
+
+
+
+.events {
+    width: 100%;
+    border-radius: 12px;
+    padding: 20px 0;
+}
+
+.eventsHeader {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 600;
+    color: #272727;
+}
+.eventsHeader button {
+    display: inline-flex;
+    align-items: center;
+    background: #F0F0F0;
+    padding: 4px 6px;
+    gap: 4px;
+    border-radius: 7px;
+    color: #606060;
+    font-size: 12px;
+    font-weight: 500;
+    border: none;
+    outline: none;
+}
+.eventsHeader button img {
+    width: 20px;
+    height: 20px;
+}
+
+.eventsTable {
+    width: 100%;
+    border-spacing: 0 8px;
+    table-layout: fixed;
+}
+.eventsTable thead {
+    background: #F9F9F9;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2C2F7E;
+}
+.eventsTable th {
+    padding: 10px 4px;
+    text-align: left;
+    border-top: 1px solid #E4E4E4;
+    border-bottom: 1px solid #E4E4E4;
+}
+.eventsTable td {
+    padding: 6px 4px;
+    border-top: 1px solid #E4E4E4;
+    border-bottom: 1px solid #E4E4E4;
+}
+
+.eventsTable th:first-child,
+.eventsTable td:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border: 1px solid #E4E4E4;
+    border-right: none;
+    padding-left: 10px;
+}
+.eventsTable th:last-child,
+.eventsTable td:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border: 1px solid #E4E4E4;
+    border-left: none;
+}
+.eventsTable tr {
+    background: #FFFFFF;
+    font-size: 12px;
+    font-weight: 500;
+    color: #545454;
+}
+
+.eventsTable .checkbox {
+    width: 6%;
+    overflow: visible;
+}
+.eventsTable .activities {
+    width: 40%;
+}
+.eventsTable .action {
+    width: 10%;
+}
+
+.eventsTable .bread{
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 22.35px;
+    color: #171717;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.eventsTable .viewAll {
+    border: 1.5px solid #C4C4C4;
+    outline: none;
+    background-color: #F6F8FF;
+    padding: 4px 10px;
+    border-radius: 7px;
+    color: #0C359E;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+
+.eventsTable .graded {
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #ECFDF3;
+    color: #037847;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 18px;
+    width: fit-content;
+}
+.eventsTable .graded div {
+    width: 6px;
+    height: 6px;
+    border-radius: 50px;
+    background: #14BA6D;
+}
+.eventsTable .pending {
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #FDFAEC;
+    color: #D5C008;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 18px;
+    width: fit-content;
+}
+.eventsTable .pending div {
+    width: 6px;
+    height: 6px;
+    border-radius: 50px;
+    background: #D5C008;
+}
+
+.actionsButton {
+    border: 1px solid #A1B2D1;
+    outline: none;
+    padding: 4px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    background: transparent;
+    height: fit-content;
+}
+.actionsButton img {
+    width: 20px;
+    height: 20px;
+}
+
+.theActions {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0px 4px 12px 0px #9CA3AF33;
+    border-radius: 10px;
+    padding: 8px;
+    position: absolute;
+    z-index: 5;
+    width: 220px;
+    margin-top: 3px;
+    margin-left: -110px;
+}
+.theActions h5 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #4B5563;
+}
+.theActions button {
+    border: none;
+    outline: none;
+    background: #FFFFFF;
+    color: #4B5563;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+}
+.theActions button:hover {
+    background: #4b55632a;
+}
+.theActions button img {
+    width: 24px;
+    height: 24px;
+}
+
+
+.showRows {
+    flex: 70%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 500;
+    color: #000000;
+}
+.showRows select {
+    border: 1px solid #BDD9FF;
+    box-shadow: 0px 3.76px 5.64px 0px #00000017;
+    border-radius: 6px;
+    padding: 4px 0 4px 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #000000;
+    outline: none;
+}
+.pag {
+    flex: 30%
+}
