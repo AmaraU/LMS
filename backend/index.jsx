@@ -3151,7 +3151,10 @@ const verifyPassword = async (plainPassword, hashedPassword) => {
 
 
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    // service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -3159,8 +3162,6 @@ const transporter = nodemailer.createTransport({
 });
 const sendConfirmationEmail = async (userEmail, confirmationLink) => {
     try {
-        console.log(userEmail)
-        console.log(confirmationLink)
         const mailOptions = {
             from: `"CWG Academy" <your-email@gmail.com>`,
             to: userEmail,
@@ -3173,7 +3174,6 @@ const sendConfirmationEmail = async (userEmail, confirmationLink) => {
             `,
         };
 
-        console.log('hereeee')
         await transporter.sendMail(mailOptions);
         console.log("Confirmation email sent to:", userEmail);
     } catch (error) {
@@ -3182,6 +3182,8 @@ const sendConfirmationEmail = async (userEmail, confirmationLink) => {
 };
 const sendNewTeacherEmail = async (userEmail, confirmationLink) => {
     try {
+        console.log(userEmail)
+        console.log(confirmationLink)
         const mailOptions = {
             from: `"CWG Academy" <your-email@gmail.com>`,
             to: userEmail,
@@ -3194,6 +3196,7 @@ const sendNewTeacherEmail = async (userEmail, confirmationLink) => {
             `,
         };
 
+        console.log('hereeee')
         await transporter.sendMail(mailOptions);
         console.log("New teacher email sent to:", userEmail);
     } catch (error) {
