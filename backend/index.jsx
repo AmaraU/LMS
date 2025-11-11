@@ -33,9 +33,9 @@ app.get("/students", async (req, res) => {
     try {
         const result = await client.query("SELECT * FROM student ORDER BY first_name ASC");
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching students"});
+        res.status(500).json({ message: "Error fetching students" });
     }
 });
 app.get("/students/:id", async (req, res) => {
@@ -44,9 +44,9 @@ app.get("/students/:id", async (req, res) => {
     try {
         const result = await client.query(query, [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching student with id"});
+        res.status(500).json({ message: "Error fetching student with id" });
     }
 });
 app.put("/confirm-student/:id", async (req, res) => {
@@ -55,18 +55,18 @@ app.put("/confirm-student/:id", async (req, res) => {
     try {
         const result = await client.query(query, [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error confirming student"});
+        res.status(500).json({ message: "Error confirming student" });
     }
 });
 app.get("/students-len", async (req, res) => {
     try {
         const result = await client.query("SELECT COUNT(*) FROM student");
         res.send(result.rows[0].count);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching students length"});
+        res.status(500).json({ message: "Error fetching students length" });
     }
 });
 app.get("/students-len/:instructor_id", async (req, res) => {
@@ -92,9 +92,9 @@ app.get("/getStudentWithEmail/:email", async (req, res) => {
     try {
         const result = await client.query(query, [email]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching student/email"});
+        res.status(500).json({ message: "Error fetching student/email" });
     }
 });
 
@@ -104,9 +104,9 @@ app.get("/teachers", async (req, res) => {
     try {
         const result = await client.query("SELECT * FROM instructor WHERE deleted = FALSE ORDER BY first_name ASC");
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching teachers"});
+        res.status(500).json({ message: "Error fetching teachers" });
     }
 });
 app.get("/teachers/:id", async (req, res) => {
@@ -115,18 +115,18 @@ app.get("/teachers/:id", async (req, res) => {
     try {
         const result = await client.query(query, [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching instructor with id"});
+        res.status(500).json({ message: "Error fetching instructor with id" });
     }
 });
 app.get("/teachers-len", async (req, res) => {
     try {
         const result = await client.query("SELECT COUNT(*) FROM instructor");
         res.send(result.rows[0].count);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching teachers length"});
+        res.status(500).json({ message: "Error fetching teachers length" });
     }
 });
 app.post('/new-teacher', async (req, res) => {
@@ -134,7 +134,7 @@ app.post('/new-teacher', async (req, res) => {
     const values = [
         req.body.first_name,
         req.body.last_name,
-        req.body.date,
+        req.body.date || new Date(),
         req.body.email,
         req.body.phone_number
     ];
@@ -148,10 +148,10 @@ app.post('/new-teacher', async (req, res) => {
                 instructor_id,
                 req.body.course_id
             ];
-    
-            const assignResult = await client.query(assignQuery, assignValues);
+
+            await client.query(assignQuery, assignValues);
         }
-        
+
 
 
         const confirmationLink = `https://cwg-academy.vercel.app/new-admin/${instructor_id}`;
@@ -169,11 +169,11 @@ app.post('/new-teacher', async (req, res) => {
             req.body.date
         ];
 
-        const logResult = await client.query(logQuery, logValues);
-        res.json({message: "Instructor added successfully", instructor: result.rows[0]});
+        await client.query(logQuery, logValues);
+        res.json({ message: "Instructor added successfully", instructor: result.rows[0] });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in adding new instructor or logging"});
+        return res.status(500).json({ message: "Error in adding new instructor or logging" });
     }
 });
 app.put('/suspend-teacher', async (req, res) => {
@@ -192,11 +192,11 @@ app.put('/suspend-teacher', async (req, res) => {
         ];
 
         await client.query(logQuery, logValues);
-        res.json({message: "Instructor suspended successfully", instructor: result.rows[0]});
+        res.json({ message: "Instructor suspended successfully", instructor: result.rows[0] });
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in suspending instructor or logging"});
+        return res.status(500).json({ message: "Error in suspending instructor or logging" });
     }
 });
 app.put('/delete-teacher', async (req, res) => {
@@ -215,11 +215,11 @@ app.put('/delete-teacher', async (req, res) => {
         ];
 
         await client.query(logQuery, logValues);
-        res.json({message: "Instructor deleted successfully", instructor: result.rows[0]});
+        res.json({ message: "Instructor deleted successfully", instructor: result.rows[0] });
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in deleting instructor or logging"});
+        return res.status(500).json({ message: "Error in deleting instructor or logging" });
     }
 });
 app.put('/change-teacher-role', async (req, res) => {
@@ -230,11 +230,11 @@ app.put('/change-teacher-role', async (req, res) => {
     ]
     try {
         const result = await client.query(query, values);
-        res.json({message: "Instructor role changed successfully", instructor: result.rows[0]});
+        res.json({ message: "Instructor role changed successfully", instructor: result.rows[0] });
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in changing instructor role"});
+        return res.status(500).json({ message: "Error in changing instructor role" });
     }
 });
 
@@ -244,9 +244,9 @@ app.get("/courses", async (req, res) => {
     try {
         const result = await client.query("SELECT * FROM course WHERE deleted = FALSE ORDER BY date_added DESC");
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching courses"});
+        res.status(500).json({ message: "Error fetching courses" });
     }
 });
 app.get("/courses-teacher/:id", async (req, res) => {
@@ -261,11 +261,11 @@ app.get("/courses-teacher/:id", async (req, res) => {
                 )
                 ORDER BY date_added DESC;
             `,
-        [id]);
+            [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching courses"});
+        res.status(500).json({ message: "Error fetching courses" });
     }
 });
 app.post('/new-course', async (req, res) => {
@@ -286,11 +286,11 @@ app.post('/new-course', async (req, res) => {
         ];
 
         await client.query(logQuery, logValues);
-        res.json({message: "Instructor added successfully", instructor: result.rows[0]});
+        res.json({ message: "Instructor added successfully", instructor: result.rows[0] });
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in adding new course or logging"});
+        return res.status(500).json({ message: "Error in adding new course or logging" });
     }
 });
 app.put('/delete-course', async (req, res) => {
@@ -309,11 +309,11 @@ app.put('/delete-course', async (req, res) => {
         ];
 
         await client.query(logQuery, logValues);
-        res.json({message: "Course deleted successfully", instructor: result.rows[0]});
+        res.json({ message: "Course deleted successfully", instructor: result.rows[0] });
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in deleting course or logging"});
+        return res.status(500).json({ message: "Error in deleting course or logging" });
     }
 });
 
@@ -323,15 +323,15 @@ app.get("/courses/:student_id", async (req, res) => {
     try {
         const result = await client.query(query, [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching courses/studentId"});
+        res.status(500).json({ message: "Error fetching courses/studentId" });
     }
 });
 app.get("/coursesss/:student_id/:instructor_id", async (req, res) => {
-    
+
     const { student_id, instructor_id } = req.params;
-    
+
     const query = `
         SELECT * FROM course 
         INNER JOIN enrollment ON course.course_id = enrollment.course_id
@@ -350,9 +350,9 @@ app.get("/coursesss/:student_id/:instructor_id", async (req, res) => {
     try {
         const result = await client.query(query, [student_id, instructor_id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching courses/studentId"});
+        res.status(500).json({ message: "Error fetching courses/studentId" });
     }
 });
 
@@ -374,9 +374,9 @@ app.get("/courses-not/:student_id", async (req, res) => {
     try {
         const result = await client.query(query, [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching courses/studentId"});
+        res.status(500).json({ message: "Error fetching courses/studentId" });
     }
 });
 app.get("/courses-not/:student_id/:instructor_id", async (req, res) => {
@@ -404,9 +404,9 @@ app.get("/courses-not/:student_id/:instructor_id", async (req, res) => {
     try {
         const result = await client.query(query, [student_id, instructor_id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching courses/studentId"});
+        res.status(500).json({ message: "Error fetching courses/studentId" });
     }
 });
 
@@ -416,9 +416,9 @@ app.get("/courses/detail/:course_id", async (req, res) => {
     try {
         const result = await client.query(query, [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching courses/details/id"});
+        res.status(500).json({ message: "Error fetching courses/details/id" });
     }
 });
 app.put('/courses/detail/:course_id', async (req, res) => {
@@ -432,7 +432,7 @@ app.put('/courses/detail/:course_id', async (req, res) => {
         res.status(200).json({ message: 'Course updated successfully' });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message:'Error updating course' });
+        res.status(500).json({ message: 'Error updating course' });
     }
 });
 
@@ -443,9 +443,9 @@ app.get("/instructorcourses", async (req, res) => {
     try {
         const result = await client.query("SELECT * FROM instructorcourses");
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching instructor-courses"});
+        res.status(500).json({ message: "Error fetching instructor-courses" });
     }
 });
 app.get('/courses-instructor-studentscount-lessons', async (req, res) => {
@@ -602,7 +602,7 @@ app.get('/courses-instructor-studentscount-lessons', async (req, res) => {
 });
 app.get('/courses-instructor-studentscount-lessons/:instructor_id', async (req, res) => {
     const { instructor_id } = req.params;
-    
+
     const query = `
         SELECT 
             c.course_id,
@@ -755,7 +755,7 @@ app.get('/courses-instructor-studentscount-lessons/:instructor_id', async (req, 
     }
 });
 app.get('/courses-instructor-students-lessons/:student_id', async (req, res) => {
-    
+
     const id = req.params.student_id;
     const query = `
         SELECT 
@@ -1002,13 +1002,13 @@ app.get("/lessons", async (req, res) => {
     try {
         const result = await client.query("SELECT * FROM lesson");
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching lessons"});
+        res.status(500).json({ message: "Error fetching lessons" });
     }
 });
 app.get("/lesson/:lesson_id", async (req, res) => {
-    
+
     const id = req.params.lesson_id;
     const query = `
         SELECT 
@@ -1055,9 +1055,9 @@ app.get("/lesson/:lesson_id", async (req, res) => {
     try {
         const result = await client.query(query, [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching lessons"});
+        res.status(500).json({ message: "Error fetching lessons" });
     }
 });
 app.get("/lessons-course/:courseId", async (req, res) => {
@@ -1067,9 +1067,9 @@ app.get("/lessons-course/:courseId", async (req, res) => {
     try {
         const result = await client.query("SELECT * FROM lesson WHERE course_id = $1", [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching lessons"});
+        res.status(500).json({ message: "Error fetching lessons" });
     }
 });
 app.get("/lessons-info", async (req, res) => {
@@ -1193,7 +1193,7 @@ app.post(`/lesson-info`, upload.array('files'), async (req, res) => {
         ];
         await client.query(putQuery, putValues);
 
-        
+
         if (files && files.length > 0) {
             for (const file of files) {
 
@@ -1212,7 +1212,7 @@ app.post(`/lesson-info`, upload.array('files'), async (req, res) => {
         res.status(200).json({ message: 'Lesson updated successfully' });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message:'Error updating lesson or adding files' });
+        res.status(500).json({ message: 'Error updating lesson or adding files' });
     }
 });
 app.get("/all-lesson-info", async (req, res) => {
@@ -1364,9 +1364,9 @@ app.get("/lessons-len", async (req, res) => {
     try {
         const result = await client.query("SELECT COUNT(*) FROM lesson");
         res.send(result.rows[0].count);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching lessons length"});
+        res.status(500).json({ message: "Error fetching lessons length" });
     }
 });
 app.get("/lessons-len/:instructor_id", async (req, res) => {
@@ -1395,10 +1395,10 @@ app.put('/delete-lesson', async (req, res) => {
 
     try {
         const result = await client.query(query, values);
-        res.json({message: "Deleted lesson successfully", lesson: result.rows[0]});
+        res.json({ message: "Deleted lesson successfully", lesson: result.rows[0] });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in deleting lesson"});
+        return res.status(500).json({ message: "Error in deleting lesson" });
     }
 })
 app.post('/delete-lesson-file', async (req, res) => {
@@ -1411,10 +1411,10 @@ app.post('/delete-lesson-file', async (req, res) => {
 
     try {
         const result = await client.query(query, values);
-        res.json({message: "Deleted file successfully", lesson: result.rows[0]});
+        res.json({ message: "Deleted file successfully", lesson: result.rows[0] });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in deleting file"});
+        return res.status(500).json({ message: "Error in deleting file" });
     }
 })
 app.post('/new-lesson', async (req, res) => {
@@ -1432,7 +1432,7 @@ app.post('/new-lesson', async (req, res) => {
         const result = await client.query(insertQuery, values);
 
         res.status(201).json(result.rows[0]);
-        
+
     } catch (err) {
         console.error('Error saving lesson:', err);
         res.status(500).json({ message: 'Error saving lesson' });
@@ -1496,7 +1496,7 @@ app.get('/lessons/:studentID', async (req, res) => {
                 c.name ASC,
                 l.number ASC;
         `;
-        
+
         const result = await client.query(query, [id]);
         res.send(result.rows);
     } catch (err) {
@@ -1512,7 +1512,7 @@ app.post('/complete-lesson/:studentID/:lessonID', async (req, res) => {
             VALUES
             ($1, $2, $3, $4)
         `;
-        
+
         const result = await client.query(query, [lessonID, studentID, true, new Date()]);
         res.send(result.rows);
     } catch (err) {
@@ -1601,7 +1601,7 @@ app.get('/assignment-file/:fileId', async (req, res) => {
 
 
 app.post('/upload-student-exam/:exam_id/:student_id', upload.single('file'), async (req, res) => {
-    
+
     const { exam_id, student_id } = req.params;
     const file = req.file;
 
@@ -1632,7 +1632,7 @@ app.post('/upload-student-exam/:exam_id/:student_id', upload.single('file'), asy
     }
 });
 app.post('/upload-student-assignment/:assignment_id/:student_id', upload.single('file'), async (req, res) => {
-    
+
     const { assignment_id, student_id } = req.params;
     const file = req.file;
 
@@ -1723,13 +1723,13 @@ app.get("/assignments", async (req, res) => {
     try {
         const result = await client.query("SELECT * FROM assignment");
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching assignments"});
+        res.status(500).json({ message: "Error fetching assignments" });
     }
 });
 app.post('/new-assignment', upload.single('file'), async (req, res) => {
-    
+
     const { name, lesson_id, due_date, total_score } = req.body;
     const file = req.file;
 
@@ -1756,14 +1756,14 @@ app.post('/new-assignment', upload.single('file'), async (req, res) => {
         }
 
         res.status(201).json(result.rows[0]);
-        
+
     } catch (err) {
         console.error('Error saving assignment:', err);
         res.status(500).json({ message: 'Error saving assignment' });
     }
 });
 app.post('/update-assignment', upload.single('file'), async (req, res) => {
-    
+
     const { assignment_name, due_date, total_score, assignment_id } = req.body;
     const file = req.file;
 
@@ -1813,7 +1813,7 @@ app.post('/update-assignment', upload.single('file'), async (req, res) => {
                 file.buffer
             ]);
         }
-        
+
     } catch (err) {
         console.error('Error updating exam:', err);
         res.status(500).json({ message: 'Error updating exam' });
@@ -1828,10 +1828,10 @@ app.put('/delete-assignment', async (req, res) => {
 
     try {
         const result = await client.query(query, values);
-        res.json({message: "Deleted assignment successfully", assignment: result.rows[0]});
+        res.json({ message: "Deleted assignment successfully", assignment: result.rows[0] });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in deleting assignment"});
+        return res.status(500).json({ message: "Error in deleting assignment" });
     }
 })
 
@@ -1840,13 +1840,13 @@ app.get("/exams", async (req, res) => {
     try {
         const result = await client.query("SELECT * FROM exam");
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching exams"});
+        res.status(500).json({ message: "Error fetching exams" });
     }
 });
 app.post('/new-exam', upload.single('file'), async (req, res) => {
-    
+
     const { name, course_id, start_date, end_date, total_score } = req.body;
     const file = req.file;
 
@@ -1873,14 +1873,14 @@ app.post('/new-exam', upload.single('file'), async (req, res) => {
         }
 
         res.status(201).json(result.rows[0]);
-        
+
     } catch (err) {
         console.error('Error saving exam:', err);
         res.status(500).json({ message: 'Error saving exam' });
     }
 });
 app.post('/update-exam', upload.single('file'), async (req, res) => {
-    
+
     const { exam_name, start_date, end_date, total_score, exam_id } = req.body;
     const file = req.file;
 
@@ -1931,7 +1931,7 @@ app.post('/update-exam', upload.single('file'), async (req, res) => {
             ]);
         }
 
-        
+
     } catch (err) {
         console.error('Error updating exam:', err);
         res.status(500).json({ message: 'Error updating exam' });
@@ -1946,10 +1946,10 @@ app.put('/delete-exam', async (req, res) => {
 
     try {
         const result = await client.query(query, values);
-        res.json({message: "Deleted exam successfully", lesson: result.rows[0]});
+        res.json({ message: "Deleted exam successfully", lesson: result.rows[0] });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in deleting exam"});
+        return res.status(500).json({ message: "Error in deleting exam" });
     }
 })
 
@@ -2006,9 +2006,9 @@ app.get("/tasks", async (req, res) => {
             AND c.suspended = FALSE;
             `);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching assignments"});
+        res.status(500).json({ message: "Error fetching assignments" });
     }
 });
 app.get("/tasks/:instructor_id", async (req, res) => {
@@ -2138,9 +2138,9 @@ app.get("/events", async (req, res) => {
             
             `);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching events"});
+        res.status(500).json({ message: "Error fetching events" });
     }
 });
 app.get("/events/:studentId", async (req, res) => {
@@ -2260,9 +2260,9 @@ app.get("/events/:studentId", async (req, res) => {
             `,
             [req.params.studentId]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching assignments"});
+        res.status(500).json({ message: "Error fetching assignments" });
     }
 });
 app.get("/events-teacher/:instructor_id", async (req, res) => {
@@ -2333,9 +2333,9 @@ app.get("/events-teacher/:instructor_id", async (req, res) => {
                 );
             `, [instructor_id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching events"});
+        res.status(500).json({ message: "Error fetching events" });
     }
 });
 
@@ -2396,13 +2396,13 @@ app.get("/grades/:studentId", async (req, res) => {
             `,
             [studentId]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching assignments"});
+        res.status(500).json({ message: "Error fetching assignments" });
     }
 });
 app.post('/grade-assignment/:assignment_id/:student_id', async (req, res) => {
-    
+
     const { assignment_id, student_id } = req.params;
 
     try {
@@ -2430,7 +2430,7 @@ app.post('/grade-assignment/:assignment_id/:student_id', async (req, res) => {
     }
 });
 app.post('/grade-exam/:exam_id/:student_id', async (req, res) => {
-    
+
     const { exam_id, student_id } = req.params;
 
     try {
@@ -2463,20 +2463,20 @@ app.get("/cohorts", async (req, res) => {
     try {
         const result = await client.query("SELECT * FROM cohort ORDER BY date_added DESC");
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching cohorts"});
+        res.status(500).json({ message: "Error fetching cohorts" });
     }
 });
 app.get("/cohorts/:cohort_id", async (req, res) => {
     const id = req.params.cohort_id;
-    const query = "SELECT * FROM cohort WHERE cohort_id = ($1)"; 
+    const query = "SELECT * FROM cohort WHERE cohort_id = ($1)";
     try {
         const result = await client.query(query, [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching cohort"});
+        res.status(500).json({ message: "Error fetching cohort" });
     }
 });
 app.post('/new-cohort', async (req, res) => {
@@ -2492,7 +2492,7 @@ app.post('/new-cohort', async (req, res) => {
     ]
     try {
         const result = await client.query(query, values);
-        
+
         const activity = "New cohort, " + req.body.name + ", added.";
         const logQuery = "INSERT INTO activity_log (activity, actor, date) VALUES ($1, $2, $3)";
         const logValues = [
@@ -2502,15 +2502,15 @@ app.post('/new-cohort', async (req, res) => {
         ];
 
         await client.query(logQuery, logValues);
-        res.json({message: "Cohort added successfully", instructor: result.rows[0]});
+        res.json({ message: "Cohort added successfully", instructor: result.rows[0] });
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in adding new cohort or logging"});
+        return res.status(500).json({ message: "Error in adding new cohort or logging" });
     }
 });
 
-app.get ("/cohorts-details", async (req, res) => {
+app.get("/cohorts-details", async (req, res) => {
     const query = `
         SELECT 
             cohort.cohort_id,
@@ -2570,9 +2570,9 @@ app.get ("/cohorts-details", async (req, res) => {
         console.error(err);
         res.status(500).json({ error: `Error grabbing cohorts` });
     }
-        
+
 })
-app.get ("/cohorts-details/:cohort_id", async (req, res) => {
+app.get("/cohorts-details/:cohort_id", async (req, res) => {
     const id = req.params.cohort_id;
     const query = `
         SELECT 
@@ -2634,7 +2634,7 @@ app.get ("/cohorts-details/:cohort_id", async (req, res) => {
         console.error(err);
         res.status(500).json({ error: `Error grabbing cohort's info` });
     }
-        
+
 })
 
 app.post('/new-cohort-course', async (req, res) => {
@@ -2645,7 +2645,7 @@ app.post('/new-cohort-course', async (req, res) => {
     ]
     try {
         const result = await client.query(query, values);
-        
+
         const activity = "New course, " + req.body.course_name + " added to Cohort: " + req.body.cohort_name + ".";
         const logQuery = "INSERT INTO activity_log (activity, actor, date) VALUES ($1, $2, $3)";
         const logValues = [
@@ -2655,11 +2655,11 @@ app.post('/new-cohort-course', async (req, res) => {
         ];
 
         await client.query(logQuery, logValues);
-        res.json({message: "Course added to Cohort successfully", cohort: result.rows[0]});
+        res.json({ message: "Course added to Cohort successfully", cohort: result.rows[0] });
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in adding new course to cohort or logging"});
+        return res.status(500).json({ message: "Error in adding new course to cohort or logging" });
     }
 })
 app.post('/suspend-course', async (req, res) => {
@@ -2681,10 +2681,10 @@ app.post('/suspend-course', async (req, res) => {
         ];
 
         await client.query(logQuery, logValues);
-        res.json({message: "Suspended course successfully", cohort: result.rows[0]});
+        res.json({ message: "Suspended course successfully", cohort: result.rows[0] });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in suspending course or logging"});
+        return res.status(500).json({ message: "Error in suspending course or logging" });
     }
 })
 app.post('/remove-course', async (req, res) => {
@@ -2707,10 +2707,10 @@ app.post('/remove-course', async (req, res) => {
         ];
 
         await client.query(logQuery, logValues);
-        res.json({message: "Removed course successfully", cohort: result.rows[0]});
+        res.json({ message: "Removed course successfully", cohort: result.rows[0] });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in removing course or logging"});
+        return res.status(500).json({ message: "Error in removing course or logging" });
     }
 })
 app.post('/resume-course', async (req, res) => {
@@ -2732,10 +2732,10 @@ app.post('/resume-course', async (req, res) => {
         ];
 
         await client.query(logQuery, logValues);
-        res.json({message: "Resumed course successfully", cohort: result.rows[0]});
+        res.json({ message: "Resumed course successfully", cohort: result.rows[0] });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in resuming course or logging"});
+        return res.status(500).json({ message: "Error in resuming course or logging" });
     }
 })
 
@@ -2781,9 +2781,9 @@ app.get("/activity-log", async (req, res) => {
     try {
         const result = await client.query("SELECT * FROM activity_log ORDER BY date DESC");
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching activity log"});
+        res.status(500).json({ message: "Error fetching activity log" });
     }
 });
 
@@ -2792,13 +2792,13 @@ app.get("/enrollment", async (req, res) => {
     try {
         const result = await client.query("SELECT * FROM enrollment");
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching enrollments"});
+        res.status(500).json({ message: "Error fetching enrollments" });
     }
 });
 app.get("/students-for-course/:course_id", async (req, res) => {
-    
+
     const id = req.params.course_id;
     const query = `
         SELECT 
@@ -2816,11 +2816,11 @@ app.get("/students-for-course/:course_id", async (req, res) => {
             e.course_id = $1;
     `
     try {
-        const result = await client.query(query, [ id ]);
+        const result = await client.query(query, [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching enrollments"});
+        res.status(500).json({ message: "Error fetching enrollments" });
     }
 });
 app.post('/enroll-student', async (req, res) => {
@@ -2831,7 +2831,7 @@ app.post('/enroll-student', async (req, res) => {
     ]
     try {
         const result = await client.query(query, values);
-        
+
         const activity = "Student, " + req.body.student_name + ", added to Course: " + req.body.course_name + ".";
         const logQuery = "INSERT INTO activity_log (activity, actor, date) VALUES ($1, $2, $3)";
         const logValues = [
@@ -2841,11 +2841,11 @@ app.post('/enroll-student', async (req, res) => {
         ];
 
         await client.query(logQuery, logValues);
-        res.json({message: "Student added to Course successfully", cohort: result.rows[0]});
+        res.json({ message: "Student added to Course successfully", cohort: result.rows[0] });
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in adding student to course or logging"});
+        return res.status(500).json({ message: "Error in adding student to course or logging" });
     }
 })
 app.post('/unenroll-student', async (req, res) => {
@@ -2856,7 +2856,7 @@ app.post('/unenroll-student', async (req, res) => {
     ]
     try {
         const result = await client.query(query, values);
-        
+
         const activity = "Student, " + req.body.student_name + ", removed from Course: " + req.body.course_name + ".";
         const logQuery = "INSERT INTO activity_log (activity, actor, date) VALUES ($1, $2, $3)";
         const logValues = [
@@ -2866,17 +2866,17 @@ app.post('/unenroll-student', async (req, res) => {
         ];
 
         await client.query(logQuery, logValues);
-        res.json({message: "Student removed from Course successfully", cohort: result.rows[0]});
+        res.json({ message: "Student removed from Course successfully", cohort: result.rows[0] });
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in removing student from course or logging"});
+        return res.status(500).json({ message: "Error in removing student from course or logging" });
     }
 })
 
 
 app.get("/certificates/:student_id", async (req, res) => {
-    
+
     const id = req.params.student_id;
     const query = `
         SELECT 
@@ -2977,11 +2977,11 @@ app.get("/certificates/:student_id", async (req, res) => {
             c.name ASC;
     `
     try {
-        const result = await client.query(query, [ id ]);
+        const result = await client.query(query, [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching certificates"});
+        res.status(500).json({ message: "Error fetching certificates" });
     }
 });
 
@@ -2992,9 +2992,9 @@ app.get('/student-profile/:id', async (req, res) => {
     try {
         const result = await client.query(query, [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching student/email"});
+        res.status(500).json({ message: "Error fetching student/email" });
     }
 });
 app.post('/student-profile/:id', async (req, res) => {
@@ -3006,10 +3006,10 @@ app.post('/student-profile/:id', async (req, res) => {
     ]
     try {
         const result = await client.query(query, values);
-        res.json({message: "Student info updated successfully", student: result.rows[0]});
+        res.json({ message: "Student info updated successfully", student: result.rows[0] });
     } catch (err) {
         console.log(err);
-        return res.status(500).json({message: "Update failed"});
+        return res.status(500).json({ message: "Update failed" });
     }
 });
 app.get('/teacher-profile/:id', async (req, res) => {
@@ -3018,9 +3018,9 @@ app.get('/teacher-profile/:id', async (req, res) => {
     try {
         const result = await client.query(query, [id]);
         res.send(result.rows);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Error fetching student/email"});
+        res.status(500).json({ message: "Error fetching student/email" });
     }
 });
 app.post('/teacher-profile/:id', async (req, res) => {
@@ -3034,10 +3034,10 @@ app.post('/teacher-profile/:id', async (req, res) => {
     ]
     try {
         const result = await client.query(query, values);
-        res.json({message: "Teacher info updated successfully", student: result.rows[0]});
+        res.json({ message: "Teacher info updated successfully", student: result.rows[0] });
     } catch (err) {
         console.log(err);
-        return res.status(500).json({message: "Update failed"});
+        return res.status(500).json({ message: "Update failed" });
     }
 });
 
@@ -3052,7 +3052,7 @@ app.post('/login', async (req, res) => {
         const student = result.rows[0];
         const isPasswordValid = await verifyPassword(req.body.password, student.password);
         // if (req.body.password != student.password) return res.status(401).json({message: "Invalid credentials"});
-        if (!isPasswordValid) return res.status(401).json({message: "Invalid password"});
+        if (!isPasswordValid) return res.status(401).json({ message: "Invalid password" });
 
         const loginQuery = "UPDATE student SET last_logged = $1 WHERE student_id = $2";
         await client.query(loginQuery, [new Date(), student.student_id]);
@@ -3060,7 +3060,7 @@ app.post('/login', async (req, res) => {
         return res.json(student);
     } catch (err) {
         console.log(err);
-        return res.status(500).json({message: "Login failed"});
+        return res.status(500).json({ message: "Login failed" });
     }
 });
 
@@ -3072,11 +3072,11 @@ app.post('/adminlogin', async (req, res) => {
 
         const instructor = result.rows[0];
         const isPasswordValid = await verifyPassword(req.body.password, instructor.password);
-        if (!isPasswordValid) return res.status(401).json({message: "Invalid password"});
+        if (!isPasswordValid) return res.status(401).json({ message: "Invalid password" });
         return res.json(instructor);
     } catch (err) {
         console.log(err);
-        return res.status(500).json({message: "Login failed"});
+        return res.status(500).json({ message: "Login failed" });
     }
 });
 
@@ -3104,7 +3104,7 @@ app.post("/signup", async (req, res) => {
         return res.status(201).json({ message: "User created successfully", result });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error in signing up"});
+        return res.status(500).json({ message: "Error in signing up" });
     }
 })
 
@@ -3122,7 +3122,7 @@ app.post("/admin-signup", async (req, res) => {
         return res.status(201).json({ message: "Instructor password added successfully", result });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({message: "Error setting teacher password"});
+        return res.status(500).json({ message: "Error setting teacher password" });
     }
 })
 
@@ -3160,7 +3160,7 @@ const transporter = nodemailer.createTransport({
 const sendConfirmationEmail = async (userEmail, confirmationLink) => {
     try {
         const mailOptions = {
-            from: `"CWG Academy" <your-email@gmail.com>`, 
+            from: `"CWG Academy" <your-email@gmail.com>`,
             to: userEmail,
             subject: "Confirm Your Email",
             html: `
@@ -3180,7 +3180,7 @@ const sendConfirmationEmail = async (userEmail, confirmationLink) => {
 const sendNewTeacherEmail = async (userEmail, confirmationLink) => {
     try {
         const mailOptions = {
-            from: `"CWG Academy" <your-email@gmail.com>`, 
+            from: `"CWG Academy" <your-email@gmail.com>`,
             to: userEmail,
             subject: "Welcome to CWG Academy",
             html: `

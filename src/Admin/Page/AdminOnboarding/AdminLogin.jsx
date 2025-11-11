@@ -8,25 +8,25 @@ import { customToast, customToastError } from "../../../Components/Notifications
 
 export const AdminLogin = () => {
 
-  const [ email, setEmail ] = useState('');
-  const [ password, setPassword ] = useState('');
-  const [ errorMessage, setErrorMesage ] = useState(false);
-  const [ isLoading, setIsLoading ] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMesage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     sessionStorage.clear();
   }, [])
 
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
     try {
       const response = await axios.post(BASE_URL + '/adminlogin',
         { email, password },
-        {timeout: 10000}
+        { timeout: 50000 }
       );
-      
+
       setIsLoading(false);
       console.log(response.status);
       sessionStorage.setItem("id", response.data.instructor_id);
@@ -79,30 +79,30 @@ export const AdminLogin = () => {
           <p>Lets help you get started on CWG Academy</p>
         </div>
 
-          <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit}>
 
-            {errorMessage && <p style={{ color: 'red' }}>Wrong username or password. Try again</p>}
+          {errorMessage && <p style={{ color: 'red' }}>Wrong username or password. Try again</p>}
 
-            <div className={styles.formgroup}>
-              <label for="name">Phone Number or Email Address</label>
-              <input placeholder="Enter your phone number or email address" name="email" onChange={e => setEmail(e.target.value)} />
+          <div className={styles.formgroup}>
+            <label for="name">Phone Number or Email Address</label>
+            <input placeholder="Enter your phone number or email address" name="email" onChange={e => setEmail(e.target.value)} />
+          </div>
+
+          <div className={styles.formgroup}>
+            <label for="Password">Password</label>
+            <div className={styles.password}>
+
+              <input type={showPassword ? 'text' : 'password'} placeholder="Enter your password" name="password" onChange={e => setPassword(e.target.value)} />
+              <button type="button" onClick={() => setShowPassword((showPassword) => !showPassword)}><img src={getImageUrl("visibility_off.png")} alt="y" /></button>
+
             </div>
+          </div>
 
-            <div className={styles.formgroup}>
-              <label for="Password">Password</label>
-              <div className={styles.password}>
+          <p>Forgot password? <a href="/admin-reset">Reset Password</a></p>
 
-                <input type={showPassword ? 'text' : 'password'} placeholder="Enter your password" name="password" onChange={e => setPassword(e.target.value)} />
-                <button type="button" onClick={() => setShowPassword((showPassword) => !showPassword)}><img src={getImageUrl("visibility_off.png")} alt="y" /></button>
+          <button className={styles.butt} disabled={isLoading}>{isLoading ? 'Logging in...' : 'Log In'}</button>
 
-              </div>
-            </div>
-
-            <p>Forgot password? <a href="/admin-reset">Reset Password</a></p>
-
-            <button className={styles.butt} disabled={isLoading}>{isLoading ? 'Logging in...' : 'Log In'}</button>
-
-          </form>
+        </form>
 
       </div>
 

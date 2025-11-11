@@ -16,7 +16,7 @@ import { NewAdmin } from './Admin/Page/AdminOnboarding/NewAdmin';
 import { DashboardLayout } from './Page/DashboardLayout'
 import { AdminDashboardLayout } from './Admin/Page/AdminDashboardLayout';
 import { ProfilePage } from './Page/ProfilePage/ProfilePage';
-import { BlankPage } from './Page/BlankPage'
+import { BlankPage } from './Page/BlankPage';
 import { PageNotFound } from './Page/404';
 
 import { Overview } from './Page/Overviewpage/Overview'
