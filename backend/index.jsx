@@ -3154,11 +3154,13 @@ const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS, // App password (not your actual password)
+        pass: process.env.EMAIL_PASS,
     },
 });
 const sendConfirmationEmail = async (userEmail, confirmationLink) => {
     try {
+        console.log(userEmail)
+        console.log(confirmationLink)
         const mailOptions = {
             from: `"CWG Academy" <your-email@gmail.com>`,
             to: userEmail,
@@ -3171,6 +3173,7 @@ const sendConfirmationEmail = async (userEmail, confirmationLink) => {
             `,
         };
 
+        console.log('hereeee')
         await transporter.sendMail(mailOptions);
         console.log("Confirmation email sent to:", userEmail);
     } catch (error) {
