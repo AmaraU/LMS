@@ -134,7 +134,7 @@ app.post('/new-teacher', async (req, res) => {
     const values = [
         req.body.first_name,
         req.body.last_name,
-        req.body.date || new Date(),
+        req.body.date ? req.body.date : new Date(),
         req.body.email,
         req.body.phone_number
     ];
