@@ -3163,6 +3163,8 @@ const transporter = nodemailer.createTransport({
 });
 const sendConfirmationEmail = async (userEmail, confirmationLink) => {
     try {
+        console.log(userEmail)
+        console.log(confirmationLink)
         const mailOptions = {
             from: `"CWG Academy" <your-email@gmail.com>`,
             to: userEmail,
@@ -3176,9 +3178,10 @@ const sendConfirmationEmail = async (userEmail, confirmationLink) => {
         };
 
         // await transporter.sendMail(mailOptions);
-        await resend.emails.send({
-            from: "academy.cwg@gmail.com",
-            to: userEmail,
+        console.log('hereeee')
+        const { data, error } = await resend.emails.send({
+            from: "CWG Academy <academy.cwg@gmail.com>",
+            to: [userEmail],
             subject: "Confirm Your Email",
             html: `
                 <h2>Welcome to CWG Academy!</h2>
@@ -3187,6 +3190,12 @@ const sendConfirmationEmail = async (userEmail, confirmationLink) => {
                 <p>If you didn't sign up, please ignore this email.</p>
             `,
         });
+
+        if (error) {
+            console.error({ error });
+        }
+
+        console.log(data);
         console.log("Confirmation email sent to:", userEmail);
     } catch (error) {
         console.error("Error sending email:", error);
@@ -3210,9 +3219,9 @@ const sendNewTeacherEmail = async (userEmail, confirmationLink) => {
 
         console.log('hereeee')
         // await transporter.sendMail(mailOptions);
-        await resend.emails.send({
-            from: "academy.cwg@gmail.com",
-            to: userEmail,
+        const { data, error } = await resend.emails.send({
+            from: "CWG Academy <academy.cwg@gmail.com>",
+            to: [userEmail],
             subject: "Welcome to CWG Academy",
             html: `
                 <h2>You have been added as a teacher on the Academy!</h2>
@@ -3221,6 +3230,12 @@ const sendNewTeacherEmail = async (userEmail, confirmationLink) => {
                 <p>If you think there's been an error, please contact us.</p>
             `,
         });
+
+        if (error) {
+            console.error({ error });
+        }
+
+        console.log(data);
         console.log("New teacher email sent to:", userEmail);
     } catch (error) {
         console.error("Error sending email:", error);
