@@ -3,7 +3,7 @@ import { Navigate, Routes, Route, RouterProvider, createBrowserRouter } from 're
 import styles from './App.module.css'
 import { Toaster } from "react-hot-toast";
 
-import { CWGPage } from './Page/CWGPage/CWGPage';
+import { CWGPage } from './Page/CWGpage/CWGpage';
 import { LoginPage } from './Page/Onboarding/LoginPage';
 import { AdminLogin } from './Admin/Page/AdminOnboarding/AdminLogin';
 import { ConfirmationPage } from './Page/Onboarding/ConfirmationPage';
@@ -51,7 +51,7 @@ const ProtectedRoute = ({ children }) => {
 
   const authToken = sessionStorage.getItem("type");
   const lastLogged = sessionStorage.getItem("last_logged");
-  if ((!sessionStorage) || (!authToken) || (authToken != "student") || (!lastLogged) || (new Date () - new Date(lastLogged) >= 604800000)) {
+  if ((!sessionStorage) || (!authToken) || (authToken != "student") || (!lastLogged) || (new Date() - new Date(lastLogged) >= 604800000)) {
     window.location.href = "/login";
   }
   return children;
@@ -62,7 +62,7 @@ const AdminProtectedRoute = ({ children }) => {
 
   const authToken = sessionStorage.getItem("type");
   const lastLogged = sessionStorage.getItem("last_logged");
-  if ((!sessionStorage) || (!authToken) || (authToken != "teacher") || (!lastLogged) || (new Date () - new Date(lastLogged) >= 604800000)) {
+  if ((!sessionStorage) || (!authToken) || (authToken != "teacher") || (!lastLogged) || (new Date() - new Date(lastLogged) >= 604800000)) {
     window.location.href = "/admin-login";
   }
   return children;
@@ -82,7 +82,7 @@ function App() {
     { path: '/Password', element: <PasswordPage /> },
     { path: '/Reset', element: <ResetPage /> },
     { path: '/admin-reset', element: <AdminReset /> },
-    
+
     { path: '/blank', element: <BlankPage /> },
     { path: '/404', element: <PageNotFound /> },
 
@@ -107,7 +107,7 @@ function App() {
         { path: 'profile', element: <ProfilePage /> },
         { path: 'profile/:id', element: <ProfilePage /> },
         { path: 'settings', element: <BlankPage /> },
-       
+
       ]
     },
     {
