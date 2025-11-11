@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 require("dotenv").config();
 const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
 const app = express();
 const port = process.env.PORT || 8081;
@@ -3149,7 +3150,7 @@ const verifyPassword = async (plainPassword, hashedPassword) => {
 
 
 
-
+const resend = new Resend(process.env.RESEND_API_KEY);
 const transporter = nodemailer.createTransport({
     // service: "gmail",
     host: "smtp.gmail.com",
@@ -3174,7 +3175,18 @@ const sendConfirmationEmail = async (userEmail, confirmationLink) => {
             `,
         };
 
-        await transporter.sendMail(mailOptions);
+        // await transporter.sendMail(mailOptions);
+        await resend.emails.send({
+            from: "academy.cwg@gmail.com",
+            to: userEmail,
+            subject: "Confirm Your Email",
+            html: `
+                <h2>Welcome to CWG Academy!</h2>
+                <p>Click the link below to confirm your email and finish your registration:</p>
+                <a href="${confirmationLink}" target="_blank">Complete Registration</a>
+                <p>If you didn't sign up, please ignore this email.</p>
+            `,
+        });
         console.log("Confirmation email sent to:", userEmail);
     } catch (error) {
         console.error("Error sending email:", error);
@@ -3197,7 +3209,18 @@ const sendNewTeacherEmail = async (userEmail, confirmationLink) => {
         };
 
         console.log('hereeee')
-        await transporter.sendMail(mailOptions);
+        // await transporter.sendMail(mailOptions);
+        await resend.emails.send({
+            from: "academy.cwg@gmail.com",
+            to: userEmail,
+            subject: "Welcome to CWG Academy",
+            html: `
+                <h2>You have been added as a teacher on the Academy!</h2>
+                <p>Click the link below to confirm your email and set a password:</p>
+                <a href="${confirmationLink}" target="_blank">Complete Registration</a>
+                <p>If you think there's been an error, please contact us.</p>
+            `,
+        });
         console.log("New teacher email sent to:", userEmail);
     } catch (error) {
         console.error("Error sending email:", error);
