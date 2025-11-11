@@ -166,7 +166,7 @@ app.post('/new-teacher', async (req, res) => {
         const logValues = [
             activity,
             req.body.user,
-            req.body.date
+            req.body.date ? req.body.date : new Date(),
         ];
 
         await client.query(logQuery, logValues);
