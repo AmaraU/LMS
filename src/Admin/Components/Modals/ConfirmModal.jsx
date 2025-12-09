@@ -9,32 +9,30 @@ import { customToast, customToastError } from "../../../Components/Notifications
 
 export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmType, reload }) => {
 
-    const [ isLoading, setIsLoading ] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const successToast = () => {
         customToast(`${item} ${<b>
             {item.toLowerCase() === "course" ? (selected.course_name ? selected.course_name : selected.name)
-            : item.toLowerCase() === 'teacher' ? selected.first_name + (selected.last_name != null ? ' ' + selected.last_name : '')
-            : item.toLowerCase() === 'class' ? (selected.lesson_title ? selected.lesson_title : selected.title)
-            : item.toLowerCase() === 'exam' ? (selected.exam_name ? selected.exam_name : selected.name)
-            : item.toLowerCase() === 'assignment' ? (selected.assignment_name ? selected.assignment_name : selected.name)
-            : ''}
-        </b>} ${
-            confirmType === 'suspend' ? 'suspended'
-            : confirmType === 'remove' ? 'removed'
-            : confirmType === 'delete' ? 'deleted'
-            : confirmType === 'resume' ? 'resumed'
-            : ''
-        } successfully.`)
+                : item.toLowerCase() === 'teacher' ? selected.first_name + (selected.last_name != null ? ' ' + selected.last_name : '')
+                    : item.toLowerCase() === 'class' ? (selected.lesson_title ? selected.lesson_title : selected.title)
+                        : item.toLowerCase() === 'exam' ? (selected.exam_name ? selected.exam_name : selected.name)
+                            : item.toLowerCase() === 'assignment' ? (selected.assignment_name ? selected.assignment_name : selected.name)
+                                : ''}
+        </b>} ${confirmType === 'suspend' ? 'suspended'
+                : confirmType === 'remove' ? 'removed'
+                    : confirmType === 'delete' ? 'deleted'
+                        : confirmType === 'resume' ? 'resumed'
+                            : ''
+            } successfully.`)
     }
     const errorToast = () => {
-        customToastError(`Error ${
-            confirmType === 'suspend' ? 'suspending'
-            : confirmType === 'remove' ? 'removing'
-            : confirmType === 'delete' ? 'deleting'
-            : confirmType === 'resume' ? 'resuming'
-            : ''
-        } ${item}. Try again later.`)
+        customToastError(`Error ${confirmType === 'suspend' ? 'suspending'
+                : confirmType === 'remove' ? 'removing'
+                    : confirmType === 'delete' ? 'deleting'
+                        : confirmType === 'resume' ? 'resuming'
+                            : ''
+            } ${item}. Try again later.`)
     }
 
 
@@ -42,16 +40,16 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
         setIsLoading(true);
         const courseValues = {
             cohort_id: cohort.cohort_id,
-            course_id:  selected.course_id,
+            course_id: selected.course_id,
             cohort_name: cohort.cohort_name,
-            course_name:  selected.course_name,
+            course_name: selected.course_name,
             date: new Date().toISOString().slice(0, 19).replace('T', ' '),
             user: sessionStorage.getItem('full_name')
         }
 
         const teacherValues = {
-            instructor_id:  selected.instructor_id,
-            instructor_name:  selected.first_name + (selected.last_name != null ? ' ' + selected.last_name : ''),
+            instructor_id: selected.instructor_id,
+            instructor_name: selected.first_name + (selected.last_name != null ? ' ' + selected.last_name : ''),
             date: new Date().toISOString().slice(0, 19).replace('T', ' '),
             user: sessionStorage.getItem('full_name'),
         }
@@ -64,7 +62,7 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
                 const result = await axios.put(BASE_URL + '/suspend-teacher', teacherValues)
                 console.log(result.status);
             }
-            
+
             setOpen(false);
             setIsLoading(false);
             successToast();
@@ -79,9 +77,9 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
         setIsLoading(true);
         const courseValues = {
             cohort_id: cohort.cohort_id,
-            course_id:  selected.course_id,
+            course_id: selected.course_id,
             cohort_name: cohort.cohort_name,
-            course_name:  selected.course_name,
+            course_name: selected.course_name,
             date: new Date().toISOString().slice(0, 19).replace('T', ' '),
             user: sessionStorage.getItem('full_name')
         }
@@ -100,7 +98,7 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
             // else if (item.toLowerCase() === "teacher") {
             //     const result = await axios.put(BASE_URL + '/suspend-teacher', teacherValues);
             // }
-            
+
             setOpen(false);
             setIsLoading(false);
             successToast();
@@ -115,16 +113,16 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
         setIsLoading(true);
         const values = {
             cohort_id: cohort.cohort_id,
-            course_id:  selected.course_id,
+            course_id: selected.course_id,
             cohort_name: cohort.cohort_name,
-            course_name:  selected.course_name,
+            course_name: selected.course_name,
             date: new Date().toISOString().slice(0, 19).replace('T', ' '),
             user: sessionStorage.getItem('full_name'),
         }
         try {
             const result = await axios.post(BASE_URL + '/remove-course', values)
             console.log(result.status);
-            
+
             setOpen(false);
             setIsLoading(false);
             successToast();
@@ -140,35 +138,35 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
         setIsLoading(true);
 
         const courseValues = {
-            course_id:  selected.course_id,
-            course_name:  selected.name,
+            course_id: selected.course_id,
+            course_name: selected.name,
             date: new Date().toISOString().slice(0, 19).replace('T', ' '),
             user: sessionStorage.getItem('full_name'),
         }
 
         const teacherValues = {
-            instructor_id:  selected.instructor_id,
-            instructor_name:  selected.first_name + (selected.last_name != null ? ' ' + selected.last_name : ''),
+            instructor_id: selected.instructor_id,
+            instructor_name: selected.first_name + (selected.last_name != null ? ' ' + selected.last_name : ''),
             date: new Date().toISOString().slice(0, 19).replace('T', ' '),
             user: sessionStorage.getItem('full_name'),
         }
 
         const lessonValues = {
-            lesson_id:  selected.lesson_id,
+            lesson_id: selected.lesson_id,
             date: new Date().toISOString().slice(0, 19).replace('T', ' '),
             user: sessionStorage.getItem('full_name'),
         }
 
         const examValues = {
             exam_id: selected.exam_id,
-            exam_name:  selected.exam_name,
+            exam_name: selected.exam_name,
             date: new Date().toISOString().slice(0, 19).replace('T', ' '),
             user: sessionStorage.getItem('full_name'),
         }
 
         const assignmentValues = {
             assignment_id: selected.assignment_id,
-            assignment_name:  selected.assignment_name,
+            assignment_name: selected.assignment_name,
             date: new Date().toISOString().slice(0, 19).replace('T', ' '),
             user: sessionStorage.getItem('full_name'),
         }
@@ -198,7 +196,7 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
                 const result = await axios.put(BASE_URL + '/delete-assignment', assignmentValues)
                 console.log(result.status);
             }
-            
+
             setOpen(false);
             setIsLoading(false);
             successToast();
@@ -209,36 +207,36 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
         }
     }
 
-    
+
     return (
         <div>
-        <Modal isOpen={isOpen}>
-            <div className={styles.confirmMod}>
-                <div className={styles.head}>
-                    <div>
-                        <h3 style={{textTransform: 'capitalize'}}>{confirmType} {item}</h3>
-                        <p>{selected.course_name}</p>
+            <Modal isOpen={isOpen}>
+                <div className={styles.confirmMod}>
+                    <div className={styles.head}>
+                        <div>
+                            <h3 style={{ textTransform: 'capitalize' }}>{confirmType} {item}</h3>
+                            <p>{selected.course_name}</p>
+                        </div>
+                        <button onClick={() => setOpen(false)} className={styles.close}><img src={getImageUrl('close.png')} /></button>
                     </div>
-                    <button onClick={()=>setOpen(false)} className={styles.close}><img src={getImageUrl('close.png')} /></button>
+
+                    <div className={styles.contentBody}>
+                        <p>Are you sure you want to <b>{confirmType}</b> the {item}: {item.toLowerCase() === "course" ? (selected.course_name ? selected.course_name : selected.name)
+                            : item.toLowerCase() === 'teacher' ? selected.first_name + (selected.last_name != null ? ' ' + selected.last_name : '')
+                                : item.toLowerCase() === 'class' ? (selected.lesson_title ? selected.lesson_title : selected.title)
+                                    : item.toLowerCase() === 'exam' ? (selected.exam_name ? selected.exam_name : selected.name)
+                                        : item.toLowerCase() === 'assignment' ? (selected.assignment_name ? selected.assignment_name : selected.name)
+                                            : ''}
+                        </p>
+
+                        <button className={styles.cohortButton} onClick={confirmType === "suspend" ? handleSuspension : confirmType === "remove" ? handleRemoving : confirmType === 'delete' ? handleDelete : confirmType === 'resume' ? handleResumption : ''}>
+                            {isLoading ? "..." : confirmType}
+                        </button>
+
+                    </div>
+
                 </div>
-
-                <div className={styles.contentBody}>
-                    <p>Are you sure you want to <b>{confirmType}</b> the {item}: {item.toLowerCase() === "course" ? (selected.course_name ? selected.course_name : selected.name)
-                                                                                : item.toLowerCase() === 'teacher' ? selected.first_name + (selected.last_name != null ? ' ' + selected.last_name : '')
-                                                                                : item.toLowerCase() === 'class' ? (selected.lesson_title ? selected.lesson_title : selected.title)
-                                                                                : item.toLowerCase() === 'exam' ? (selected.exam_name ? selected.exam_name : selected.name)
-                                                                                : item.toLowerCase() === 'assignment' ? (selected.assignment_name ? selected.assignment_name : selected.name)
-                                                                                : ''}
-                    </p>
-                    
-                    <button className={styles.cohortButton} onClick={confirmType === "suspend" ? handleSuspension : confirmType === "remove" ? handleRemoving : confirmType === 'delete' ? handleDelete : confirmType === 'resume' ? handleResumption : ''}>
-                        {isLoading ? "..." : confirmType}
-                    </button>
-
-                </div>
-
-            </div>
-        </Modal>
+            </Modal>
 
         </div>
     )

@@ -6,11 +6,13 @@ const multer = require('multer');
 require("dotenv").config();
 const nodemailer = require("nodemailer");
 const { Resend } = require("resend");
+const { default: axios } = require('axios');
 
 const app = express();
 const port = process.env.PORT || 8081;
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
+const ACADEMY_URL = process.env.ACADEMY_BASE_URL;
 app.use(express.json());
 app.use(cors());
 
@@ -3064,6 +3066,22 @@ app.post('/login', async (req, res) => {
         return res.status(500).json({ message: "Login failed" });
     }
 });
+app.post('/academy-login', async (req, res) => {
+    try {
+        const result = await axios.post(ACADEMY_URL + '/ApiService.ashx/authenticate',
+            {
+                ClientID: process.env.ACADEMY_CLIENT_ID,
+                ClientSecret: process.env.ACADEMY_CLIENT_SECRET,
+                Username: req.body.email,
+                Password: req.body.password
+            }
+        );
+        return res.json(result.data);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Academy login failed" });
+    }
+});
 
 app.post('/adminlogin', async (req, res) => {
     const query = 'SELECT * FROM instructor WHERE email = $1';
@@ -3126,6 +3144,45 @@ app.post("/admin-signup", async (req, res) => {
         return res.status(500).json({ message: "Error setting teacher password" });
     }
 })
+
+app.post('/reset-password', async (req, res) => {
+    const query = 'SELECT * FROM student WHERE email = $1';
+    try {
+        const result = await client.query(query, [req.body.email]);
+        if (result.rows.length === 0) return res.status(404).json({ message: "No records" });
+        const student = result.rows[0];
+
+        const confirmationLink = `https://cwg-academy.vercel.app/change-password/${result.rows[0].student_id}`;
+        await sendResetPasswordEmail(req.body.email, confirmationLink);
+
+        return res.status(201).json({ message: "Reset email sent successfully" });
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Reset password failed" });
+    }
+});
+app.post('/change-password', async (req, res) => {
+    const hashedPassword = await hashPassword(req.body.password);
+    const hashedConfirmPassword = await hashPassword(req.body.confirmPassword);
+
+    if (req.body.password !== req.body.confirmPassword) {
+        return res.status(500).json({ message: "Passwords do not match" });
+    }
+
+    const query = 'UPDATE student SET password = $1 WHERE student_id = $2';
+    const values = [
+        hashedPassword,
+        req.body.id
+    ]
+    try {
+        const result = await client.query(query, values);
+        return res.status(201).json({ message: "Password changed successfully", result });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Error changing password" });
+    }
+});
 
 
 const hashPassword = async (plainPassword) => {
@@ -3196,6 +3253,46 @@ const sendConfirmationEmail = async (userEmail, confirmationLink) => {
         }
 
         console.log(data);
+        console.log("Confirmation email sent to:", userEmail);
+    } catch (error) {
+        console.error("Error sending email:", error);
+    }
+};
+const sendResetPasswordEmail = async (userEmail, confirmationLink) => {
+    try {
+        console.log(userEmail)
+        console.log(confirmationLink)
+        const mailOptions = {
+            from: `"CWG Academy" <cwg.academy@gmail.com>`,
+            to: userEmail,
+            subject: "Reset Your Password",
+            html: `
+                <h2>Continue to Reset your Password</h2>
+                <p>Click the link below to reset your password:</p>
+                <a href="${confirmationLink}" target="_blank">Reset Password</a>
+                <p>If you didn't choose to reset your password, please ignore this email or reach out to our admin.</p>
+            `,
+        };
+
+        await transporter.sendMail(mailOptions);
+        console.log('hereeee')
+        // const { data, error } = await resend.emails.send({
+        //     from: "CWG Academy <onboarding@resend.dev>",
+        //     to: [userEmail],
+        //     subject: "Confirm Your Email",
+        //     html: `
+        //         <h2>Welcome to CWG Academy!</h2>
+        //         <p>Click the link below to confirm your email and finish your registration:</p>
+        //         <a href="${confirmationLink}" target="_blank">Complete Registration</a>
+        //         <p>If you didn't sign up, please ignore this email.</p>
+        //     `,
+        // });
+
+        // if (error) {
+        //     console.error({ error });
+        // }
+
+        // console.log(data);
         console.log("Confirmation email sent to:", userEmail);
     } catch (error) {
         console.error("Error sending email:", error);

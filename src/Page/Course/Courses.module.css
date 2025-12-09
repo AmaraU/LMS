@@ -15,29 +15,32 @@
     font-weight: 500;
     color: #2C2F7E;
 }
+
 .breadcrumb a {
     font-size: 14px;
     font-weight: 500;
     color: #728DB9;
     text-decoration: none;
 }
+
 .breadcrumb a:hover {
     text-decoration: underline;
 }
 
 
-.title .span{
+.title h1 {
     font-weight: 600;
     font-size: 26px;
-    line-height: 32px;
-    color: #A1b2d1;
+    /* color: #A1b2d1; */
 }
 
 .title {
     margin-top: 40px;
     display: flex;
     justify-content: space-between;
+    gap: 8px;
 }
+
 .title button {
     display: inline-flex;
     align-items: center;
@@ -50,7 +53,9 @@
     font-weight: 500;
     border: none;
     outline: none;
+    height: fit-content;
 }
+
 .title button img {
     width: 20px;
     height: 20px;
@@ -75,31 +80,31 @@
     margin-top: 24px;
 }
 
-.courseInfo{
+.courseInfo {
     display: flex;
     flex-direction: column;
     border-radius: 10px;
     padding: 16px;
-    gap:8 ;
+    gap: 8;
     border: 1px solid #BDD9FF;
     box-shadow: 0px 3px 5px 0px #00000017;
 }
 
 
-.infoHeader{
+.infoHeader {
     display: flex;
     justify-content: space-between;
-    align-items: start;   
+    align-items: start;
 }
 
-.infoHeader h3{
+.infoHeader h3 {
     font-weight: 600;
     font-size: 14px;
-    font-family:Work 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: Work 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-.infoHeader span{
+
+.infoHeader span {
     font-size: 10px;
-    line-height: 32px;
     font-weight: 500;
     color: #0c359e;
     background: #E9EFFF;
@@ -108,7 +113,7 @@
     margin-left: 8px;
 }
 
-.infoHeader button{
+.infoHeader button {
     margin-left: 10px;
     border: 1px solid #A1B2D1;
     display: flex;
@@ -117,54 +122,57 @@
     background: transparent;
     border-radius: 5px;
 }
+
 .infoHeader button img {
     height: 20px;
     width: 20px;
 }
 
 
-.course p{
+.course p {
     font-weight: 400;
     font-size: 12px;
     margin-bottom: 12px;
 }
 
 
-.courseData{
+.courseData {
     display: flex;
     flex-direction: column;
     margin-top: auto;
 }
 
-.courseData img{
+.courseData img {
     width: 22px;
     height: 22px;
 }
 
-.bread{
+.bread {
     display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
 }
-.crumb{
+
+.crumb {
     display: flex;
-    gap: 3px;   
+    gap: 3px;
 }
 
 
 .courseData .profile,
-.courseData .students{
+.courseData .students {
     font-weight: 500;
     font-size: 10px;
-    line-height: 32px;
     display: inline-flex;
     align-items: center;
     gap: 3px;
 }
+
 .bread .profile img {
     border-radius: 50px;
     border: 1px solid #94B9FF66;
 }
+
 .students img {
     width: 50px;
     height: auto;
@@ -173,11 +181,11 @@
 .crumb .profile {
     font-weight: 500;
     font-size: 10px;
-    line-height: 18px;
     display: inline-flex;
     align-items: center;
     gap: 0px;
 }
+
 .crumb img {
     width: 13px;
     height: 13px;
@@ -198,7 +206,8 @@
     align-items: center;
     justify-content: center;
 }
-.coursesLoader p{
+
+.coursesLoader p {
     font-weight: 500;
     font-size: 16px;
     margin: 0;
@@ -222,6 +231,7 @@
 .progress::-webkit-progress-bar {
     background: #ABC0E5;
 }
+
 .progress::-webkit-progress-value {
     background: #2C2F7E;
     border-radius: 18px;
@@ -230,6 +240,7 @@
 .progress::-ms-progress-bar {
     background-color: #ABC0E5;
 }
+
 .progress::-ms-progress-value {
     background: #2C2F7E;
     border-radius: 18px;
@@ -238,7 +249,30 @@
 .progress::-moz-progress-bar {
     background-color: #ABC0E5;
 }
+
 .progress::-moz-progress-value {
     background: #2C2F7E;
     border-radius: 18px;
+}
+
+
+
+@media screen and (max-width: 830px) {
+    .whole {
+        margin-left: 0;
+    }
+
+    .title h1 {
+        font-size: 18px;
+    }
+
+    .title button {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    .title button img {
+        width: 16px;
+        height: 16px;
+    }
 }

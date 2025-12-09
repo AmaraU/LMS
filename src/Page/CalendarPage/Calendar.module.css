@@ -39,6 +39,7 @@
     font-family: "Inter";
 
 }
+
 .calendarHeader .buttons {
     display: flex;
     align-items: center;
@@ -55,17 +56,21 @@
     color: #18181B;
     font-weight: 500;
 }
+
 .move .prev {
     padding: 4px;
     border-radius: 7px 0 0 7px;
 }
+
 .move .next {
     padding: 4px;
     border-radius: 0 7px 7px 0;
 }
+
 .move .today {
     padding: 7px 16px;
 }
+
 .buttons.move img {
     width: 20px;
     height: 20px;
@@ -80,6 +85,7 @@
     outline: none;
     border: none;
 }
+
 .buttons .activeGrid {
     background: #CCCDE8;
     padding: 4px 16px;
@@ -99,10 +105,12 @@
     display: inline-flex;
     align-items: center;
 }
+
 .search img {
     width: 20px;
     height: 20px;
 }
+
 .search input {
     border: none;
     outline: none;
@@ -114,11 +122,13 @@
     height: 40px;
     text-align: left;
 }
+
 .dayHeader h1 {
     font-size: 14px;
     font-weight: 500;
     color: #71717A;
 }
+
 .dayHeader h2 {
     font-size: 14px;
     font-weight: 600;
@@ -129,18 +139,21 @@
 :global(.fc-day-today) {
     background-color: #EFF6FF !important;
 }
+
 :global(.fc-timegrid-col .fc-day-today) {
     background-color: #EFF6FF !important;
 }
 
-:global(.assignment-event .fc-event-title ),
-:global(.assignment-event .fc-event-time ) {
+:global(.assignment-event .fc-event-title),
+:global(.assignment-event .fc-event-time) {
     color: #047857 !important;
 }
+
 :global(.class-event .fc-event-title),
 :global(.class-event .fc-event-time) {
     color: #0369A1 !important;
 }
+
 :global(.other-event .fc-event-title),
 :global(.other-event .fc-event-time) {
     color: #6D28D9 !important;
@@ -148,4 +161,28 @@
 
 :global(.fc-timegrid-slot) {
     height: 45px !important;
+}
+
+
+
+
+@media screen and (max-width: 830px) {
+    .whole {
+        margin-left: 0;
+    }
+
+    .calendarHeader {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .buttons .grid {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+
+    .buttons .activeGrid {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
 }

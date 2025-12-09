@@ -4,26 +4,29 @@ import { getImageUrl } from "../../utilis";
 import { BASE_URL, TEST_URL } from "../../../config";
 import axios from 'axios';
 import { customToast } from "../../Components/Notifications";
+import { useAppSelector } from "../../redux/store";
 
 
 
 export const ProfilePage = () => {
 
-    const [ email, setEmail ] = useState("");
-    const [ type, setType ] = useState("");
-    const [ userInfo, setUserInfo ] = useState({});
-    const [ newInfo, setNewInfo ] = useState({});
+    const { student } = useAppSelector((state) => state.app.auth);
+
+    const [email, setEmail] = useState("");
+    const [type, setType] = useState("");
+    const [userInfo, setUserInfo] = useState({});
+    const [newInfo, setNewInfo] = useState({});
 
     useEffect(() => {
         getUserInfo();
-        setType(sessionStorage.getItem("type")!= 'null' ? sessionStorage.getItem("type"):"");
+        setType(sessionStorage.getItem("type") != 'null' ? sessionStorage.getItem("type") : "");
     }, []);
 
 
     const getUserInfo = async () => {
         try {
             if (sessionStorage.getItem("type") === 'student') {
-                const response = await axios.get(BASE_URL + `/student-profile/${sessionStorage.getItem("id")}`)
+                const response = await axios.get(BASE_URL + `/student-profile/${student?.student_id}`)
                 setUserInfo(response.data[0]);
                 setNewInfo({
                     first_name: response.data[0].first_name,
@@ -48,8 +51,8 @@ export const ProfilePage = () => {
             customToast('Error getting your information.');
         }
     }
-    
-    
+
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewInfo((prev) => ({
@@ -59,18 +62,18 @@ export const ProfilePage = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         try {
 
             if (type === 'student') {
-                const response = await fetch(BASE_URL + `/student-profile/${sessionStorage.getItem("id")}`, {
+                const response = await fetch(BASE_URL + `/student-profile/${student?.student_id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(newInfo),
                 });
-    
+
                 if (response.ok) {
                     customToast('Your information was updated successfully')
                 } else {
@@ -86,7 +89,7 @@ export const ProfilePage = () => {
                     },
                     body: JSON.stringify(newInfo),
                 });
-    
+
                 if (response.ok) {
                     customToast('Your information was updated successfully')
                 } else {
@@ -105,81 +108,81 @@ export const ProfilePage = () => {
 
     return (
         <>
-        <div className={styles.whole}>
+            <div className={styles.whole}>
 
-            <div className={styles.breadcrumb}>Profile</div>
+                <div className={styles.breadcrumb}>Profile</div>
 
-            <div className={styles.whiteDiv}>
-                <div className={styles.changePic}>
-                    <img src={getImageUrl('profile.svg')} alt="" />
-                    <div>
-                        <button>Change Photo</button>
-                        <p>Maximum size: 2MB</p>
-                        <p>Preferred minimum resolution: 200*200</p>
-                    </div>
-                </div>
-
-                <form action="" className={styles.profileForm}>
-                    <div className={styles.formFlex}>
-                        <div className={styles.formGroup}>
-                            <label htmlFor="">First Name</label>
-                            <input type="text" name="first_name" value={newInfo.first_name} onChange={handleInputChange} />
-                        </div>
-
-                        <div className={styles.formGroup}>
-                            <label htmlFor="">Last Name</label>
-                            <input type="text" name="last_name" value={newInfo.last_name} onChange={handleInputChange} />
+                <div className={styles.whiteDiv}>
+                    <div className={styles.changePic}>
+                        <img src={getImageUrl('profile.svg')} alt="" />
+                        <div>
+                            <button>Change Photo</button>
+                            <p>Maximum size: 2MB</p>
+                            <p>Preferred minimum resolution: 200*200</p>
                         </div>
                     </div>
 
-                    <div className={styles.formFlex}>
-                        <div className={styles.formGroup}>
-                            <label htmlFor="">Email</label>
-                            <input type="text" name="email" value={newInfo.email} disabled />
-                        </div>
-
-                        {type === 'teacher' ?
+                    <form action="" className={styles.profileForm}>
+                        <div className={styles.formFlex}>
                             <div className={styles.formGroup}>
-                                <label htmlFor="">Role</label>
-                                <input type="text" name="title" value={newInfo.title} onChange={handleInputChange} />
+                                <label htmlFor="">First Name</label>
+                                <input type="text" name="first_name" value={newInfo.first_name} onChange={handleInputChange} />
                             </div>
-                        :
-                            <div className={styles.formGroup}></div>
-                        }
-                    </div>
 
-                    {type === 'teacher' &&
-                        <div className={styles.formGroup}>
-                            <label htmlFor="">Description</label>
-                            <textarea type="text" name="description" value={newInfo.description} onChange={handleInputChange} />
+                            <div className={styles.formGroup}>
+                                <label htmlFor="">Last Name</label>
+                                <input type="text" name="last_name" value={newInfo.last_name} onChange={handleInputChange} />
+                            </div>
                         </div>
-                    }
+
+                        <div className={styles.formFlex}>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="">Email</label>
+                                <input type="text" name="email" value={newInfo.email} disabled />
+                            </div>
+
+                            {type === 'teacher' ?
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="">Role</label>
+                                    <input type="text" name="title" value={newInfo.title} onChange={handleInputChange} />
+                                </div>
+                                :
+                                <div className={styles.formGroup}></div>
+                            }
+                        </div>
+
+                        {type === 'teacher' &&
+                            <div className={styles.formGroup}>
+                                <label htmlFor="">Description</label>
+                                <textarea type="text" name="description" value={newInfo.description} onChange={handleInputChange} />
+                            </div>
+                        }
 
 
-                    <div className={styles.buttons}>
-                        <button className={styles.buttonOne} type="submit" onClick={handleSubmit}>Save</button>
-                        <button className={styles.buttonTwo} type="button" onClick={"handleReset"}>Reset</button>
-                    </div>
-                    
-                </form>
-            </div>
+                        <div className={styles.buttons}>
+                            <button className={styles.buttonOne} type="submit" onClick={handleSubmit}>Save</button>
+                            <button className={styles.buttonTwo} type="button" onClick={"handleReset"}>Reset</button>
+                        </div>
 
-
-            <div className={styles.whiteDiv}>
-
-                <h5>Delete Account</h5>
-                <h6>Deleting the account will erase all of your information and course enrollments.</h6>
-
-                <div className={styles.caution}>
-                    <img src={getImageUrl('caution.svg')} />
-                    This academy has restricted you from deleting your account.
-                    Please contact the academy admin to delete your account.
+                    </form>
                 </div>
 
-                <button className={styles.delete} disabled>Delete Account</button>
 
+                <div className={styles.whiteDiv}>
+
+                    <h5>Delete Account</h5>
+                    <h6>Deleting the account will erase all of your information and course enrollments.</h6>
+
+                    <div className={styles.caution}>
+                        <img src={getImageUrl('caution.svg')} />
+                        This academy has restricted you from deleting your account.
+                        Please contact the academy admin to delete your account.
+                    </div>
+
+                    <button className={styles.delete} disabled>Delete Account</button>
+
+                </div>
             </div>
-        </div>
         </>
     )
 }

@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getImageUrl } from "../../utilis";
 import styles from "./Onboarding.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import { BASE_URL, TEST_URL } from "../../../config";
+import { ACADEMY_URL, BASE_URL, TEST_URL } from "../../../config";
 import { customToastError } from "../../Components/Notifications";
 
 
 export const AccountPage = () => {
 
-    const [ isLoading, setIsLoading ] = useState(false);
-    const [ errorMessage, setErrorMessage ] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        window.location.href = ACADEMY_URL;
+    })
 
     const [values, setValues] = useState({
         first_name: '',
@@ -24,7 +28,7 @@ export const AccountPage = () => {
 
     const handleInput = (event) => {
         if (event.target.value.length > 45) {
-            event.target.value = event.target.value.slice(0,45);
+            event.target.value = event.target.value.slice(0, 45);
         }
         setValues(prev => ({ ...prev, [event.target.name]: event.target.value }))
     }
@@ -34,7 +38,7 @@ export const AccountPage = () => {
         setIsLoading(true);
         try {
             const result = await axios(BASE_URL + `/getStudentWithEmail/${values.email}`,
-                {  timeout: 20000 }
+                { timeout: 20000 }
             );
             if (result.data.length > 0) {
                 setErrorMessage("Email already exists");
@@ -42,7 +46,7 @@ export const AccountPage = () => {
                 return;
             }
             setIsLoading(false);
-            navigate('/Password', {state: values });
+            navigate('/Password', { state: values });
 
         } catch (err) {
             err => console.log(err);
@@ -70,7 +74,7 @@ export const AccountPage = () => {
                     <h1>Create your account</h1>
                     <p>Lets help you get started on CWG Academy</p>
                 </div>
-                
+
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.name}>
                         <div className={styles.formgroup}>
@@ -89,7 +93,7 @@ export const AccountPage = () => {
                     <div className={styles.formgroup}>
                         <label htmlFor="email">Email address</label>
                         <input placeholder="Enter your email address" type="email" name="email" onChange={handleInput} />
-                        <p style={{color: "red"}}>{errorMessage}</p>
+                        <p style={{ color: "red" }}>{errorMessage}</p>
                     </div>
                     <div className={styles.formgroup}>
                         <label htmlFor="learning_mode">Preferred Mode of learning</label>

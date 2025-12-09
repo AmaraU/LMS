@@ -1,4 +1,5 @@
-.theWhole {
+.theWhole,
+.theWholeOpen {
     width: 280px;
     height: 100%;
     position: fixed;
@@ -11,8 +12,14 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
 .theWhole::-webkit-scrollbar {
     display: none;
+}
+
+.logo2 {
+    display: none;
+    cursor: pointer;
 }
 
 
@@ -20,6 +27,7 @@
     width: 100%;
     padding: 12px;
 }
+
 .logo img {
     width: 90%;
     height: auto;
@@ -47,13 +55,16 @@
     gap: 12px;
     border-left: 6px solid transparent;
 }
+
 .linkList a:hover {
     background-color: #2C3544;
 }
+
 .linkList a.active {
     background-color: #152A4F;
     border-left: 6px solid #FFA502;
 }
+
 .linkList img {
     width: 24px;
     height: 24px;
@@ -64,6 +75,7 @@
 .logout {
     margin-top: auto;
 }
+
 .logout a {
     width: 100%;
     height: 100%;
@@ -78,11 +90,42 @@
     text-decoration: none;
     border-left: 6px solid transparent;
 }
+
 .logout img {
     width: 24px;
     height: 24px;
 }
+
 .logout a:hover {
     background-color: #770000;
     border-left: 6px solid #FFFFFF;
+}
+
+
+
+
+
+@media screen and (max-width: 830px) {
+    .theWhole {
+        display: none;
+    }
+
+    .theWholeOpen {
+        display: flex;
+    }
+
+    .logo2 {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        position: fixed;
+        z-index: 6;
+        background: linear-gradient(180deg, #000A27 0%, #000410 100%);
+        padding: 12px;
+    }
+
+    .logo2 img {
+        width: 90%;
+        height: auto;
+    }
 }

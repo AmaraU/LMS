@@ -6,6 +6,7 @@
     padding: 16px 24px;
     background: #FFFFFF;
 }
+
 .whole .breadcrumb {
     font-size: 14px;
     font-weight: 500;
@@ -19,6 +20,7 @@
     align-items: center;
     margin-top: 40px;
 }
+
 .taskHeader h5 {
     font-size: 24px;
     font-weight: 600;
@@ -30,6 +32,7 @@
     align-items: center;
     gap: 8px;
 }
+
 .buttons .buttonOne {
     display: inline-flex;
     align-items: center;
@@ -43,6 +46,7 @@
     border: none;
     outline: none;
 }
+
 .buttons .buttonTwo {
     display: inline-flex;
     align-items: center;
@@ -56,6 +60,7 @@
     border: none;
     outline: none;
 }
+
 .buttons button img {
     width: 20px;
     height: 20px;
@@ -69,6 +74,7 @@
     gap: 24px;
     margin-top: 42px;
 }
+
 .eachOverview {
     display: flex;
     flex-direction: column;
@@ -78,6 +84,7 @@
     border: 1px solid #9799C5;
     box-shadow: 0px 3px 5px 0px #00000017;
 }
+
 .overviewText {
     display: flex;
     justify-content: space-between;
@@ -86,6 +93,7 @@
     font-weight: 500;
     color: #232665;
 }
+
 .overviewText .blueBox {
     background: #DEDFF4;
     border-radius: 8px;
@@ -93,10 +101,12 @@
     display: flex;
     align-items: center;
 }
+
 .blueBox img {
     width: 36px;
     height: 36px;
 }
+
 .eachOverview h4 {
     font-size: 30px;
     font-weight: 600;
@@ -114,10 +124,12 @@
     gap: 8px;
     border-bottom: 1.8px solid #9791B4;
 }
+
 .search img {
     width: 20px;
     height: 20px;
 }
+
 .search input {
     border: none;
     outline: none;
@@ -125,6 +137,7 @@
     font-size: 16px;
     color: #545454;
 }
+
 .search input::placeholder {
     color: #9191B2;
 }
@@ -139,6 +152,7 @@
     font-weight: 400;
     color: #2C2F7E;
 }
+
 .none {
     width: 100%;
     margin-top: 24px;
@@ -169,18 +183,21 @@
     border-spacing: 0 8px;
     table-layout: fixed;
 }
+
 .tasksTable thead {
     background: #F9F9F9;
     font-size: 14px;
     font-weight: 600;
     color: #2C2F7E;
 }
+
 .tasksTable th {
     padding: 10px 4px;
     text-align: left;
     border-top: 1px solid #E4E4E4;
     border-bottom: 1px solid #E4E4E4;
 }
+
 .tasksTable td {
     padding: 6px 4px;
     border-top: 1px solid #E4E4E4;
@@ -196,6 +213,7 @@
     border-right: none;
     padding-left: 10px;
 }
+
 .tasksTable th:last-child,
 .tasksTable td:last-child {
     border-top-right-radius: 6px;
@@ -203,6 +221,7 @@
     border: 1px solid #E4E4E4;
     border-left: none;
 }
+
 .tasksTable tr {
     background: #FFFFFF;
     font-size: 12px;
@@ -214,6 +233,7 @@
     width: 6%;
     overflow: visible;
 }
+
 .tasksTable .action {
     width: 10%;
 }
@@ -230,12 +250,14 @@
     border-radius: 18px;
     width: fit-content;
 }
+
 .tasksTable .graded div {
     width: 6px;
     height: 6px;
     border-radius: 50px;
     background: #14BA6D;
 }
+
 .tasksTable .pending {
     padding: 4px 10px;
     display: flex;
@@ -248,6 +270,7 @@
     border-radius: 18px;
     width: fit-content;
 }
+
 .tasksTable .pending div {
     width: 6px;
     height: 6px;
@@ -266,6 +289,7 @@
     background: transparent;
     height: fit-content;
 }
+
 .actionsButton img {
     width: 20px;
     height: 20px;
@@ -286,11 +310,13 @@
     margin-top: 3px;
     margin-left: -110px;
 }
+
 .theActions h5 {
     font-size: 12px;
     font-weight: 600;
     color: #4B5563;
 }
+
 .theActions button {
     border: none;
     outline: none;
@@ -303,9 +329,11 @@
     gap: 8px;
     padding: 12px;
 }
+
 .theActions button:hover {
     background: #4b55632a;
 }
+
 .theActions button img {
     width: 24px;
     height: 24px;
@@ -321,6 +349,7 @@
     font-weight: 500;
     color: #000000;
 }
+
 .showRows select {
     border: 1px solid #BDD9FF;
     box-shadow: 0px 3.76px 5.64px 0px #00000017;
@@ -331,6 +360,21 @@
     color: #000000;
     outline: none;
 }
+
 .pag {
     flex: 30%
+}
+
+
+
+@media screen and (max-width: 830px) {
+    .whole {
+        margin-left: 0;
+    }
+
+    .overviews {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
 }

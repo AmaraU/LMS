@@ -15,12 +15,14 @@
     font-weight: 500;
     color: #2C2F7E;
 }
+
 .breadcrumb a {
     font-size: 14px;
     font-weight: 500;
     color: #728DB9;
     text-decoration: none;
 }
+
 .breadcrumb a:hover {
     text-decoration: underline;
 }
@@ -34,6 +36,7 @@
     font-weight: 400;
     color: #2C2F7E;
 }
+
 .none {
     width: 100%;
     margin-top: 24px;
@@ -50,12 +53,14 @@
     gap: 38px;
     margin-top: 48px;
 }
+
 .larger {
     flex: 65%;
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
+
 .smaller {
     flex: 35%;
     display: flex;
@@ -69,11 +74,13 @@
     justify-content: space-between;
     align-items: start;
 }
+
 .courseTitle h3 {
     font-size: 26px;
     font-weight: 600;
     color: #2C2F7E;
 }
+
 .courseTitle button {
     border: none;
     display: inline-flex;
@@ -86,6 +93,7 @@
     font-weight: 500;
     color: #2C2F7E;
 }
+
 .courseTitle button img {
     width: 18px;
     height: 18px;
@@ -97,6 +105,7 @@
     gap: 12px;
     margin: 6px 0;
 }
+
 .titleInfo .teach,
 .titleInfo .stud {
     display: flex;
@@ -110,9 +119,11 @@
 .titleInfo .teach img {
     border: 1.5px solid #94B9FF66;
 }
+
 .titleInfo .stud {
     margin-left: 14px;
 }
+
 .titleInfo .stud img {
     border: 1.2px solid #c4c0c08e;
     margin-left: -12px;
@@ -145,6 +156,7 @@
     background-size: 100% 100%;
     background-image: url();
 }
+
 .courseImg button {
     border-radius: 10px;
     padding: 16px 20px;
@@ -162,6 +174,7 @@
     padding-bottom: 20px;
     border-bottom: 1px solid #E2E8F0;
 }
+
 .tabs button {
     border: 1px solid #E2E8F0;
     background: transparent;
@@ -172,12 +185,14 @@
 .theDetails {
     width: 90%;
 }
+
 .theDetails h3 {
     color: #0F172A;
     font-size: 20px;
     font-weight: 600;
     margin-top: 20px;
 }
+
 .theDetails p,
 .theDetails li {
     color: #5B697D;
@@ -185,6 +200,7 @@
     font-weight: 300;
     margin-top: 4px;
 }
+
 .theDetails ul {
     margin-left: 16px;
 }
@@ -195,6 +211,7 @@
     color: #2C2F7E;
     font-weight: 600;
 }
+
 .theDetails h5 {
     font-weight: 400;
     font-size: 12px;
@@ -207,6 +224,7 @@
     margin: 12px 0;
     gap: 12px;
 }
+
 .teachPic {
     border-radius: 500px;
     border: 1.8px solid #94B9FF66;
@@ -233,6 +251,7 @@
     padding: 18px 0;
     border-radius: 16px;
 }
+
 .completion h3 {
     padding: 0 14px;
     font-size: 16px;
@@ -249,6 +268,7 @@
     padding: 14px 16px;
     border-bottom: 1px solid #E2E8F0;
 }
+
 .accordion .accHeader {
     display: flex;
     align-items: center;
@@ -267,19 +287,23 @@
     align-items: start;
     border-bottom: 0.25px solid #E2E8F0;
 }
+
 .week:hover {
     background: #2C2F7E;
     color: #FFFFFF;
 }
+
 .week:hover .len {
     color: #FFFFFF;
 }
+
 .week .title {
     display: flex;
     align-items: start;
     gap: 6px;
     flex: 80%;
 }
+
 .title h4 {
     font-weight: 500;
     font-size: 14px;
@@ -293,6 +317,7 @@
     text-align: right;
     gap: 5px;
 }
+
 .week .lenn {
     display: flex;
     gap: 4px;
@@ -300,6 +325,7 @@
     color: #64748B;
     text-align: right;
 }
+
 .week .download {
     background: #CCCDE8;
     padding: 4px;
@@ -311,10 +337,19 @@
     text-align: center;
     cursor: pointer;
 }
+
 .week .download:hover {
     background: #B9BAD6;
 }
 
 input[type="file"] {
     display: none;
+}
+
+
+
+@media screen and (max-width: 830px) {
+    .whole {
+        margin-left: 0;
+    }
 }

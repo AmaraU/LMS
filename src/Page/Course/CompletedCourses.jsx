@@ -5,11 +5,16 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { BASE_URL, TEST_URL } from "../../../config";
+import { customToast, customToastError } from "../../Components/Notifications";
+import { useAppSelector } from "../../redux/store";
+
 
 export const CompletedCourse = () => {
 
-    const [ courses, setCourses ] = useState([]);
-    const [ isLoading, setIsLoading ] = useState(false);
+    const { student } = useAppSelector((state) => state.app.auth);
+
+    const [courses, setCourses] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     useEffect(() => {
@@ -19,12 +24,12 @@ export const CompletedCourse = () => {
     const fetchCoursesTeachersStudents = async () => {
         setIsLoading(true);
         try {
-            const result = await axios(BASE_URL + `/courses-instructor-students-lessons/${sessionStorage.getItem("id")}`);
+            const result = await axios(BASE_URL + `/courses-instructor-students-lessons/${student?.student_id}`);
             setCourses(result.data.filter(e => e.completed === true));
             setIsLoading(false);
         } catch (err) {
             console.log(err);
-            customToast("We're having trouble fetching your courses. Please try again later.")
+            customToastError("We're having trouble fetching your courses. Please try again later.")
             setIsLoading(false);
         }
     }
@@ -40,7 +45,7 @@ export const CompletedCourse = () => {
             result.weeks = interval.weeks || 0;
             result.days = interval.days || 0;
             result.hours = interval.hours || 0;
-        
+
             return result;
         }
     }
@@ -50,16 +55,16 @@ export const CompletedCourse = () => {
     return (
         <>
             <div className={styles.whole}>
-                
+
                 <div className={styles.breadcrumb}><a href="/dashboard/courses">Courses</a> {'>'} Active</div>
-                
+
                 <div>
                     <div className={styles.title}>
-                        <h1>Active Courses <span>({courses.length})</span></h1>
+                        <h1>Completed Courses <span>({courses.length})</span></h1>
                         <button>Sort By <img src={getImageUrl('sortIcon.png')} alt="" /></button>
                     </div>
 
-                    {isLoading ? <h5 className={styles.loading}>Loading...</h5> :                    
+                    {isLoading ? <h5 className={styles.loading}>Loading...</h5> :
                         <div className={styles.course}>
                             {courses.map((cour, index) => (
                                 <div className={styles.courseInfo} key={index}>
@@ -81,7 +86,7 @@ export const CompletedCourse = () => {
                                                 {convertDuration(cour.duration).hours === 0 ? '' : convertDuration(cour.duration).hours + ' hours '}
                                             </div>}
                                             {cour.lessons.length > 0 && <><div className={styles.profile}><img src={getImageUrl('instructors.png')} alt="" />{cour.lessons.length} Lessons</div>
-                                            <div className={styles.profile}><img src={getImageUrl('assignment.png')} alt="" />{format(new Date(cour.lessons[0].start_date), 'ha ')}</div></>}
+                                                <div className={styles.profile}><img src={getImageUrl('assignment.png')} alt="" />{format(new Date(cour.lessons[0].start_date), 'ha ')}</div></>}
                                         </div>
                                     </div>
                                     <div className={styles.withLoader}>

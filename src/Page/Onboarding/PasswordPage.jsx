@@ -15,7 +15,7 @@ export const PasswordPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const [ values, setValues ] = useState(location.state);
+    const [values, setValues] = useState(location.state);
 
     const handleInput = (event) => {
         setValues(prev => ({ ...prev, [event.target.name]: event.target.value }))
@@ -27,13 +27,11 @@ export const PasswordPage = () => {
         try {
             const response = await axios.post(BASE_URL + '/signup',
                 values,
-                {timeout: 10000}
+                { timeout: 10000 }
             );
             console.log(response.status);
 
             setLoading(false);
-            sessionStorage.setItem("first_name", values.first_name);
-            sessionStorage.setItem("email", values.email);
 
             customToast('We sent a confirmation email to your account. Please confirm your email address.');
             setTimeout(() => window.location.href = "/login", 5000);

@@ -15,12 +15,14 @@
     font-weight: 500;
     color: #2C2F7E;
 }
+
 .breadcrumb a {
     font-size: 14px;
     font-weight: 500;
     color: #728DB9;
     text-decoration: none;
 }
+
 .breadcrumb a:hover {
     text-decoration: underline;
 }
@@ -39,12 +41,14 @@
     align-items: center;
     gap: 18px;
 }
+
 .changePic img {
     border: 5px solid #94B9FF66;
     width: 85px;
     height: 85px;
     border-radius: 500px;
 }
+
 .changePic button {
     background: #2C2F7E;
     border: none;
@@ -54,6 +58,7 @@
     font-weight: 500;
     color: #FFFFFF;
 }
+
 .changePic p {
     margin-top: 4px;
     font-size: 14px;
@@ -69,6 +74,7 @@
     margin-top: 24px;
     gap: 20px;
 }
+
 .profileForm .formFlex {
     display: flex;
     width: 100%;
@@ -80,11 +86,13 @@
     display: flex;
     flex-direction: column;
 }
+
 .formGroup label {
     font-size: 14px;
     font-weight: 600;
     color: #333333;
 }
+
 .formGroup input,
 .formGroup textarea {
     border: 1.5px solid #B4BCDD;
@@ -102,6 +110,7 @@
     gap: 8px;
     margin-top: 32px;
 }
+
 .buttons .buttonOne {
     background: #2C2F7E;
     border: none;
@@ -111,6 +120,7 @@
     font-weight: 500;
     color: #FFFFFF;
 }
+
 .buttons .buttonTwo {
     background: transparent;
     border: none;
@@ -126,6 +136,7 @@
     font-weight: 600;
     color: #2C2F7E;
 }
+
 .whiteDiv h6 {
     margin-top: 6px;
     font-size: 14px;
@@ -155,4 +166,131 @@
     font-size: 14px;
     font-weight: 500;
     color: #FFFFFF;
+}
+
+
+
+@media screen and (max-width: 830px) {
+    .whole {
+        margin-left: 0;
+        padding: 16px;
+    }
+
+    .whiteDiv {
+        padding: 20px 14px;
+        margin-top: 40px;
+    }
+
+
+    .changePic {
+        gap: 12px;
+    }
+
+    .changePic img {
+        width: 75px;
+        height: 75px;
+    }
+
+    .changePic button {
+        padding: 6px 8px;
+        font-size: 14px;
+        width: 100%;
+    }
+
+    .changePic p {
+        font-size: 12px;
+        text-align: center;
+    }
+
+    .profileForm .formFlex {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .formGroup {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .formGroup label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333333;
+    }
+
+    .formGroup input,
+    .formGroup textarea {
+        border: 1.5px solid #B4BCDD;
+        border-radius: 10px;
+        padding: 10px 16px;
+        margin-top: 8px;
+        outline: none;
+    }
+
+
+    .buttons {
+        border-top: 1px solid #C4C4C4;
+        padding: 16px 0;
+        display: flex;
+        gap: 8px;
+        margin-top: 32px;
+    }
+
+    .buttons .buttonOne {
+        background: #2C2F7E;
+        border: none;
+        border-radius: 5px;
+        padding: 6px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #FFFFFF;
+    }
+
+    .buttons .buttonTwo {
+        background: transparent;
+        border: none;
+        padding: 6px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #343434;
+    }
+
+
+    .whiteDiv h5 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2C2F7E;
+    }
+
+    .whiteDiv h6 {
+        margin-top: 6px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #505296;
+    }
+
+    .caution {
+        border: 1px solid #FFDF88;
+        background: #FDF9EE;
+        margin: 20px 0;
+        font-size: 14px;
+        font-weight: 400;
+        color: #767676;
+        padding: 10px;
+        gap: 6px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+    }
+
+    .delete {
+        background: #DC2B2B;
+        border: none;
+        border-radius: 5px;
+        padding: 6px 10px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #FFFFFF;
+    }
 }

@@ -9,6 +9,7 @@ import { AdminLogin } from './Admin/Page/AdminOnboarding/AdminLogin';
 import { ConfirmationPage } from './Page/Onboarding/ConfirmationPage';
 import { AdminReset } from './Admin/Page/AdminOnboarding/AdminReset';
 import { ResetPage } from './Page/Onboarding/ResetPage';
+import { ChangePasswordPage } from './Page/Onboarding/ChangePasswordPage';
 import { AccountPage } from './Page/Onboarding/AccountPage';
 import { PasswordPage } from './Page/Onboarding/PasswordPage';
 import { NewAdmin } from './Admin/Page/AdminOnboarding/NewAdmin';
@@ -45,31 +46,32 @@ import { Classes } from './Admin/Page/ClassesPage/Classes';
 import { ClassDetails } from './Admin/Page/ClassesPage/ClassDetails';
 import { TaskPage } from './Admin/Page/TaskPage/TaskPage';
 import { GradesPage } from './Page/GradesPage/GradesPage';
-
-
-const ProtectedRoute = ({ children }) => {
-
-  const authToken = sessionStorage.getItem("type");
-  const lastLogged = sessionStorage.getItem("last_logged");
-  if ((!sessionStorage) || (!authToken) || (authToken != "student") || (!lastLogged) || (new Date() - new Date(lastLogged) >= 604800000)) {
-    window.location.href = "/login";
-  }
-  return children;
-};
-
-
-const AdminProtectedRoute = ({ children }) => {
-
-  const authToken = sessionStorage.getItem("type");
-  const lastLogged = sessionStorage.getItem("last_logged");
-  if ((!sessionStorage) || (!authToken) || (authToken != "teacher") || (!lastLogged) || (new Date() - new Date(lastLogged) >= 604800000)) {
-    window.location.href = "/admin-login";
-  }
-  return children;
-};
+import { useAppSelector } from './redux/store';
 
 
 function App() {
+
+  const { authToken } = useAppSelector((state) => state.app.auth);
+
+  const ProtectedRoute = ({ children }) => {
+
+    const type = sessionStorage.getItem("type");
+    const lastLogged = sessionStorage.getItem("last_logged");
+    if ((!sessionStorage) || (!authToken) || (type != "student") || (!lastLogged) || (new Date() - new Date(lastLogged) >= 604800000)) {
+      window.location.href = "/login";
+    }
+    return children;
+  };
+
+
+  const AdminProtectedRoute = ({ children }) => {
+    const type = sessionStorage.getItem("type");
+    const lastLogged = sessionStorage.getItem("last_logged");
+    if ((!sessionStorage) || (!authToken) || (type != "teacher") || (!lastLogged) || (new Date() - new Date(lastLogged) >= 604800000)) {
+      window.location.href = "/admin-login";
+    }
+    return children;
+  };
 
   const router = createBrowserRouter([
     { path: '/', element: <CWGPage /> },
@@ -81,6 +83,7 @@ function App() {
     { path: '/Account', element: <AccountPage /> },
     { path: '/Password', element: <PasswordPage /> },
     { path: '/Reset', element: <ResetPage /> },
+    { path: '/change-password/:id', element: <ChangePasswordPage /> },
     { path: '/admin-reset', element: <AdminReset /> },
 
     { path: '/blank', element: <BlankPage /> },

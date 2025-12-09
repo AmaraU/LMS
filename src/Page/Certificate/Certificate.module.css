@@ -17,6 +17,7 @@
     font-weight: 400;
     color: #2C2F7E;
 }
+
 .none {
     width: 100%;
     margin-top: 24px;
@@ -37,11 +38,13 @@
     display: flex;
     justify-content: space-between;
 }
+
 .title h1 {
     font-size: 26px;
     font-weight: 600;
     color: #272727;
 }
+
 .title button {
     display: inline-flex;
     align-items: center;
@@ -55,6 +58,7 @@
     border: none;
     outline: none;
 }
+
 .title button img {
     width: 20px;
     height: 20px;
@@ -69,12 +73,12 @@
     margin-top: 36px;
 }
 
-.courseInfo{
+.courseInfo {
     display: flex;
     flex-direction: column;
     width: 100%;
     border-radius: 10px;
-    gap:8 ;
+    gap: 8;
     border: 1px solid #BDD9FF;
     box-shadow: 0px 3px 5px 0px #00000017;
 }
@@ -83,6 +87,7 @@
     width: 100%;
     border-radius: 12px 12px 0 0;
 }
+
 .courseImage img {
     width: 100%;
     height: auto;
@@ -92,12 +97,12 @@
     padding: 16px;
 }
 
-.infoHeader{
+.infoHeader {
     display: flex;
-    justify-content: space-between;    
+    justify-content: space-between;
 }
 
-.infoHeader h3{
+.infoHeader h3 {
     font-weight: 600;
     font-size: 18px;
     line-height: 32px;
@@ -116,7 +121,7 @@
     margin-left: 8px;
 }
 
-.infoHeader button{
+.infoHeader button {
     margin-left: 10px;
     border: 1px solid #A1B2D1;
     display: flex;
@@ -125,27 +130,30 @@
     background: transparent;
     border-radius: 5px;
 }
+
 .infoHeader button img {
     height: 24px;
     width: 24px;
 }
-.courseData img{
+
+.courseData img {
     width: 22px;
     height: 22px;
 }
+
 .crumb img {
     width: 18px;
     height: 18px;
 }
 
-.course p{
+.course p {
     font-weight: 400;
     font-size: 14px;
     line-height: 32px;
 
 }
 
-.courseData .profile{
+.courseData .profile {
     font-weight: 500;
     font-size: 10px;
     line-height: 32px;
@@ -158,31 +166,34 @@
     display: flex;
     flex-direction: column;
 }
-.coursesLoader p{
+
+.coursesLoader p {
     font-weight: 500;
     font-size: 16px;
 }
 
-.courseData{
+.courseData {
     display: flex;
     flex-direction: column;
 
 }
 
-.bread{
+.bread {
     display: flex;
     justify-content: space-between;
 }
+
 .bread .profile img {
     border-radius: 50px;
     border: 1.5px solid #94B9FF66;
 }
 
-.crumb{
+.crumb {
     display: flex;
     gap: 12px;
 }
-.infoHeader span{
+
+.infoHeader span {
     font-size: 12px;
     line-height: 32px;
     font-weight: 500;
@@ -206,6 +217,7 @@
     padding: 12px;
     border-radius: 7px;
 }
+
 .buttons .buttonTwo {
     width: 100%;
     background: #2E5BFF1A;
@@ -220,6 +232,7 @@
     align-items: center;
     gap: 6px;
 }
+
 .buttonTwo img {
     width: 20px;
     height: 20px;
@@ -243,6 +256,7 @@
 .progress::-webkit-progress-bar {
     background: #ABC0E5;
 }
+
 .progress::-webkit-progress-value {
     background: #10A400;
     border-radius: 18px;
@@ -251,6 +265,7 @@
 .progress::-ms-progress-bar {
     background-color: #ABC0E5;
 }
+
 .progress::-ms-progress-value {
     background: #10A400;
     border-radius: 18px;
@@ -259,6 +274,7 @@
 .progress::-moz-progress-bar {
     background-color: #ABC0E5;
 }
+
 .progress::-moz-progress-value {
     background: #10A400;
     border-radius: 18px;
@@ -278,6 +294,7 @@
     align-items: center;
     justify-content: center;
 }
+
 .wholeCert .img1 {
     width: 100%;
     height: auto;
@@ -286,6 +303,7 @@
     right: 0;
     position: fixed;
 }
+
 .wholeCert .img2 {
     width: 100%;
     height: auto;
@@ -312,6 +330,7 @@
     text-align: center;
 
 }
+
 .certBody h4 {
     font-size: 24px;
     color: #000000;
@@ -320,6 +339,7 @@
     margin-top: 22px;
     margin-bottom: 22px;
 }
+
 .certBody h1 {
     /* margin-top: 24px; */
     width: 100%;
@@ -330,12 +350,14 @@
     margin-bottom: 12px;
     border-bottom: 1px solid #DCDBDB;
 }
+
 .certBody p {
     font-family: 'Montserrat';
     color: #000000;
     font-size: 20px;
     font-weight: 400;
 }
+
 .certBody h3 {
     font-family: 'Just Another Hand';
     letter-spacing: 2.5px;
@@ -353,13 +375,21 @@
 }
 
 @media screen and (max-width: 830px) {
- .whole{
-    margin-left: 280px;
-    margin-top: 80px;
-    width: 50%;
-    padding: 16px 24px;
-    background: #F8F9FD;
-    display: flex;
-    flex-direction: column;
- }
+    .whole {
+        margin-left: 0;
+    }
+
+    .title h1 {
+        font-size: 18px;
+    }
+
+    .title button {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    .title button img {
+        width: 16px;
+        height: 16px;
+    }
 }
