@@ -1558,7 +1558,7 @@ app.get('/exam-file/:fileId', async (req, res) => {
         const query = `
             SELECT file_name, file_type, file_data 
             FROM exam_files 
-            WHERE exam_id = $1
+            WHERE file_id = $1
         `;
         const result = await client.query(query, [fileId]);
 
@@ -1583,7 +1583,7 @@ app.get('/assignment-file/:fileId', async (req, res) => {
         const query = `
             SELECT file_name, file_type, file_data 
             FROM assignment_files 
-            WHERE assignment_id = $1
+            WHERE file_id = $1
         `;
         const result = await client.query(query, [fileId]);
 
@@ -2989,6 +2989,268 @@ app.get("/certificates/:student_id", async (req, res) => {
 });
 
 
+
+app.get("/library", async (req, res) => {
+    try {
+        const result = await client.query(`
+            SELECT 
+                library.*,
+                COALESCE(instructor.first_name || '' || ' ' || instructor.last_name, 'NA') AS instructor_name,
+                COUNT(library_files.file_id) AS file_count
+            FROM library
+            JOIN instructor
+                ON library.instructor_id = instructor.instructor_id
+            LEFT JOIN library_files
+                ON library_files.library_id = library.library_id
+            GROUP BY 
+                library.library_id,
+                instructor.first_name,
+                instructor.last_name`
+        );
+        res.send(result.rows);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Error fetching library" });
+    }
+});
+app.get("/library-by-id/:library_id", async (req, res) => {
+    const { library_id } = req.params;
+
+    try {
+        const result = await client.query(`
+            SELECT 
+                library.*,
+                COALESCE(
+                    instructor.first_name || ' ' || instructor.last_name,
+                    'NA'
+                ) AS instructor_name,
+                instructor.first_name,
+                instructor.last_name,
+                instructor.description AS instructor_description,
+                instructor.title,
+                (
+                    SELECT COUNT(DISTINCT ic.course_id)
+                    FROM instructorCourses ic
+                    WHERE ic.instructor_id = instructor.instructor_id
+                ) AS course_count,
+                (
+                    SELECT COUNT(DISTINCT e.student_id)
+                    FROM instructorCourses ic
+                    JOIN course c ON ic.course_id = c.course_id
+                    JOIN enrollment e ON c.course_id = e.course_id
+                    WHERE ic.instructor_id = instructor.instructor_id
+                ) AS student_count,
+                COALESCE(
+                    JSON_AGG(
+                        JSON_BUILD_OBJECT(
+                            'file_id', library_files.file_id,
+                            'file_name', library_files.file_name,
+                            'file_type', library_files.file_type,
+                            'file_size', library_files.file_size
+                        )
+                    ) FILTER (WHERE library_files.file_id IS NOT NULL),
+                    '[]'
+                ) AS library_files
+
+            FROM library
+            JOIN instructor
+                ON library.instructor_id = instructor.instructor_id
+            LEFT JOIN library_files
+                ON library.library_id = library_files.library_id
+
+            WHERE library.library_id = $1
+
+            GROUP BY 
+                library.library_id,
+                instructor.instructor_id;
+        `,
+            [library_id]);
+        res.send(result.rows);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Error fetching library by id" });
+    }
+});
+app.get("/library-for-instructor/:instructor_id", async (req, res) => {
+    const { instructor_id } = req.params;
+
+    try {
+        const result = await client.query(`
+            SELECT 
+                library.*,
+                COALESCE(instructor.first_name || '' || ' ' || instructor.last_name, 'NA') AS instructor_name,
+                COUNT(library_files.file_id) AS file_count
+            FROM library
+            JOIN instructor
+                ON library.instructor_id = instructor.instructor_id
+            LEFT JOIN library_files
+                ON library_files.library_id = library.library_id
+            WHERE library.instructor_id = $1
+            GROUP BY 
+                library.library_id,
+                instructor.first_name,
+                instructor.last_name
+        `, [instructor_id]);
+        res.send(result.rows);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Error fetching library for instructor" });
+    }
+});
+app.get("/library-by-id-for-instructor/:instructor_id/:library_id", async (req, res) => {
+    const { instructor_id, library_id } = req.params;
+
+    try {
+        const result = await client.query(`
+            SELECT 
+                library.*,
+                COALESCE(instructor.first_name || '' || ' ' || instructor.last_name, 'NA') AS instructor_name,
+                COALESCE(
+                    JSON_AGG(
+                        JSON_BUILD_OBJECT(
+                            'file_id', library_files.file_id,
+                            'file_name', library_files.file_name,
+                            'file_type', library_files.file_type,
+                            'file_size', library_files.file_size
+                        )
+                    ) FILTER (WHERE library_files.file_id IS NOT NULL), 
+                    '[]'
+                ) AS library_files
+            FROM library
+            JOIN instructor
+                ON library.instructor_id = instructor.instructor_id
+            LEFT JOIN 
+                library_files ON library.library_id = library_files.library_id
+            WHERE library.instructor_id = $1
+            AND library.library_id = $2
+            GROUP BY 
+                library.library_id,
+                instructor.first_name,
+                instructor.last_name
+        `,
+            [instructor_id, library_id]);
+        res.send(result.rows);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Error fetching library for instructor" });
+    }
+});
+app.post(`/new-library`, async (req, res) => {
+    try {
+        const query = `INSERT into library (instructor_id, name, description, level) VALUES ($1, $2, $3, $4) returning *;`
+        const values = [
+            req.body.instructor_id,
+            req.body.name,
+            req.body.description,
+            req.body.level,
+        ];
+        await client.query(query, values);
+
+        res.status(200).json({ message: 'Library created successfully' });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Error creating library' });
+    }
+});
+app.post(`/library-info`, upload.array('files'), async (req, res) => {
+
+    // console.log(req.body);
+    // console.log(req.files);
+
+    try {
+        const files = req.files;
+
+        const putQuery = `UPDATE library SET name = $1, description = $2, level = $3 WHERE library_id = $4 RETURNING *`
+        const putValues = [
+            req.body.name,
+            req.body.description,
+            req.body.level,
+            req.body.library_id
+        ];
+        await client.query(putQuery, putValues);
+
+        if (files && files.length > 0) {
+            for (const file of files) {
+
+                const postQuery = `INSERT INTO library_files (library_id, file_name, file_type, file_size, file_data) VALUES ($1, $2, $3, $4, $5) RETURNING *;`;
+                const postValues = [
+                    req.body.library_id,
+                    file.originalname,
+                    file.mimetype,
+                    file.size,
+                    file.buffer
+                ];
+                await client.query(postQuery, postValues);
+            }
+        }
+
+        res.status(200).json({ message: 'Library updated successfully' });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Error updating library or adding files' });
+    }
+});
+app.get('/library-doc/:docId', async (req, res) => {
+    const { docId } = req.params;
+
+    try {
+        const query = `
+            SELECT file_name, file_type, file_data 
+            FROM library_files 
+            WHERE file_id = $1
+        `;
+        const result = await client.query(query, [docId]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'File not found' });
+        }
+
+        const file = result.rows[0];
+
+        res.setHeader('Content-Disposition', `attachment; filename="${file.file_name}"`);
+        res.setHeader('Content-Type', file.file_type);
+        res.send(file.file_data);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error downloading file' });
+    }
+});
+app.put('/delete-library', async (req, res) => {
+
+    const values = [
+        req.body.library_id
+    ]
+    const query = 'DELETE FROM library WHERE library_id = $1';
+
+    try {
+        const result = await client.query(query, values);
+        res.json({ message: "Deleted library successfully", library: result.rows[0] });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Error in deleting library" });
+    }
+})
+app.post('/delete-library-file', async (req, res) => {
+
+    const values = [
+        req.body.library_id,
+        req.body.file_id
+    ]
+    const query = 'DELETE FROM library_files WHERE library_id = $1 AND file_id = $2';
+
+    try {
+        const result = await client.query(query, values);
+        res.json({ message: "Deleted file successfully", lesson: result.rows[0] });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Error in deleting file" });
+    }
+})
+
+
+
+
+
 app.get('/student-profile/:id', async (req, res) => {
     const id = req.params.id;
     const query = "SELECT * FROM student WHERE student_id = ($1)"
@@ -3080,6 +3342,68 @@ app.post('/academy-login', async (req, res) => {
     } catch (err) {
         console.log(err);
         return res.status(500).json({ message: "Academy login failed" });
+    }
+});
+app.post('/academy-user-profile', async (req, res) => {
+    const token = req.headers.authorization;
+    try {
+        const result = await axios.post(ACADEMY_URL + '/ApiService.ashx/userprofile',
+            {
+                Username: req.body.Username,
+            },
+            {
+                headers: {
+                    Authorization: token,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+        return res.json(result.data);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Academy user profile failed" });
+    }
+});
+app.post('/register-academy-student', async (req, res) => {
+    const hashedPassword = await hashPassword(req.body.password);
+    const query = 'SELECT * FROM student WHERE academy_id = $1';
+    try {
+        const result = await client.query(query, [req.body.academyId]);
+        const student = result.rows[0];
+
+        if (result.rows.length === 0) {
+            // return res.status(404).json({ message: "No student with that email" });
+            console.log("No student with that academy_id");
+
+            const query2 = 'SELECT * FROM student WHERE email = $1';
+            const result2 = await client.query(query2, [req.body.email]);
+
+            if (result2.rows.length === 0) {
+                const registerQuery = "INSERT INTO student (academy_id, first_name, last_name, email, password, last_logged, date_added) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *";
+                const values = [
+                    req.body.academyId,
+                    req.body.first_name,
+                    req.body.last_name,
+                    req.body.email,
+                    hashedPassword,
+                    new Date(),
+                    new Date(),
+                ]
+                student = await client.query(registerQuery, values);
+
+            } else {
+                const academyQuery = "UPDATE student SET last_logged = $1 AND academy_id= $2 WHERE student_id = $3";
+                await client.query(academyQuery, [new Date(), req.body.academyId, result2.rows[0].student_id]);
+            }
+        } else {
+            const loginQuery = "UPDATE student SET last_logged = $1 WHERE academy_id = $2";
+            await client.query(loginQuery, [new Date(), req.body.academyId]);
+        }
+
+        return res.json(student);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Registering academy student failed" });
     }
 });
 

@@ -17,11 +17,11 @@ export const AdminHeader = () => {
         currentPath === "/admin-dashboard/overview/"
     ) {
         PageTitle = "Home";
-        linkList= [];
+        linkList = [];
     }
     else if (currentPath === "/admin-dashboard/schedule") {
         PageTitle = "Schedule";
-        linkList= [];
+        linkList = [];
     }
     else if (
         currentPath === "/admin-dashboard/courses/" ||
@@ -43,27 +43,27 @@ export const AdminHeader = () => {
     }
     else if (currentPath.includes("/admin-dashboard/courses/detail")) {
         PageTitle = "Course";
-        linkList= [];
+        linkList = [];
     }
     else if (currentPath.includes("/admin-dashboard/cohort")) {
         PageTitle = "Cohort";
-        linkList= [];
+        linkList = [];
     }
     else if (currentPath === "/admin-dashboard/classes") {
         PageTitle = "Classes";
-        linkList= [];
+        linkList = [];
     }
     else if (currentPath.includes("/admin-dashboard/classes")) {
         PageTitle = "Class";
-        linkList= [];
+        linkList = [];
     }
     else if (currentPath === "/admin-dashboard/tasks") {
         PageTitle = "Tasks";
-        linkList= [];
+        linkList = [];
     }
     else if (currentPath === "/admin-dashboard/teacher") {
         PageTitle = "Teacher";
-        linkList= [];
+        linkList = [];
     }
     else if (
         currentPath === "/admin-dashboard/student" ||
@@ -76,24 +76,32 @@ export const AdminHeader = () => {
             // { title: "Pending", link: "/admin-dashboard/student/pending" },
         ];
     }
+    else if (currentPath === "/admin-dashboard/library") {
+        PageTitle = "Library";
+        linkList = [];
+    }
+    else if (currentPath.includes("/admin-dashboard/library")) {
+        PageTitle = "Library Folder";
+        linkList = [];
+    }
     else if (currentPath === "/admin-dashboard/roles") {
         PageTitle = "Roles";
-        linkList= [];
+        linkList = [];
     }
     else if (currentPath === "/admin-dashboard/activitylog") {
         PageTitle = "Activity Log";
-        linkList= [];
+        linkList = [];
     }
     else if (currentPath === "/admin-dashboard/profile") {
         PageTitle = "Profile";
-        linkList= [];
+        linkList = [];
     }
 
 
     const toProfilePage = () => {
         window.location.href = "/admin-dashboard/profile";
     }
-    
+
 
     return (
         <div className={styles.header}>
@@ -122,6 +130,6 @@ export const AdminHeader = () => {
                 </div>
             </div>
         </div>
-        
+
     )
 }

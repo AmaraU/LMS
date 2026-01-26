@@ -26,8 +26,8 @@ export const Header = () => {
     ) {
         PageTitle = "Courses";
         linkList = [
-            {title: "Active", link: "/dashboard/courses/active"},
-            {title: "Completed", link: "/dashboard/courses/completed"}
+            { title: "Active", link: "/dashboard/courses/active" },
+            { title: "Completed", link: "/dashboard/courses/completed" }
         ];
     }
     else if (currentPath.includes("/dashboard/courses/detail")) {
@@ -44,6 +44,12 @@ export const Header = () => {
         currentPath.includes("/dashboard/certificate")
     ) {
         PageTitle = "Certificates";
+    }
+    else if (
+        currentPath === "/dashboard/library" ||
+        currentPath.includes("/dashboard/library")
+    ) {
+        PageTitle = "Library";
     }
     else if (currentPath === "/dashboard/settings") {
         PageTitle = "Settings";
@@ -83,12 +89,12 @@ export const Header = () => {
                     <input type="text" placeholder="Search" />
                 </div>
                 <div className={styles.buttons}>
-                    <button><img src={getImageUrl('bell.png')} /></button>
+                    {/* <button><img src={getImageUrl('bell.png')} /></button> */}
                     {/* <button onClick={toSettingsPage}><img src={getImageUrl('settings.png')} /></button> */}
                     <button className={styles.profile} onClick={toProfilePage}><img src={getImageUrl('profile.svg')} /></button>
                 </div>
             </div>
         </div>
-        
+
     )
 }

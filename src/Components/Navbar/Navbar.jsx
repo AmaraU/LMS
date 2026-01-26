@@ -1,23 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Navbar.module.css";
 import { getImageUrl } from "../../utilis";
+import { logOut } from "../../redux/slices/authSlice";
 
 export const Navbar = () => {
 
     const [navOpen, setNavOpen] = useState(false);
+    const navRef = useRef(null);
     let currentPath = window.location.pathname;
 
     const handleLogOut = () => {
         window.location.href = "/login";
+        logOut();
         sessionStorage.clear();
     }
+
+    const handleClickOutside = (event) => {
+        if (navRef.current && !navRef.current.contains(event.target)) {
+            setNavOpen(false);
+        }
+    };
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    }, []);
 
     return (
         <>
             <div className={styles.logo2} onClick={() => setNavOpen(!navOpen)}>
                 <img src={getImageUrl('cwg_logo.png')} alt="CWG Academy" />
             </div>
-            <div className={navOpen ? styles.theWholeOpen : styles.theWhole}>
+            <div className={navOpen ? styles.theWholeOpen : styles.theWhole} ref={navRef}>
                 <div className={styles.logo} onClick={() => setNavOpen(!navOpen)}>
                     <img src={getImageUrl('Frame 349.png')} alt="CWG Academy" />
                 </div>
@@ -42,6 +57,10 @@ export const Navbar = () => {
                     <a href="/dashboard/certificate" className={currentPath.includes("/dashboard/certificate") ? styles.active : ""}>
                         <img src={getImageUrl("certificateIcon.png")} />
                         Certificates
+                    </a>
+                    <a href="/dashboard/library" className={currentPath.includes("/dashboard/library") ? styles.active : ""}>
+                        <img src={getImageUrl("coursesIcon.png")} />
+                        Library
                     </a>
                 </div>
 

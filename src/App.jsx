@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Navigate, Routes, Route, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import styles from './App.module.css'
 import { Toaster } from "react-hot-toast";
+import { useAppSelector } from './redux/store';
 
 import { CWGPage } from './Page/CWGpage/CWGpage';
 import { LoginPage } from './Page/Onboarding/LoginPage';
@@ -27,6 +28,7 @@ import { CourseDetails } from './Page/CourseDetails/CourseDetails';
 import { CalendarPage } from './Page/CalendarPage/Calendar';
 import { Certificate } from './Page/Certificate/Certificate';
 import { TheCertificate } from './Page/Certificate/TheCertificate';
+import { Library } from './Page/Library/Library';
 
 import { AdminOverview } from './Admin/Page/AdminOverviewpage/AdminOverview';
 import { AllCourses } from './Admin/Page/Courses/AllCourses';
@@ -46,7 +48,9 @@ import { Classes } from './Admin/Page/ClassesPage/Classes';
 import { ClassDetails } from './Admin/Page/ClassesPage/ClassDetails';
 import { TaskPage } from './Admin/Page/TaskPage/TaskPage';
 import { GradesPage } from './Page/GradesPage/GradesPage';
-import { useAppSelector } from './redux/store';
+import { LibraryPage } from './Admin/Page/LibraryPage/LibraryPage';
+import { LibraryDetails } from './Admin/Page/LibraryPage/LibraryDetails';
+import { LibraryDetailss } from './Page/Library/LibraryDetailss';
 
 
 function App() {
@@ -107,6 +111,8 @@ function App() {
         { path: 'calendar', element: <CalendarPage /> },
         { path: 'certificate', element: <Certificate /> },
         { path: 'certificate/:certId', element: <TheCertificate /> },
+        { path: 'library', element: <Library /> },
+        { path: 'library/:docId', element: <LibraryDetailss /> },
         { path: 'profile', element: <ProfilePage /> },
         { path: 'profile/:id', element: <ProfilePage /> },
         { path: 'settings', element: <BlankPage /> },
@@ -139,6 +145,8 @@ function App() {
         { path: 'teacher', element: <TeachersPage /> },
         { path: 'student', element: <StudentPage /> },
         { path: 'student/pending', element: <PendingStudentPage /> },
+        { path: 'library', element: <LibraryPage /> },
+        { path: 'library/:id', element: <LibraryDetails /> },
         { path: 'activitylog', element: <ActivityLogPage /> },
         { path: 'profile', element: <ProfilePage /> },
         { path: 'profile/:id', element: <ProfilePage /> },
@@ -149,8 +157,10 @@ function App() {
 
   return (
     <div className={styles.App}>
+      {/* <ChakraProvider> */}
       <Toaster position="top-right" reverseOrder={false} />
       <RouterProvider router={router} />
+      {/* </ChakraProvider> */}
     </div>
   )
 }

@@ -10,7 +10,7 @@ export const ResetPage = () => {
 
   const [email, setEmail] = useState("");
 
-  const [reset, { error, isLoading }] = useResetPasswordMutation();
+  const [reset, { isLoading }] = useResetPasswordMutation();
   const handleReset = async (event) => {
     event.preventDefault();
     await reset({

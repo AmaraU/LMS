@@ -5,10 +5,14 @@ import { BASE_URL, TEST_URL } from "../../../config";
 import axios from 'axios';
 import { customToast } from "../../Components/Notifications";
 import { useAppSelector } from "../../redux/store";
+import { setStudent } from "../../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 
 
 export const ProfilePage = () => {
+
+    const dispatch = useDispatch();
 
     const { student } = useAppSelector((state) => state.app.auth);
 
@@ -33,6 +37,7 @@ export const ProfilePage = () => {
                     last_name: response.data[0].last_name,
                     email: response.data[0].email,
                 });
+
             }
 
             if (sessionStorage.getItem("type") === 'teacher') {
@@ -75,7 +80,13 @@ export const ProfilePage = () => {
                 });
 
                 if (response.ok) {
-                    customToast('Your information was updated successfully')
+                    customToast('Your information was updated successfully');
+                    console.log(newInfo)
+                    dispatch(setStudent({
+                        ...student,
+                        ...newInfo
+                    }));
+
                 } else {
                     console.error("Failed to update info");
                 }

@@ -9,7 +9,7 @@ import { customToast, customToastError } from "../../Components/Notifications";
 import { useDispatch } from "react-redux";
 import { setCredentials, setStudent } from "../../redux/slices/authSlice";
 import { useAppSelector } from "../../redux/store";
-import { useAcademyLoginMutation, useLoginMutation } from "../../redux/services/auth.service";
+import { useAcademyLoginMutation, useGetUserProfileMutation, useLoginMutation, useRegisterFromAcademyMutation } from "../../redux/services/auth.service";
 
 
 export const LoginPage = () => {
@@ -28,21 +28,35 @@ export const LoginPage = () => {
   }, []);
 
 
-  // useEffect(() => {
-  //   if (userInfo && authToken) {
-  //     window.location.href = "/dashboard";
-  //   }
-  // }, [userInfo, authToken]);
+  // const [login, { errorr, isLoadinggg }] = useLoginMutation();
+  const [adminlogin, { error, isLoading }] = useAcademyLoginMutation();
+  const [register, { isLoading: isLoading2 }] = useRegisterFromAcademyMutation();
+  const [getUserProfile, { isLoading: isLoading3 }] = useGetUserProfileMutation();
 
-  console.log(student);
-
-
-  const [login, { error, isLoading }] = useLoginMutation();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // setIsLoading(true);
-    // try {
-    await login({
+
+    // await login({
+    //   email,
+    //   password,
+    // })
+    //   .unwrap()
+    //   .then(response => {
+    //     console.log(response)
+    //     sessionStorage.setItem("type", "student");
+    //     sessionStorage.setItem("last_logged", new Date());
+    //     dispatch(setStudent(response));
+    //     dispatch(setCredentials(response));
+
+    //     window.location.href = "/dashboard";
+    //   })
+
+    //   .catch(err => {
+    //     console.log('error registering: ', err);
+    //     customToastError("Error registering student. Please try again.")
+    //   })
+
+    await adminlogin({
       email,
       password
     })
@@ -50,12 +64,50 @@ export const LoginPage = () => {
       .then(response => {
         console.log(response);
         if (response?.Success) {
-          sessionStorage.setItem("type", "student");
-          sessionStorage.setItem("last_logged", new Date());
           dispatch(setCredentials(response));
-          dispatch(setStudent(response));
+          getUserProfile({
+            body: {
+              Username: email,
+            },
+            token: response.Token,
+            // token: "FALSE TOKEN",
+          })
+            .unwrap()
+            .then(res1 => {
+              console.log(res1);
 
-          window.location.href = "/dashboard";
+              if (res1?.Success) {
+                register({
+                  email: res1?.User?.Email,
+                  academyId: res1?.User?.UserId,
+                  first_name: res1?.User?.StudentFullName?.split(" ")[1],
+                  last_name: res1?.User?.StudentFullName?.split(" ")[0],
+                  password
+                })
+                  .unwrap()
+                  .then(res => {
+                    console.log(res);
+                    sessionStorage.setItem("type", "student");
+                    sessionStorage.setItem("last_logged", new Date());
+                    dispatch(setStudent(res));
+
+                    window.location.href = "/dashboard";
+                  })
+                  .catch(err => {
+                    console.log('error registering: ', err);
+                    customToastError("Error registering student. Please try again.")
+                  })
+              }
+              else {
+                customToastError(res1?.Message);
+              }
+            })
+
+            .catch(error => {
+              console.log('error getting profile: ', error);
+              customToastError("Error getting user profile. Please try again.")
+            })
+
         } else {
           if (response?.Message === "Invalid Client Credentials") {
             setErrorMesage(true);
@@ -116,7 +168,7 @@ export const LoginPage = () => {
           <p>Forgot password? <a href="/Reset">Reset Password</a></p>
 
           <div className={styles.home}>
-            <button className={styles.butt} disabled={isLoading}>{isLoading ? 'Logging in...' : 'Log In'}</button>
+            <button className={styles.butt} disabled={isLoading || isLoading2}>{isLoading || isLoading2 ? 'Logging in...' : 'Log In'}</button>
             <p>Don't Have An Account? <a href={ACADEMY_URL}>Create An Account</a></p>
           </div>
 

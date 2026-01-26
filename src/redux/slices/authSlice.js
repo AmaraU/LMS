@@ -1,15 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// type AuthState = {
-//   userInfo: any;
-//   signUpData: any;
-// };
-
 const initialState = {
     userInfo: null,
     student: null,
     authToken: null,
-    //   signUpData: null,
 };
 
 const authSlice = createSlice({

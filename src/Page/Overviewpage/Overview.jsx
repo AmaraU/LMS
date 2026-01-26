@@ -12,6 +12,7 @@ import { useAppSelector } from "../../redux/store.js";
 export const Overview = () => {
 
     const { student } = useAppSelector((state) => state.app.auth);
+    // console.log(student)
 
     const [allLess, setAllLess] = useState([]);
     const [completedLess, setCompletedLess] = useState([]);
