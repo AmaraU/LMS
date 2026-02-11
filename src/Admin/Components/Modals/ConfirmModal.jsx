@@ -12,14 +12,13 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
     const [isLoading, setIsLoading] = useState(false);
 
     const successToast = () => {
-        customToast(`${item} ${<b>
-            {item.toLowerCase() === "course" ? (selected.course_name ? selected.course_name : selected.name)
-                : item.toLowerCase() === 'teacher' ? selected.first_name + (selected.last_name != null ? ' ' + selected.last_name : '')
-                    : item.toLowerCase() === 'class' ? (selected.lesson_title ? selected.lesson_title : selected.title)
-                        : item.toLowerCase() === 'exam' ? (selected.exam_name ? selected.exam_name : selected.name)
-                            : item.toLowerCase() === 'assignment' ? (selected.assignment_name ? selected.assignment_name : selected.name)
-                                : ''}
-        </b>} ${confirmType === 'suspend' ? 'suspended'
+        customToast(`${item} "${item.toLowerCase() === "course" ? (selected.course_name ? selected.course_name : selected.name)
+            : item.toLowerCase() === 'teacher' ? selected.first_name + (selected.last_name != null ? ' ' + selected.last_name : '')
+                : item.toLowerCase() === 'class' ? (selected.lesson_title ? selected.lesson_title : selected.title)
+                    : item.toLowerCase() === 'exam' ? (selected.exam_name ? selected.exam_name : selected.name)
+                        : item.toLowerCase() === 'assignment' ? (selected.assignment_name ? selected.assignment_name : selected.name)
+                            : ''}"
+         ${confirmType === 'suspend' ? 'suspended'
                 : confirmType === 'remove' ? 'removed'
                     : confirmType === 'delete' ? 'deleted'
                         : confirmType === 'resume' ? 'resumed'
@@ -28,10 +27,10 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
     }
     const errorToast = () => {
         customToastError(`Error ${confirmType === 'suspend' ? 'suspending'
-                : confirmType === 'remove' ? 'removing'
-                    : confirmType === 'delete' ? 'deleting'
-                        : confirmType === 'resume' ? 'resuming'
-                            : ''
+            : confirmType === 'remove' ? 'removing'
+                : confirmType === 'delete' ? 'deleting'
+                    : confirmType === 'resume' ? 'resuming'
+                        : ''
             } ${item}. Try again later.`)
     }
 
@@ -66,6 +65,7 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
             setOpen(false);
             setIsLoading(false);
             successToast();
+            reload();
         } catch (err) {
             console.log(err);
             setIsLoading(false);
@@ -102,6 +102,7 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
             setOpen(false);
             setIsLoading(false);
             successToast();
+            reload();
         } catch (err) {
             console.log(err);
             setIsLoading(false);
@@ -126,6 +127,7 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
             setOpen(false);
             setIsLoading(false);
             successToast();
+            reload();
         } catch (err) {
             console.log(err);
             setIsLoading(false);
@@ -200,6 +202,7 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
             setOpen(false);
             setIsLoading(false);
             successToast();
+            reload();
         } catch (err) {
             console.log(err);
             setIsLoading(false);

@@ -15,22 +15,23 @@ export const ClassDetails = () => {
 
     const { id } = useParams();
 
-    const [ theClass, setClass ] = useState([]);
-    const [ isLoading, setIsLoading ] = useState(false);
-    const [ charCount, setCharCount ] = useState(theClass?.description != null ? (255 - theClass.description.length) : 255);
-    const [ showFileName, setShowFileName ] = useState(false);
-    const [ selectedFiles, setSelectedFiles ] = useState([]);
-    const [ fileNames, setFileNames ] = useState([]);
-    const [ actionsOpen, setActionsOpen ] = useState({});
-    const [ actionsOpen2, setActionsOpen2 ] = useState({});
-    const [ isOpenAssignment, setIsOpenAssignment ] = useState(false);
-    const [ isEditAssignment, setIsEditAssignment ] = useState(false);
-    const [ item, setItem ] = useState('');
-    const [ selected, setSelected ] = useState({});
-    const [ confirmType, setConfirmType ] = useState('');
-    const [ isOpenConfirm, setIsOpenConfirm ] = useState(false);
-    const [ fileName, setFileName ] = useState('');
-    const [ titleErrorMsg, setTitleErrorMsg ] = useState(false);
+    const [theClass, setClass] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading2, setIsLoading2] = useState(false);
+    const [charCount, setCharCount] = useState(theClass?.description != null ? (255 - theClass.description.length) : 255);
+    const [showFileName, setShowFileName] = useState(false);
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const [fileNames, setFileNames] = useState([]);
+    const [actionsOpen, setActionsOpen] = useState({});
+    const [actionsOpen2, setActionsOpen2] = useState({});
+    const [isOpenAssignment, setIsOpenAssignment] = useState(false);
+    const [isEditAssignment, setIsEditAssignment] = useState(false);
+    const [item, setItem] = useState('');
+    const [selected, setSelected] = useState({});
+    const [confirmType, setConfirmType] = useState('');
+    const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+    const [fileName, setFileName] = useState('');
+    const [titleErrorMsg, setTitleErrorMsg] = useState(false);
 
     const navigate = useNavigate();
     const actionsRef = useRef(null);
@@ -58,7 +59,7 @@ export const ClassDetails = () => {
                     setClass(result.data.filter(e => e.lesson_id === parseInt(id))[0]);
                 }
             }
-            
+
             setIsLoading(false);
         } catch (err) {
             console.log(err);
@@ -75,7 +76,7 @@ export const ClassDetails = () => {
         }));
 
         if ((e.target.name === 'start_date')
-        || (e.target.name === 'end_date')) {
+            || (e.target.name === 'end_date')) {
             setClass(prev => ({ ...prev, [e.target.name]: e.target.value.replace('T', ' ') + '+00' }))
         }
 
@@ -95,7 +96,8 @@ export const ClassDetails = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        setIsLoading2(true);
+
         const formData = new FormData();
         formData.append('lesson_id', theClass.lesson_id);
         formData.append('title', theClass.title);
@@ -121,9 +123,11 @@ export const ClassDetails = () => {
                 console.error("Failed to update class");
                 customToast('Error updating class. Please try again');
             }
+            setIsLoading2(false);
         } catch (error) {
             console.log('Error updating class:', error);
             customToast('Error updating class. Please try again');
+            setIsLoading2(false);
         }
     };
 
@@ -149,7 +153,7 @@ export const ClassDetails = () => {
     }
 
 
-    const [ newAssignment, setNewAssignment ] = useState({
+    const [newAssignment, setNewAssignment] = useState({
         name: null,
         lesson_id: null,
         due_date: null,
@@ -173,13 +177,14 @@ export const ClassDetails = () => {
     const handleNewAssignment = async (e) => {
         e.preventDefault();
         e.stopPropagation();
-    
+
         setTitleErrorMsg(false);
         if (!newAssignment.name.trim()) {
             setTitleErrorMsg(true);
             return;
         }
 
+        setIsLoading2(true);
         const formData = new FormData();
         formData.append('lesson_id', newAssignment.lesson_id);
         formData.append('name', newAssignment.name);
@@ -203,6 +208,7 @@ export const ClassDetails = () => {
             console.error('Error adding assignment:', error);
             customToast('Error adding assignment');
         }
+        setIsLoading2(false);
         setIsOpenAssignment(false);
         setShowFileName(false);
         setFileName('');
@@ -219,7 +225,7 @@ export const ClassDetails = () => {
         setSelected(prev => ({ ...prev, [event.target.name]: event.target.value }))
 
         if ((event.target.name === 'start_date')
-        || (event.target.name === 'end_date')) {
+            || (event.target.name === 'end_date')) {
             setSelected(prev => ({ ...prev, [event.target.name]: event.target.value.replace('T', ' ') + '+01' }))
         }
 
@@ -232,18 +238,21 @@ export const ClassDetails = () => {
     const handleEditAssignment = async (e) => {
         e.preventDefault();
         e.stopPropagation();
-    
+
         if (!selected.assignment_name.trim()) {
             setTitleErrorMsg(true);
             return;
         }
 
+        setIsLoading2(true);
         const formData = new FormData();
         formData.append('assignment_name', selected.assignment_name);
         formData.append('due_date', selected.due_date);
         formData.append('total_score', selected.total_score);
         formData.append('assignment_id', selected.assignment_id);
-        selected.assignment_file !== null && formData.append('file', selected.assignment_file[0]);
+        if (selected.assignment_file) {
+            formData.append('file', selected.assignment_file[0]);
+        }
 
         try {
             const response = await fetch(BASE_URL + '/update-assignment', {
@@ -261,6 +270,7 @@ export const ClassDetails = () => {
             console.error('Error while updating assignment:', error);
             customToast('Error while updating assignment');
         }
+        setIsLoading2(false);
         setIsEditAssignment(false);
         setShowFileName(false);
         setFileName('');
@@ -310,162 +320,162 @@ export const ClassDetails = () => {
     }
 
 
-    return(
+    return (
         <div className={styles.whole}>
-            
+
             {(isLoading) ? <p className={styles.loading}>Loading...</p> :
 
                 <>
-                <div className={styles.breadcrumb}><a href="/admin-dashboard/classes">Classes</a> {'>'} {theClass.title}</div>
+                    <div className={styles.breadcrumb}><a href="/admin-dashboard/classes">Classes</a> {'>'} {theClass.title}</div>
 
-                <form onSubmit={handleSubmit} encType="multipart/form-data">
+                    <form onSubmit={handleSubmit} encType="multipart/form-data">
 
 
-                    <div className={styles.classTitle}>
-                        <h3>{theClass.title}</h3>
-                        <div className={styles.buttons}>
-                            <button className={styles.button1} onClick={handleCancel} type="button">Cancel</button>
-                            <button className={styles.button2} type="submit">Save</button>
+                        <div className={styles.classTitle}>
+                            <h3>{theClass.title}</h3>
+                            <div className={styles.buttons}>
+                                <button className={styles.button1} onClick={handleCancel} type="button">Cancel</button>
+                                <button className={styles.button2} type="submit">Save</button>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div className={styles.grid}>
-                        <div className={styles.larger}>
 
-                            <div className={styles.box}>
-                                <div className={styles.header}>
-                                    <h5>Basic Info</h5>
-                                    <p>Provide information about the class</p>
+                        <div className={styles.grid}>
+                            <div className={styles.larger}>
+
+                                <div className={styles.box}>
+                                    <div className={styles.header}>
+                                        <h5>Basic Info</h5>
+                                        <p>Provide information about the class</p>
+                                    </div>
+                                    <div className={styles.detailForm}>
+                                        <label htmlFor="title">Name</label>
+                                        <input type="text" name="title" id="title" value={theClass.title} onChange={handleInputChange} />
+
+                                        <label htmlFor="description">Description</label>
+                                        <textarea style={{ width: '100%', height: '160px' }} type="text" name="description" id="description" value={theClass.description} onChange={handleInputChange} />
+                                        <p>{charCount} characters left</p>
+                                    </div>
                                 </div>
-                                <div className={styles.detailForm}>
-                                    <label htmlFor="title">Name</label>
-                                    <input type="text" name="title" id="title" value={theClass.title} onChange={handleInputChange}/>
 
-                                    <label htmlFor="description">Description</label>
-                                    <textarea style={{width: '100%', height: '160px'}} type="text" name="description" id="description" value={theClass.description} onChange={handleInputChange}/>
-                                    <p>{charCount} characters left</p>
+                                <div className={styles.box}>
+                                    <div className={styles.header}>
+                                        <h5>Upload files</h5>
+                                        <p>Select and upload the files of your choice</p>
+                                    </div>
+                                    <div className={styles.uploadBox}>
+                                        <div htmlFor="files" className={styles.uploadDiv}>
+                                            <img src={getImageUrl('uploadDocs.png')} />
+                                            <h5>Choose a file or drag & drop it here</h5>
+                                            <p>JPEG, PNG, and PDF formats, up to 50MB</p>
+
+                                            {showFileName && <div className={styles.theFiles}>Selected file(s):
+                                                {fileNames.map((fil, i) => (
+                                                    <p key={i}>{fil}</p>
+                                                ))}
+                                            </div>}
+
+                                            <label className={styles.uploadButton}>
+                                                Browse Files
+                                                <input type="file" name="files" id="files" multiple accept="image/png, image/jpeg, application/pdf" onChange={handleInputChange} />
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className={styles.box}>
+                                    <div className={styles.flexHeader}>
+                                        <h5>Content</h5>
+                                        <button type="button" onClick={() => setIsOpenAssignment(true)}>+ Add new assignment</button>
+                                    </div>
+                                    {theClass.lesson_files && theClass.lesson_files.map((file, i) => (
+                                        <div className={styles.section} key={i}>
+                                            <div className={styles.text}>
+                                                {file.file_name}
+                                            </div>
+                                            <div>
+                                                <button type="button" className={styles.actionsButton} onClick={(e) => toggleAction(e, i)}><img src={getImageUrl('threeDots.png')} /></button>
+                                                {actionsOpen[i] && <div className={styles.theActions} ref={actionsRef}>
+                                                    <h5>ACTION</h5>
+                                                    <button type="button" onClick={() => deleteFile(file.file_id)}><img src={getImageUrl('delete.png')} />DELETE</button>
+                                                </div>}
+                                            </div>
+                                        </div>
+                                    ))}
+                                    {theClass.assignments && theClass.assignments.map((assignment, i) => (
+                                        <div className={styles.section} key={i}>
+                                            <div className={styles.text}>
+                                                {assignment.assignment_name}
+                                            </div>
+                                            <div>
+                                                <button type="button" className={styles.actionsButton} onClick={(e) => toggleAction2(e, i)}><img src={getImageUrl('threeDots.png')} /></button>
+                                                {actionsOpen2[i] && <div className={styles.theActions} ref={actionsRef}>
+                                                    <h5>ACTION</h5>
+                                                    <button type="button" onClick={(event) => editAssignment(event, assignment)}><img src={getImageUrl('edit.png')} />EDIT</button>
+                                                    <button type="button" onClick={(event) => handleDelete(event, assignment, 'Assignment')}><img src={getImageUrl('delete.png')} />DELETE</button>
+                                                </div>}
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
 
-                            <div className={styles.box}>
-                                <div className={styles.header}>
-                                    <h5>Upload files</h5>
-                                    <p>Select and upload the files of your choice</p>
-                                </div>
-                                <div className={styles.uploadBox}>
-                                    <div htmlFor="files" className={styles.uploadDiv}>
-                                        <img src={getImageUrl('uploadDocs.png')} />
-                                        <h5>Choose a file or drag & drop it here</h5>
-                                        <p>JPEG, PNG, and PDF formats, up to 50MB</p>
+                            <div className={styles.smaller}>
 
-                                        {showFileName && <div className={styles.theFiles}>Selected file(s): 
-                                            {fileNames.map((fil, i) => (
-                                                <p key={i}>{fil}</p>
-                                            ))}
-                                        </div>}
-
-                                        <label className={styles.uploadButton}>
-                                            Browse Files
-                                            <input type="file" name="files" id="files" multiple accept="image/png, image/jpeg, application/pdf" onChange={handleInputChange} />
+                                <div className={styles.box}>
+                                    <h5>Class Status</h5>
+                                    <div className={styles.detailForm}>
+                                        <label htmlFor="">Product Status</label>
+                                        <select name="" id="">
+                                            <option value="">Published</option>
+                                        </select>
+                                        <label htmlFor="" className={styles.checkbox}>
+                                            <input type="checkbox" name="" id="" />
+                                            Hide this class
                                         </label>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className={styles.box}>
-                                <div className={styles.flexHeader}>
-                                    <h5>Content</h5>
-                                    <button type="button" onClick={()=>setIsOpenAssignment(true)}>+ Add new assignment</button>
-                                </div>
-                                {theClass.lesson_files && theClass.lesson_files.map((file, i) => (
-                                    <div className={styles.section} key={i}>
-                                        <div className={styles.text}>
-                                            {file.file_name}
-                                        </div>
-                                        <div>
-                                            <button  type="button" className={styles.actionsButton} onClick={(e) => toggleAction(e, i)}><img src={getImageUrl('threeDots.png')} /></button>
-                                            {actionsOpen[i] && <div className={styles.theActions} ref={actionsRef}>
-                                                <h5>ACTION</h5>
-                                                <button type="button" onClick={()=>deleteFile(file.file_id)}><img src={getImageUrl('delete.png')} />DELETE</button>
-                                            </div>}
-                                        </div>
+
+                                <div className={styles.box}>
+                                    <h5>Class Level</h5>
+                                    <div className={styles.detailForm}>
+                                        <label htmlFor="level">Level</label>
+                                        <select name="level" id="level" value={theClass.level} onChange={handleInputChange}>
+                                            <option value="Beginner">Beginner</option>
+                                            <option value="Intermediate">Intermediate</option>
+                                            <option value="Advanced">Advanced</option>
+                                            <option value="Expert">Expert</option>
+                                        </select>
+                                        <label htmlFor="" className={styles.checkbox}>
+                                            <input type="checkbox" value="Special" name="" id="" />
+                                            Special Class
+                                        </label>
                                     </div>
-                                ))}
-                                {theClass.assignments && theClass.assignments.map((assignment, i) => (
-                                    <div className={styles.section} key={i}>
-                                        <div className={styles.text}>
-                                            {assignment.assignment_name}
-                                        </div>
-                                        <div>
-                                            <button  type="button" className={styles.actionsButton} onClick={(e) => toggleAction2(e, i)}><img src={getImageUrl('threeDots.png')} /></button>
-                                            {actionsOpen2[i] && <div className={styles.theActions} ref={actionsRef}>
-                                                <h5>ACTION</h5>
-                                                <button type="button" onClick={(event)=>editAssignment(event, assignment)}><img src={getImageUrl('edit.png')} />EDIT</button>
-                                                <button type="button" onClick={(event)=>handleDelete(event, assignment, 'Assignment')}><img src={getImageUrl('delete.png')} />DELETE</button>
-                                            </div>}
-                                        </div>
+                                </div>
+
+
+                                <div className={styles.box}>
+                                    <h5>Class Time</h5>
+                                    <div className={styles.detailForm}>
+                                        <label htmlFor="">Start Date and Time</label>
+                                        <input type="datetime-local" name="start_date" value={theClass?.start_date ? new Date(theClass?.start_date).toISOString().slice(0, 16) : null} onChange={handleInputChange} />
+                                        <label htmlFor="">End Date and Time</label>
+                                        <input type="datetime-local" name="end_date" value={theClass?.end_date ? new Date(theClass?.end_date).toISOString().slice(0, 16) : null} onChange={handleInputChange} />
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className={styles.smaller}>
-
-                            <div className={styles.box}>
-                                <h5>Class Status</h5>
-                                <div className={styles.detailForm}>
-                                    <label htmlFor="">Product Status</label>
-                                    <select name="" id="">
-                                        <option value="">Published</option>
-                                    </select>
-                                    <label htmlFor="" className={styles.checkbox}>
-                                        <input type="checkbox" name="" id="" />
-                                        Hide this class
-                                    </label>
                                 </div>
-                            </div>
 
 
-                            <div className={styles.box}>
-                                <h5>Class Level</h5>
-                                <div className={styles.detailForm}>
-                                    <label htmlFor="level">Level</label>
-                                    <select name="level" id="level" value={theClass.level} onChange={handleInputChange}>
-                                        <option value="Beginner">Beginner</option>
-                                        <option value="Intermediate">Intermediate</option>
-                                        <option value="Advanced">Advanced</option>
-                                        <option value="Expert">Expert</option>
-                                    </select>
-                                    <label htmlFor="" className={styles.checkbox}>
-                                        <input type="checkbox" value="Special" name="" id="" />
-                                        Special Class
-                                    </label>
+                                <div className={styles.box}>
+                                    <div className="calBox">
+                                        <Calendar />
+                                    </div>
                                 </div>
-                            </div>
 
-
-                            <div className={styles.box}>
-                                <h5>Class Time</h5>
-                                <div className={styles.detailForm}>
-                                    <label htmlFor="">Start Date and Time</label>
-                                    <input type="datetime-local" name="start_date" value={theClass?.start_date ? new Date(theClass?.start_date).toISOString().slice(0, 16) : null} onChange={handleInputChange} />
-                                    <label htmlFor="">End Date and Time</label>
-                                    <input type="datetime-local" name="end_date" value={theClass?.end_date ? new Date(theClass?.end_date).toISOString().slice(0, 16) : null} onChange={handleInputChange} />
-                                </div>
-                            </div>
-
-
-                            <div className={styles.box}>
-                                <div className="calBox">
-                                    <Calendar />
-                                </div>
                             </div>
 
                         </div>
 
-                    </div>
-
-                </form>
+                    </form>
                 </>
             }
 
@@ -473,11 +483,11 @@ export const ClassDetails = () => {
                 <div className={styles.addContent}>
                     <div className={styles.head}>
                         <h3>Add Assignment</h3>
-                        <button onClick={()=>setIsOpenAssignment(false)} className={styles.close}><img src={getImageUrl('close.png')} /></button>
+                        <button onClick={() => setIsOpenAssignment(false)} className={styles.close}><img src={getImageUrl('close.png')} /></button>
                     </div>
                     <form className={styles.contentBody}>
-            
-                        {titleErrorMsg && <p style={{color: 'red', fontSize: '12px'}}>Title can't be empty</p>}
+
+                        {titleErrorMsg && <p style={{ color: 'red', fontSize: '12px' }}>Title can't be empty</p>}
                         <label htmlFor="title">Title</label>
                         <input type="text" name="name" id="title" placeholder="Enter title" onChange={newAssignmentInput} />
 
@@ -494,7 +504,7 @@ export const ClassDetails = () => {
 
                         {fileName !== '' && fileName}
 
-                        <button type="submit" onClick={handleNewAssignment}>Submit</button>
+                        <button type="submit" onClick={handleNewAssignment}>{isLoading2 ? '...' : 'Submit'}</button>
                     </form>
                 </div>
             </Modal>
@@ -503,21 +513,21 @@ export const ClassDetails = () => {
                 <div className={styles.addContent}>
                     <div className={styles.head}>
                         <h3>Edit Assignment</h3>
-                        <button onClick={()=>setIsEditAssignment(false)} className={styles.close}><img src={getImageUrl('close.png')} /></button>
+                        <button onClick={() => setIsEditAssignment(false)} className={styles.close}><img src={getImageUrl('close.png')} /></button>
                     </div>
                     <form className={styles.contentBody}>
-            
-                        {titleErrorMsg && <p style={{color: 'red', fontSize: '12px'}}>Title can't be empty</p>}
+
+                        {titleErrorMsg && <p style={{ color: 'red', fontSize: '12px' }}>Title can't be empty</p>}
                         <label htmlFor="title">Title</label>
                         <input type="text" name="assignment_name" id="title" placeholder="Enter title" value={selected?.assignment_name} onChange={editAssignmentInput} />
 
                         <label>Total Marks</label>
                         <input type="text" name="total_scores" placeholder="Enter total possible marks" value={selected?.total_score} onChange={editAssignmentInput} />
-                        
+
                         <label>Due Date</label>
                         <input type="datetime-local" name="due_date" value={selected.due_date ? new Date(selected.due_date).toISOString().slice(0, 16) : ''} onChange={editAssignmentInput} />
 
-                        
+
                         <label className={styles.uploadButton}>
                             {selected.assignment_file_name === null ? 'Select file' : 'Change file'}
                             <input type="file" name="assignment_file" id="assignment_file" accept="image/png, image/jpeg" onChange={editAssignmentInput} />
@@ -525,13 +535,13 @@ export const ClassDetails = () => {
                         {showFileName ? fileName : selected.assignment_file_name}
 
 
-                        <button type="submit" onClick={handleEditAssignment}>Submit</button>
+                        <button type="submit" onClick={handleEditAssignment}>{isLoading2 ? '...' : 'Submit'}</button>
                     </form>
                 </div>
             </Modal>
 
             <ConfirmModal isOpen={isOpenConfirm} setOpen={setIsOpenConfirm} item={item} cohort={'none'} selected={selected} confirmType={confirmType} reload={loadLessonDetails} />
-            
+
         </div>
     )
 }

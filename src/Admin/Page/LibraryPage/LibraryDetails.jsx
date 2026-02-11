@@ -107,7 +107,8 @@ export const LibraryDetails = () => {
     }
 
     const handleSubmit = async (values) => {
-        // console.log(values);
+        console.log(values);
+        console.log(theLibrary);
 
         const formData = new FormData();
         formData.append('library_id', theLibrary.library_id);

@@ -71,7 +71,7 @@ function App() {
   const AdminProtectedRoute = ({ children }) => {
     const type = sessionStorage.getItem("type");
     const lastLogged = sessionStorage.getItem("last_logged");
-    if ((!sessionStorage) || (!authToken) || (type != "teacher") || (!lastLogged) || (new Date() - new Date(lastLogged) >= 604800000)) {
+    if ((!sessionStorage) || (type != "teacher") || (!lastLogged) || (new Date() - new Date(lastLogged) >= 604800000)) {
       window.location.href = "/admin-login";
     }
     return children;

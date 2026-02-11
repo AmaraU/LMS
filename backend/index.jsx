@@ -565,6 +565,7 @@ app.get('/courses-instructor-studentscount-lessons', async (req, res) => {
                             'exam_name', e.exam_name,
                             'start_date', e.start_date,
                             'end_date', e.end_date,
+                            'total_score', e.total_score,
                             'exam_file_name', e.file_name
                         )
                     ),
@@ -1189,7 +1190,7 @@ app.post(`/lesson-info`, upload.array('files'), async (req, res) => {
         const putQuery = `UPDATE lesson SET title = $1, description = $2, level = $3, status = $4 WHERE lesson_id = $5`
         const putValues = [
             req.body.title,
-            req.body.description,
+            req.body.description ?? null,
             req.body.level,
             req.body.status,
             req.body.lesson_id
@@ -1226,6 +1227,8 @@ app.get("/all-lesson-info", async (req, res) => {
             lesson.description,
             lesson.start_date,
             lesson.end_date,
+            lesson.level,
+            lesson.status,
             lesson.number,
             lesson.course_id,
             COALESCE(course.name, 'NA') AS course_name,
@@ -1299,6 +1302,8 @@ app.get("/all-lesson-info/:instructor_id", async (req, res) => {
             lesson.description,
             lesson.start_date,
             lesson.end_date,
+            lesson.level,
+            lesson.status,
             lesson.number,
             lesson.course_id,
             COALESCE(course.name, 'NA') AS course_name,
@@ -1782,11 +1787,12 @@ app.post('/update-assignment', upload.single('file'), async (req, res) => {
 
         res.status(201).json(result.rows[0]);
 
-        const checkQuery = 'SELECT * FROM assignment_files WHERE assignment_id = $1';
-        const checkResult = await client.query(checkQuery, [result.rows[0].assignment_id]);
+        if (file !== undefined) {
+            const checkQuery = 'SELECT * FROM assignment_files WHERE assignment_id = $1';
+            const checkResult = await client.query(checkQuery, [result.rows[0].assignment_id]);
 
-        if (checkResult.rows.length > 0) {
-            const updateQuery = `
+            if (checkResult.rows.length > 0) {
+                const updateQuery = `
                 UPDATE assignment_files SET
                 file_name = $2,
                 file_type = $3,
@@ -1795,26 +1801,27 @@ app.post('/update-assignment', upload.single('file'), async (req, res) => {
                 WHERE assignment_id = $1
                 RETURNING *;
             `;
-            await client.query(updateQuery, [
-                result.rows[0].assignment_id,
-                file.originalname,
-                file.mimetype,
-                file.size,
-                file.buffer
-            ]);
-        } else {
-            const insertQuery = `
+                await client.query(updateQuery, [
+                    result.rows[0].assignment_id,
+                    file.originalname,
+                    file.mimetype,
+                    file.size,
+                    file.buffer
+                ]);
+            } else {
+                const insertQuery = `
                 INSERT INTO assignment_files (assignment_id, file_name, file_type, file_size, file_data)
                 VALUES ($1, $2, $3, $4, $5)
                 RETURNING *;
             `;
-            await client.query(insertQuery, [
-                result.rows[0].assignment_id,
-                file.originalname,
-                file.mimetype,
-                file.size,
-                file.buffer
-            ]);
+                await client.query(insertQuery, [
+                    result.rows[0].assignment_id,
+                    file.originalname,
+                    file.mimetype,
+                    file.size,
+                    file.buffer
+                ]);
+            }
         }
 
     } catch (err) {
@@ -1899,11 +1906,12 @@ app.post('/update-exam', upload.single('file'), async (req, res) => {
 
         res.status(201).json(result.rows[0]);
 
-        const checkQuery = 'SELECT * FROM exam_files WHERE exam_id = $1';
-        const checkResult = await client.query(checkQuery, [result.rows[0].exam_id]);
+        if (file !== undefined) {
+            const checkQuery = 'SELECT * FROM exam_files WHERE exam_id = $1';
+            const checkResult = await client.query(checkQuery, [result.rows[0].exam_id]);
 
-        if (checkResult.rows.length > 0) {
-            const updateQuery = `
+            if (checkResult.rows.length > 0) {
+                const updateQuery = `
                 UPDATE exam_files SET
                 file_name = $2,
                 file_type = $3,
@@ -1912,26 +1920,27 @@ app.post('/update-exam', upload.single('file'), async (req, res) => {
                 WHERE exam_id = $1
                 RETURNING *;
             `;
-            await client.query(updateQuery, [
-                result.rows[0].exam_id,
-                file.originalname,
-                file.mimetype,
-                file.size,
-                file.buffer
-            ]);
-        } else {
-            const insertQuery = `
+                await client.query(updateQuery, [
+                    result.rows[0].exam_id,
+                    file.originalname,
+                    file.mimetype,
+                    file.size,
+                    file.buffer
+                ]);
+            } else {
+                const insertQuery = `
                 INSERT INTO exam_files (exam_id, file_name, file_type, file_size, file_data)
                 VALUES ($1, $2, $3, $4, $5)
                 RETURNING *;
             `;
-            await client.query(insertQuery, [
-                result.rows[0].exam_id,
-                file.originalname,
-                file.mimetype,
-                file.size,
-                file.buffer
-            ]);
+                await client.query(insertQuery, [
+                    result.rows[0].exam_id,
+                    file.originalname,
+                    file.mimetype,
+                    file.size,
+                    file.buffer
+                ]);
+            }
         }
 
 
@@ -3085,7 +3094,11 @@ app.get("/library-for-instructor/:instructor_id", async (req, res) => {
                 ON library.instructor_id = instructor.instructor_id
             LEFT JOIN library_files
                 ON library_files.library_id = library.library_id
-            WHERE library.instructor_id = $1
+            WHERE
+                (
+                    (SELECT role FROM instructor WHERE instructor_id = $1) = 'Admin'
+                    OR library.instructor_id = $1
+                )
             GROUP BY 
                 library.library_id,
                 instructor.first_name,
