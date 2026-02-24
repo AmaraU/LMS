@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from './ActivityLogPage.module.css';
 import { getImageUrl } from "../../../utilis";
-import Pagination from "../../../Components/Pagination/Pagination"; 
+import Pagination from "../../../Components/Pagination/Pagination";
 import axios from 'axios';
 import { format } from 'date-fns';
 import { BASE_URL } from "../../../../config";
@@ -9,11 +9,11 @@ import { BASE_URL } from "../../../../config";
 
 export const ActivityLogPage = () => {
 
-    const [ currentPage, setCurrentPage ] = useState(1);
-    const [ itemsPerPage, setItemsPerPage ] = useState(5);
-    const [ actionsOpen, setActionsOpen ] = useState({});
-    const [ activities, setActivities ] = useState([]);
-    const [ isLoading, setIsLoading ] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
+    const [actionsOpen, setActionsOpen] = useState({});
+    const [activities, setActivities] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const scroll = useRef(null);
     const actionsRef = useRef(null);
@@ -23,7 +23,7 @@ export const ActivityLogPage = () => {
         const authToken = sessionStorage.getItem("role");
         const lastLogged = sessionStorage.getItem("last_logged");
         if ((!sessionStorage) || (!authToken) || (authToken != "Admin") || (!lastLogged) || (new Date() - new Date(lastLogged) >= 604800000)) {
-        window.location.href = "/admin-dashboard";
+            window.location.href = "/admin-dashboard";
         }
 
         fetchActivityLog();
@@ -81,70 +81,70 @@ export const ActivityLogPage = () => {
 
     return (
         <>
-        <div className={styles.whole}>
-            <a ref={scroll}>Activity Log</a>
+            <div className={styles.whole}>
+                <a ref={scroll}>Activity Log</a>
 
-            <div className={styles.activitiesHeader}>
-                Recent Activities
+                <div className={styles.activitiesHeader}>
+                    Recent Activities
 
-                <div className={styles.buttons}>
-                    <button className={styles.buttonOne}>Sort By<img src={getImageUrl('sortIcon.png')} /></button>
-                    {/* <button className={styles.buttonTwo}>Create Event<img src={getImageUrl('whitePlus.png')} /></button> */}
-                </div>
-            </div>
-
-
-            {isLoading ? <h5 className={styles.loading}>Loading...</h5> :
-            
-                currentActivities.length === 0 ?
-                    
-                    <p className={styles.none}>No Activites Found</p>
-                    :
-                    <>
-                    <table className={styles.activitesTable}>
-                        <thead>
-                            <th className={styles.check}><input type="checkbox" /></th>
-                            <th className={styles.detail}>Activities</th>
-                            <th>User</th>
-                            <th>Date and Time</th>
-                            <th className={styles.act}>Action</th>
-                        </thead>
-                        <tbody>
-                            {currentActivities.map((activity, index) => (
-                                <tr>
-                                    <td><input type="checkbox" /></td>
-                                    <td>{activity.activity}</td>
-                                    <td>{activity.actor}</td>
-                                    <td>{format(new Date (activity.date), 'MMMM dd, yyyy hh:mm a')}</td>
-                                    <td>
-                                        <button className={styles.actionsButton} onClick={()=>toggleAction(index)}><img src={getImageUrl('threeDots.png')} /></button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-
-                    <div style={{ w:'100%', display:"flex", alignItems:'center' }}>
-                        <div className={styles.showRows}>
-                            Show
-                            <select onChange={(e) => handlePageNumber(e.target.value)} >
-                                <option value={5}>5</option>
-                                <option value={10}>10</option>
-                                <option value={15}>15</option>
-                            </select>
-                            Rows
-                        </div>
-                        <Pagination className={styles.pag}
-                            currentData={activities}
-                            currentPage={currentPage}
-                            itemsPerPage={itemsPerPage}
-                            onPageChange={handlePageChange}
-                        />
-
+                    <div className={styles.buttons}>
+                        {/* <button className={styles.buttonOne}>Sort By<img src={getImageUrl('sortIcon.png')} /></button> */}
+                        {/* <button className={styles.buttonTwo}>Create Event<img src={getImageUrl('whitePlus.png')} /></button> */}
                     </div>
-                    </>
-            }
-        </div>
+                </div>
+
+
+                {isLoading ? <h5 className={styles.loading}>Loading...</h5> :
+
+                    currentActivities.length === 0 ?
+
+                        <p className={styles.none}>No Activites Found</p>
+                        :
+                        <>
+                            <table className={styles.activitesTable}>
+                                <thead>
+                                    <th className={styles.check}><input type="checkbox" /></th>
+                                    <th className={styles.detail}>Activities</th>
+                                    <th>User</th>
+                                    <th>Date and Time</th>
+                                    <th className={styles.act}>Action</th>
+                                </thead>
+                                <tbody>
+                                    {currentActivities.map((activity, index) => (
+                                        <tr>
+                                            <td><input type="checkbox" /></td>
+                                            <td>{activity.activity}</td>
+                                            <td>{activity.actor}</td>
+                                            <td>{format(new Date(activity.date), 'MMMM dd, yyyy hh:mm a')}</td>
+                                            <td>
+                                                <button className={styles.actionsButton} onClick={() => toggleAction(index)}><img src={getImageUrl('threeDots.png')} /></button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+                            <div style={{ w: '100%', display: "flex", alignItems: 'center', marginTop: '25px' }}>
+                                <div className={styles.showRows}>
+                                    Show
+                                    <select onChange={(e) => handlePageNumber(e.target.value)} >
+                                        <option value={5}>5</option>
+                                        <option value={10}>10</option>
+                                        <option value={15}>15</option>
+                                    </select>
+                                    Rows
+                                </div>
+                                <Pagination className={styles.pag}
+                                    currentData={activities}
+                                    currentPage={currentPage}
+                                    itemsPerPage={itemsPerPage}
+                                    onPageChange={handlePageChange}
+                                />
+
+                            </div>
+                        </>
+                }
+            </div>
         </>
     )
 }

@@ -15,16 +15,16 @@ import { customToast, customToastError } from "../../../Components/Notifications
 
 export const TeachersPage = () => {
 
-    const [ currentPage, setCurrentPage ] = useState(1);
-    const [ itemsPerPage, setItemsPerPage ] = useState(5);
-    const [ actionsOpen, setActionsOpen ] = useState({});
-    const [ open, setOpen ] = useState(false);
-    const [ teachers, setTeachers ] = useState([]);
-    const [ courses, setCourses ] = useState([]);
-    const [ isLoading, setIsLoading ] = useState(false);
-    const [ selected, setSelected ] = useState({});
-    const [ confirmType, setConfirmType ] = useState('');
-    const [ isOpenConfirm, setIsOpenConfirm ] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
+    const [actionsOpen, setActionsOpen] = useState({});
+    const [open, setOpen] = useState(false);
+    const [teachers, setTeachers] = useState([]);
+    const [courses, setCourses] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [selected, setSelected] = useState({});
+    const [confirmType, setConfirmType] = useState('');
+    const [isOpenConfirm, setIsOpenConfirm] = useState(false);
     const scroll = useRef(null);
     const actionsRef = useRef(null);
 
@@ -32,7 +32,7 @@ export const TeachersPage = () => {
 
 
     useEffect(() => {
-        
+
         const authToken = sessionStorage.getItem("role");
         const lastLogged = sessionStorage.getItem("last_logged");
         if ((!sessionStorage) || (!authToken) || (authToken != "Admin") || (!lastLogged) || (new Date() - new Date(lastLogged) >= 604800000)) {
@@ -45,6 +45,7 @@ export const TeachersPage = () => {
 
     const fetchTeachers = async () => {
         setIsLoading(true);
+        setSearch("");
         try {
             const result = await axios(BASE_URL + "/teachers", {
                 timeout: 10000
@@ -69,12 +70,12 @@ export const TeachersPage = () => {
         }
     }
 
-    const [ newTeacherValues, setNewTeacherValues ] = useState({
+    const [newTeacherValues, setNewTeacherValues] = useState({
         first_name: '',
         last_name: '',
         course_id: null,
         course_name: null,
-        date: new Date().toISOString().slice(0,19).replace('T', ' '),
+        date: new Date().toISOString().slice(0, 19).replace('T', ' '),
         email: null,
         phone_number: null,
         user: username,
@@ -82,7 +83,7 @@ export const TeachersPage = () => {
 
     const handleInput = (event) => {
         if (event.target.name === 'course_name') {
-            const [ course_id, course_name ] = event.target.value.split('|')
+            const [course_id, course_name] = event.target.value.split('|')
             setNewTeacherValues(prev => ({ ...prev, 'course_id': course_id }))
             setNewTeacherValues(prev => ({ ...prev, 'course_name': course_name }))
         }
@@ -123,9 +124,9 @@ export const TeachersPage = () => {
             console.log(err);
             customToastError("Error changing this teacher's role. Please try again.")
         }
-        
+
     }
-    
+
 
 
     const handleDelete = (event, teach) => {
@@ -141,9 +142,27 @@ export const TeachersPage = () => {
         setIsOpenConfirm(true);
     }
 
+    console.log(teachers);
+
+    const [search, setSearch] = useState("");
+    const handleSearch = (event) => {
+        setSearch(event.target.value);
+        setCurrentPage(1);
+    };
+    const filteredTeachers = teachers.filter(teach => {
+        const searchLower = search.toLowerCase();
+        return (
+            teach.first_name?.toLowerCase().includes(searchLower) ||
+            teach.last_name?.toLowerCase().includes(searchLower) ||
+            teach.email?.toLowerCase().includes(searchLower) ||
+            teach.phone_number?.toLowerCase().includes(searchLower) ||
+            teach.role?.toLowerCase().includes(searchLower)
+        );
+    });
+
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentTeachers = teachers.slice(indexOfFirstItem, indexOfLastItem);
+    const currentTeachers = filteredTeachers.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -180,7 +199,7 @@ export const TeachersPage = () => {
             document.removeEventListener('click', handleClickOutside, true);
         };
     }, []);
- 
+
 
 
 
@@ -193,122 +212,131 @@ export const TeachersPage = () => {
                     All Teachers
 
                     <div className={styles.buttons}>
-                        <button className={styles.buttonOne}>Sort By<img src={getImageUrl('sortIcon.png')} /></button>
+                        <div className={styles.searchBar}>
+                            <img src={getImageUrl('searchIcon.png')} />
+                            <input
+                                placeholder="Search"
+                                type="text"
+                                value={search}
+                                onChange={handleSearch}
+                            />
+                        </div>
+                        {/* <button className={styles.buttonOne}>Sort By<img src={getImageUrl('sortIcon.png')} /></button> */}
                         {sessionStorage.getItem('role') === 'Admin' && <button className={styles.buttonTwo} onClick={handleOpen}><img src={getImageUrl('whitePlus.png')} />Add New Teacher</button>}
                     </div>
                 </div>
                 <Modal isOpen={open} >
                     <>
-                    <div className={styles.course_modal}>
-                        <div className={styles.head}>
-                            <h3>Add New Teacher</h3>
-                            <button onClick={handleClose} className={styles.close}><img src={getImageUrl('close.png')} alt="" /></button>
-                        </div>
-
-                        <form className={styles.theForm} onSubmit={handleSubmit}>
-                            <div className={styles.formFlex}>
-                                <div>
-                                <h5>First Name</h5>
-                                <input type="text" placeholder="Instructor's First Name" name="first_name" onChange={handleInput} required></input>
-                                </div>
-
-                                <div>
-                                <h5>Last Name</h5>
-                                <input type="text" placeholder="Instructor's Last Name" name="last_name" onChange={handleInput}></input>
-                                </div>
+                        <div className={styles.course_modal}>
+                            <div className={styles.head}>
+                                <h3>Add New Teacher</h3>
+                                <button onClick={handleClose} className={styles.close}><img src={getImageUrl('close.png')} alt="" /></button>
                             </div>
-                            
-                            <h5>Course</h5>
-                            <select id="" name="course_name" onChange={handleInput}>
-                                <option value="">Select Course</option>
-                                {courses.map((cour, i) => (
-                                    <option key={i} value={cour.course_id + '|' + cour.name}>{cour.name}</option>
-                                ))}
-                            </select>
-                            
-                            <h5>Email Address</h5>
-                            <input type="email" placeholder="Enter Email Address" name="email" onChange={handleInput} required ></input>
-                            
-                            <h5>Phone Number</h5>
-                            <input type="tel" placeholder="Enter Phone Number" name="phone_number" onChange={handleInput} required ></input>
-                            
-                            <button className={styles.submit}>Submit</button>
-                        </form>
-                    </div>
+
+                            <form className={styles.theForm} onSubmit={handleSubmit}>
+                                <div className={styles.formFlex}>
+                                    <div>
+                                        <h5>First Name</h5>
+                                        <input type="text" placeholder="Instructor's First Name" name="first_name" onChange={handleInput} required></input>
+                                    </div>
+
+                                    <div>
+                                        <h5>Last Name</h5>
+                                        <input type="text" placeholder="Instructor's Last Name" name="last_name" onChange={handleInput}></input>
+                                    </div>
+                                </div>
+
+                                <h5>Course</h5>
+                                <select id="" name="course_name" onChange={handleInput}>
+                                    <option value="">Select Course</option>
+                                    {courses.map((cour, i) => (
+                                        <option key={i} value={cour.course_id + '|' + cour.name}>{cour.name}</option>
+                                    ))}
+                                </select>
+
+                                <h5>Email Address</h5>
+                                <input type="email" placeholder="Enter Email Address" name="email" onChange={handleInput} required ></input>
+
+                                <h5>Phone Number</h5>
+                                <input type="tel" placeholder="Enter Phone Number" name="phone_number" onChange={handleInput} required ></input>
+
+                                <button className={styles.submit}>Submit</button>
+                            </form>
+                        </div>
                     </>
                 </Modal>
 
                 {isLoading ? <h5 className={styles.loading}>Loading...</h5> :
-                
+
                     currentTeachers.length === 0 ?
-                        
+
                         <p className={styles.none}>No Teachers Found</p>
                         :
                         <>
-                        <table className={styles.teacherTable}>
-                            <thead>
-                                <th><input type="checkbox" /></th>
-                                <th>Name</th>
-                                <th>Course</th>
-                                <th>Date Added</th>
-                                <th>Email</th>
-                                <th>Phone Number</th>
-                                {sessionStorage.getItem('role') === 'Admin' && <th>Role</th>}
-                                <th>Action</th>
-                            </thead>
-                            <tbody>
-                                {currentTeachers.map((teacher, index) => (
-                                    <tr key={index}>
-                                        <td><input type="checkbox" /></td>
-                                        <td>{teacher.first_name} {teacher.last_name}</td>
-                                        <td>{teacher.course}</td>
-                                        <td>{format(new Date (teacher.date_added), 'MMMM dd, yyyy')}</td>
-                                        <td>{teacher.email}</td>
-                                        <td>{teacher.phone_number}</td>
-                                        {sessionStorage.getItem('role') === 'Admin' && <td>
-                                            <select name="role" id="role" value={teacher.role} onChange={(e)=>handleRoleChange(e, teacher.instructor_id)}>
-                                                <option value="Teacher">Teacher</option>
-                                                <option value="Admin">Admin</option>
-                                            </select>
-                                        </td>}
-                                        <td>
-                                            <div>
-                                                <button className={styles.actionsButton} onClick={() => toggleAction(index)}><img src={getImageUrl('threeDots.png')} /></button>
-                                                <div className={`${styles.actionsClosed} ${actionsOpen[index] && styles.theActions}`} ref={actionsRef}>
-                                                    <h5>ACTION</h5>
-                                                    <button onClick={(e)=>handleSuspend(e, teacher)}><img src={getImageUrl('approve.png')} />SUSPEND</button>
-                                                    <button onClick={(e)=>handleDelete(e, teacher)}><img src={getImageUrl('delete.png')} />DELETE</button>
+                            <table className={styles.teacherTable}>
+                                <thead>
+                                    <th><input type="checkbox" /></th>
+                                    <th>Name</th>
+                                    <th>Course</th>
+                                    <th>Date Added</th>
+                                    <th>Email</th>
+                                    <th>Phone Number</th>
+                                    {sessionStorage.getItem('role') === 'Admin' && <th>Role</th>}
+                                    <th>Action</th>
+                                </thead>
+                                <tbody>
+                                    {currentTeachers.map((teacher, index) => (
+                                        <tr key={index}>
+                                            <td><input type="checkbox" /></td>
+                                            <td>{teacher.first_name} {teacher.last_name}</td>
+                                            <td>{teacher.course}</td>
+                                            <td>{format(new Date(teacher.date_added), 'MMMM dd, yyyy')}</td>
+                                            <td>{teacher.email}</td>
+                                            <td>{teacher.phone_number}</td>
+                                            {sessionStorage.getItem('role') === 'Admin' && <td>
+                                                <select name="role" id="role" value={teacher.role} onChange={(e) => handleRoleChange(e, teacher.instructor_id)}>
+                                                    <option value="Teacher">Teacher</option>
+                                                    <option value="Admin">Admin</option>
+                                                </select>
+                                            </td>}
+                                            <td>
+                                                <div>
+                                                    <button className={styles.actionsButton} onClick={() => toggleAction(index)}><img src={getImageUrl('threeDots.png')} /></button>
+                                                    <div className={`${styles.actionsClosed} ${actionsOpen[index] && styles.theActions}`} ref={actionsRef}>
+                                                        <h5>ACTION</h5>
+                                                        <button onClick={(e) => handleSuspend(e, teacher)}><img src={getImageUrl('approve.png')} />SUSPEND</button>
+                                                        <button onClick={(e) => handleDelete(e, teacher)}><img src={getImageUrl('delete.png')} />DELETE</button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
 
-                        <div style={{ w: '100%', display: "flex", alignItems: 'center' }}>
-                            <div className={styles.showRows}>
-                                Show
-                                <select onChange={(e) => handlePageNumber(e.target.value)} >
-                                    <option value={5}>5</option>
-                                    <option value={10}>10</option>
-                                    <option value={15}>15</option>
-                                </select>
-                                Rows
+                            <div style={{ w: '100%', display: "flex", alignItems: 'center' }}>
+                                <div className={styles.showRows}>
+                                    Show
+                                    <select onChange={(e) => handlePageNumber(e.target.value)} >
+                                        <option value={5}>5</option>
+                                        <option value={10}>10</option>
+                                        <option value={15}>15</option>
+                                    </select>
+                                    Rows
+                                </div>
+                                <Pagination className={styles.pag}
+                                    currentData={filteredTeachers}
+                                    currentPage={currentPage}
+                                    itemsPerPage={itemsPerPage}
+                                    onPageChange={handlePageChange}
+                                />
+
                             </div>
-                            <Pagination className={styles.pag}
-                                currentData={teachers}
-                                currentPage={currentPage}
-                                itemsPerPage={itemsPerPage}
-                                onPageChange={handlePageChange}
-                            />
-
-                        </div>
 
                         </>
                 }
 
-                
+
             </div>
 
             <ConfirmModal isOpen={isOpenConfirm} setOpen={setIsOpenConfirm} item={'Teacher'} cohort={'none'} selected={selected} confirmType={confirmType} reload={fetchTeachers} />

@@ -15,12 +15,14 @@
     font-weight: 500;
     color: #2C2F7E;
 }
+
 .breadcrumb a {
     font-size: 14px;
     font-weight: 500;
     color: #728DB9;
     text-decoration: none;
 }
+
 .breadcrumb a:hover {
     text-decoration: underline;
 }
@@ -31,16 +33,19 @@
     display: flex;
     justify-content: space-between;
 }
+
 .title h3 {
     font-size: 22px;
     font-weight: 600;
     color: #272727;
 }
+
 .title .buttons {
     display: flex;
     align-items: center;
     gap: 8px;
 }
+
 .title .buttonOne {
     display: inline-flex;
     align-items: center;
@@ -54,6 +59,7 @@
     border: none;
     outline: none;
 }
+
 .title .buttonTwo {
     display: inline-flex;
     align-items: center;
@@ -67,7 +73,28 @@
     border: none;
     outline: none;
 }
+
 .title button img {
+    width: 20px;
+    height: 20px;
+}
+
+.searchBar {
+    display: flex;
+    border-bottom: 2px solid #C4C4C4;
+    padding: 8px 0;
+    gap: 12px;
+}
+
+.searchBar input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #9191B2;
+}
+
+.searchBar img {
     width: 20px;
     height: 20px;
 }
@@ -81,6 +108,7 @@
     font-weight: 400;
     color: #2C2F7E;
 }
+
 .none {
     width: 100%;
     margin-top: 24px;
@@ -100,7 +128,7 @@
 }
 
 
-.cohortBox{
+.cohortBox {
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -110,22 +138,24 @@
 }
 
 
-.infoHeader{
+.infoHeader {
     display: flex;
-    justify-content: space-between; 
-    align-items: center;   
+    justify-content: space-between;
+    align-items: center;
 }
 
-.infoHeader h3{
+.infoHeader h3 {
     font-weight: 500;
     font-size: 22px;
     color: #374151;
 }
+
 .infoHeader p {
     font-size: 12px;
     font-weight: 400;
     color: #89939E;
 }
+
 .infoHeader .number {
     width: 60px;
     height: 60px;
@@ -140,7 +170,7 @@
 }
 
 
-.cohortData{
+.cohortData {
     display: flex;
     gap: 12px;
     font-size: 12px;
@@ -148,10 +178,12 @@
     color: #89939E;
     margin-top: 12px;
 }
-.cohortData img{
+
+.cohortData img {
     width: 18px;
     height: 18px;
 }
+
 .cohortData div {
     display: flex;
     align-items: center;
@@ -166,7 +198,8 @@
     margin-top: 8px;
     margin-bottom: 12px;
 }
-.cohortLoader p{
+
+.cohortLoader p {
     font-weight: 500;
     font-size: 16px;
     color: #3064EA;
@@ -185,23 +218,29 @@
     align-self: center;
     color: #2C2F7E;
 }
+
 .progress::-webkit-progress-bar {
     background: #ABC0E5;
 }
+
 .progress::-webkit-progress-value {
     background: #2C2F7E;
     border-radius: 18px;
 }
+
 .progress::-ms-progress-bar {
     background-color: #ABC0E5;
 }
+
 .progress::-ms-progress-value {
     background: #2C2F7E;
     border-radius: 18px;
 }
+
 .progress::-moz-progress-bar {
     background-color: #ABC0E5;
 }
+
 .progress::-moz-progress-value {
     background: #2C2F7E;
     border-radius: 18px;
@@ -211,14 +250,17 @@
 .progress.complete {
     color: #10A400;
 }
+
 .progress.complete::-webkit-progress-value {
     background: #10A400;
     border-radius: 18px;
 }
+
 .progress.complete::-ms-progress-value {
     background: #10A400;
     border-radius: 18px;
 }
+
 .progress.complete::-moz-progress-value {
     background: #10A400;
     border-radius: 18px;
@@ -238,6 +280,7 @@
     font-weight: 500;
     gap: 4px;
 }
+
 .viewButton img {
     width: 20px;
     height: 20px;
@@ -262,26 +305,31 @@
     box-shadow: 0px 3px 5px 0px #00000017;
     max-height: 90vh;
 }
+
 .head {
     display: flex;
     justify-content: space-between;
     padding-bottom: 8px;
     border-bottom: 1.5px solid #F3F4F6;
 }
+
 .head p {
     font-size: 18px;
     font-weight: 500;
     color: #9799C5;
 }
+
 .head button {
     border: none;
     outline: none;
     background: transparent;
 }
+
 .cohortForm {
     display: flex;
     flex-direction: column;
 }
+
 .contentBody {
     display: flex;
     flex-direction: column;
@@ -289,12 +337,14 @@
     gap: 12px;
     overflow-y: scroll;
 }
+
 .contentBody label {
     margin-bottom: 4px;
     font-size: 14px;
     font-weight: 500;
     color: #4B5563;
 }
+
 .contentBody input,
 .contentBody select {
     padding: 11px;
@@ -303,6 +353,7 @@
     color: #5C5C5C;
     outline: none;
 }
+
 .contentBody textarea {
     padding: 11px;
     border-radius: 10px;
@@ -311,6 +362,7 @@
     min-height: 60px;
     outline: none;
 }
+
 .cohortButton {
     width: 100%;
     background: #2C2F7E;
@@ -325,11 +377,12 @@
     text-transform: capitalize;
 }
 
-.contentBody .form{
+.contentBody .form {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
+
 .contentBody .flex {
     display: flex;
     align-items: center;
@@ -357,11 +410,13 @@
     flex-direction: column;
     gap: 4px;
 }
+
 .headerBox h3 {
     font-size: 20px;
     font-weight: 600;
     color: #292D32;
 }
+
 .headerBox p {
     font-size: 14px;
     font-weight: 500;
@@ -375,7 +430,8 @@
     margin-top: 8px;
     width: 35%;
 }
-.cohortLoader2 p{
+
+.cohortLoader2 p {
     font-weight: 500;
     font-size: 16px;
     color: #3064EA;
@@ -389,6 +445,7 @@
     border-spacing: 0 8px;
     margin-top: 12px;
 }
+
 .cohortTable thead {
     background: #F9F9F9;
     border: 1px solid #E4E4E4;
@@ -396,17 +453,20 @@
     font-weight: 600;
     color: #2C2F7E;
 }
+
 .cohortTable th {
     padding: 10px 4px;
     text-align: left;
     border-top: 1px solid #E4E4E4;
     border-bottom: 1px solid #E4E4E4;
 }
+
 .cohortTable td {
     padding: 6px 4px;
     border-top: 1px solid #E4E4E4;
     border-bottom: 1px solid #E4E4E4;
 }
+
 .cohortTable th:first-child,
 .cohortTable td:first-child {
     border-top-left-radius: 6px;
@@ -415,6 +475,7 @@
     border-right: none;
     padding-left: 10px;
 }
+
 .cohortTable th:last-child,
 .cohortTable td:last-child {
     border-top-right-radius: 6px;
@@ -422,16 +483,19 @@
     border: 1px solid #E4E4E4;
     border-left: none;
 }
+
 .cohortTable td img {
     width: 16px;
     height: 16px;
 }
+
 .cohortTable tr {
     background: #FFFFFF;
     font-size: 12px;
     font-weight: 500;
     color: #545454;
 }
+
 .cohortTable .actionsButton {
     display: flex;
     align-items: center;
@@ -444,6 +508,7 @@
     font-weight: 500;
     color: #0C359E;
 }
+
 .actionsButton img {
     width: 24px;
     height: 24px;
@@ -465,11 +530,13 @@
     margin-top: 3px;
     margin-left: -150px;
 }
+
 .theActions h5 {
     font-size: 12px;
     font-weight: 600;
     color: #4B5563;
 }
+
 .theActions button {
     border: none;
     outline: none;
@@ -482,9 +549,11 @@
     gap: 8px;
     padding: 8px;
 }
+
 .theActions button:hover {
     background: #4b55632a;
 }
+
 .theActions button img {
     width: 20px;
     height: 20px;
@@ -502,6 +571,7 @@
     font-weight: 500;
     color: #000000;
 }
+
 .showRows select {
     border: 1px solid #BDD9FF;
     box-shadow: 0px 3.76px 5.64px 0px #00000017;
@@ -512,6 +582,7 @@
     color: #000000;
     outline: none;
 }
+
 .pag {
     flex: 30%
 }

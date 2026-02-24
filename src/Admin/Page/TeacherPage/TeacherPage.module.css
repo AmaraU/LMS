@@ -22,11 +22,13 @@
     font-weight: 600;
     color: #272727;
 }
+
 .buttons {
     display: flex;
     align-items: center;
     gap: 8px;
 }
+
 .buttons .buttonOne {
     display: inline-flex;
     align-items: center;
@@ -40,6 +42,7 @@
     border: none;
     outline: none;
 }
+
 .buttons .buttonTwo {
     display: inline-flex;
     align-items: center;
@@ -53,7 +56,30 @@
     border: none;
     outline: none;
 }
+
 .buttons button img {
+    width: 20px;
+    height: 20px;
+}
+
+
+.searchBar {
+    display: flex;
+    border-bottom: 2px solid #C4C4C4;
+    padding: 8px 0;
+    gap: 12px;
+}
+
+.searchBar input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #9191B2;
+    background: transparent;
+}
+
+.searchBar img {
     width: 20px;
     height: 20px;
 }
@@ -64,6 +90,7 @@
     width: 100%;
     border-spacing: 0 8px;
 }
+
 .teacherTable thead {
     background: #F9F9F9;
     border: 1px solid #E4E4E4;
@@ -71,17 +98,20 @@
     font-weight: 600;
     color: #2C2F7E;
 }
+
 .teacherTable th {
     padding: 12px 10px;
     text-align: left;
     border-top: 1px solid #E4E4E4;
     border-bottom: 1px solid #E4E4E4;
 }
+
 .teacherTable td {
     padding: 8px 10px;
     border-top: 1px solid #E4E4E4;
     border-bottom: 1px solid #E4E4E4;
 }
+
 .teacherTable th:first-child,
 .teacherTable td:first-child {
     border-top-left-radius: 6px;
@@ -90,6 +120,7 @@
     border-right: none;
     padding-left: 10px;
 }
+
 .teacherTable th:last-child,
 .teacherTable td:last-child {
     border-top-right-radius: 6px;
@@ -97,20 +128,24 @@
     border: 1px solid #E4E4E4;
     border-left: none;
 }
+
 .teacherTable td img {
     width: 16px;
     height: 16px;
 }
+
 .teacherTable tr {
     background: #FFFFFF;
     font-size: 12px;
     font-weight: 500;
     color: #545454;
 }
+
 .teacherTable tr span {
     font-weight: 700;
     color: #2C2F7E;
 }
+
 .teacherTable .actionsButton {
     border: 1px solid #A1B2D1;
     outline: none;
@@ -120,6 +155,7 @@
     display: flex;
     align-items: center;
 }
+
 .teacherTable .actionsButton img {
     width: 20px;
     height: 20px;
@@ -137,6 +173,7 @@
 .actionsClosed {
     display: none;
 }
+
 .theActions {
     display: flex;
     flex-direction: column;
@@ -152,11 +189,13 @@
     margin-top: 5px;
     margin-left: -150px;
 }
+
 .theActions h5 {
     font-size: 12px;
     font-weight: 600;
     color: #4B5563;
 }
+
 .theActions button {
     border: none;
     outline: none;
@@ -169,9 +208,11 @@
     gap: 8px;
     padding: 12px;
 }
+
 .theActions button:hover {
     background: #4b55632a;
 }
+
 .theActions button img {
     width: 24px;
     height: 24px;
@@ -189,6 +230,7 @@
     font-weight: 500;
     color: #000000;
 }
+
 .showRows select {
     border: 1px solid #BDD9FF;
     box-shadow: 0px 3.76px 5.64px 0px #00000017;
@@ -199,16 +241,17 @@
     color: #000000;
     outline: none;
 }
+
 .pag {
     flex: 30%
 }
 
-.course_modal{
+.course_modal {
     display: flex;
     flex-direction: column;
     border-radius: 16px;
     padding: 16px;
-    gap:8 ;
+    gap: 8;
     border: 1px solid #BDD9FF;
     box-shadow: 0px 3px 5px 0px #00000017;
     background-color: #Fff;
@@ -216,11 +259,13 @@
     min-width: 460px;
     max-height: 80vh;
 }
-.close{
+
+.close {
     background: #fff;
     border: none;
 }
-.submit{
+
+.submit {
     margin-top: 24px;
     align-items: center;
     background: #2C2F7E;
@@ -233,6 +278,7 @@
     border: none;
     outline: none;
 }
+
 .head {
     margin-top: 10px;
     display: flex;
@@ -240,6 +286,7 @@
     padding-bottom: 8px;
     border-bottom: 1.5px solid #F3F4F6;
 }
+
 .theForm {
     width: 100%;
     display: flex;
@@ -247,21 +294,25 @@
     height: 100%;
     overflow: auto;
 }
+
 .theForm .formFlex {
     display: flex;
     width: 100%;
     justify-content: space-between;
     gap: 3%;
 }
+
 .formFlex div {
     width: 100%;
 }
+
 .theForm h5 {
     margin-top: 12px;
     font-size: 16px;
     font-weight: 500;
     color: #4B5563;
 }
+
 .theForm input,
 .theForm select {
     width: 100%;
@@ -270,6 +321,7 @@
     border-radius: 8px 8px 8px 8px;
     border: 1px solid #B4BCDD;
 }
+
 .contain input::placeholder {
     font-size: 14px;
     font-weight: 400;

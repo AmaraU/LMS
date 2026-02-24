@@ -16,12 +16,14 @@
     font-weight: 500;
     color: #2C2F7E;
 }
+
 .breadcrumb a {
     font-size: 14px;
     font-weight: 500;
     color: #728DB9;
     text-decoration: none;
 }
+
 .breadcrumb a:hover {
     text-decoration: underline;
 }
@@ -34,16 +36,19 @@
     display: flex;
     justify-content: space-between;
 }
+
 .title h1 {
     font-size: 30px;
     font-weight: 600;
     color: #272727;
 }
+
 .title .buttons {
     display: flex;
     align-items: center;
     gap: 8px;
 }
+
 .buttons .buttonOne {
     display: inline-flex;
     align-items: center;
@@ -57,6 +62,7 @@
     border: none;
     outline: none;
 }
+
 .buttons .buttonTwo {
     display: inline-flex;
     align-items: center;
@@ -70,7 +76,30 @@
     border: none;
     outline: none;
 }
+
 .buttons button img {
+    width: 20px;
+    height: 20px;
+}
+
+
+.searchBar {
+    display: flex;
+    border-bottom: 2px solid #C4C4C4;
+    padding: 8px 0;
+    gap: 12px;
+}
+
+.searchBar input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #9191B2;
+    background: transparent;
+}
+
+.searchBar img {
     width: 20px;
     height: 20px;
 }
@@ -84,6 +113,7 @@
     font-weight: 400;
     color: #2C2F7E;
 }
+
 .none {
     width: 100%;
     margin-top: 24px;
@@ -108,7 +138,7 @@
     height: 100%;
     border-radius: 10px;
     padding: 16px;
-    gap:8 ;
+    gap: 8;
     border: 1px solid #BDD9FF;
     box-shadow: 0px 3px 5px 0px #00000017;
 }
@@ -121,6 +151,7 @@
     display: flex;
     margin-bottom: 16px;
 }
+
 .classImage img {
     width: 100%;
     height: auto;
@@ -131,11 +162,12 @@
     justify-content: space-between;
     gap: 8px;
 }
+
 .infoHeader h3 {
     font-weight: 600;
     font-size: 18px;
     line-height: 28px;
-    color: #2c2f7e; 
+    color: #2c2f7e;
     font-family: Work, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
@@ -152,6 +184,7 @@
     border-radius: 5px;
     height: fit-content;
 }
+
 .infoHeader .actionsButton img {
     width: 20px;
     height: 20px;
@@ -173,11 +206,13 @@
     margin-top: 5px;
     margin-left: -150px;
 }
+
 .theActions h5 {
     font-size: 12px;
     font-weight: 600;
     color: #4B5563;
 }
+
 .theActions button {
     border-radius: 6px;
     border: none;
@@ -191,9 +226,11 @@
     gap: 8px;
     padding: 12px;
 }
+
 .theActions button:hover {
     background: #4b55632a;
 }
+
 .theActions button img {
     width: 24px;
     height: 24px;
@@ -203,7 +240,7 @@
 .classInfo p {
     font-weight: 400;
     font-size: 14px;
-    line-height:18px;
+    line-height: 18px;
     color: #4d4d4d;
     margin-bottom: 12px;
 }
@@ -215,6 +252,7 @@
     margin-top: auto;
     gap: 8px;
 }
+
 .classData .timeData {
     display: flex;
     align-items: center;
@@ -222,6 +260,7 @@
     font-size: 12px;
     font-weight: 500;
 }
+
 .timeData img {
     width: 16px;
     height: 16px;
@@ -244,6 +283,7 @@
     gap: 8px;
     color: #89939E;
 }
+
 .students img {
     width: 16px;
     height: auto;
@@ -258,14 +298,48 @@
 
 
 
+.bigPag {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.showRows {
+    flex: 70%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 500;
+    color: #000;
+}
+
+.showRows select {
+    border: 1px solid #BDD9FF;
+    box-shadow: 0px 3.76px 5.64px 0px #00000017;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #000;
+    outline: none;
+}
+
+.pag {
+    flex: 30%
+}
 
 
-.class_modal{
+
+
+
+.class_modal {
     display: flex;
     flex-direction: column;
     border-radius: 16px;
     padding: 16px;
-    gap:8 ;
+    gap: 8;
     border: 1px solid #BDD9FF;
     box-shadow: 0px 3px 5px 0px #00000017;
     background-color: #Fff;
@@ -273,11 +347,13 @@
     min-width: 460px;
     max-height: 80vh;
 }
-.close{
+
+.close {
     background: #fff;
     border: none;
 }
-.submit{
+
+.submit {
     align-items: center;
     background: #2C2F7E;
     padding: 14px 20px;
@@ -289,23 +365,27 @@
     border: none;
     outline: none;
 }
+
 .head {
     display: flex;
     justify-content: space-between;
     padding-bottom: 8px;
     border-bottom: 1.5px solid #F3F4F6;
 }
+
 .formDiv {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
     margin-top: 10px;
 }
+
 .formDiv h5 {
     font-size: 16px;
     font-weight: 500;
     color: #4B5563;
 }
+
 .formDiv input,
 .formDiv select {
     margin-top: 10px;
@@ -317,6 +397,7 @@
     font-weight: 400;
     color: #4B5563;
 }
+
 .formDiv input::placeholder,
 .formDiv select .first {
     font-size: 16px;
@@ -324,7 +405,7 @@
     color: #9CA3AF;
 }
 
-.contain{
+.contain {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -332,16 +413,19 @@
     margin-bottom: 30px;
     gap: 12px;
 }
+
 .contain div {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
+
 .contain h5 {
     font-size: 16px;
     font-weight: 500;
     color: #4B5563;
 }
+
 .contain input {
     margin-top: 10px;
     padding: 10px 12px 10px 12px;
@@ -375,12 +459,14 @@
     gap: 30px;
     margin-top: 60px;
 }
+
 .classTitle h3 {
     flex: 65%;
     font-size: 26px;
     font-weight: 600;
     color: #272727;
 }
+
 .classTitle .buttons {
     flex: 35%;
     display: flex;
@@ -388,6 +474,7 @@
     justify-content: end;
     gap: 12px;
 }
+
 .classTitle .button1 {
     border: 1.5px solid #2C2F7E;
     background: transparent;
@@ -398,6 +485,7 @@
     font-weight: 500;
     color: #2C2F7E;
 }
+
 .classTitle .button2 {
     border: 1.5px solid #2C2F7E;
     background: #2C2F7E;
@@ -416,12 +504,14 @@
     gap: 24px;
     margin-top: 22px;
 }
+
 .larger {
     flex: 65%;
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
+
 .smaller {
     flex: 35%;
     display: flex;
@@ -436,16 +526,19 @@
     padding: 14px;
     border-radius: 16px;
 }
+
 .box .header {
     border-bottom: 2px solid #CBD0DC;
     margin-bottom: 24px;
     padding-bottom: 6px;
 }
+
 .box .header h5 {
     font-size: 18px;
     font-weight: 600;
     color: #292D32;
 }
+
 .box .header p {
     font-size: 14px;
     font-weight: 400;
@@ -458,12 +551,14 @@
     flex-direction: column;
     gap: 6px;
 }
+
 .detailForm label {
     margin-top: 6px;
     font-size: 14px;
     font-weight: 600;
     color: #333333;
 }
+
 .detailForm input,
 .detailForm textarea {
     padding: 11px;
@@ -471,12 +566,14 @@
     border: 1.5px solid #CBD0DC;
     color: #5C5C5C;
 }
+
 .detailForm select {
     padding: 8px;
     border-radius: 10px;
     border: 1.5px solid #CBD0DC;
     color: #5C5C5C;
 }
+
 .detailForm p {
     font-size: 12px;
     font-weight: 500;
@@ -491,32 +588,39 @@
     align-items: center;
     padding: 14px;
 }
+
 input[type="file"] {
     display: none;
 }
+
 .uploadBox .uploadDiv {
     text-align: center;
     width: 60%;
 }
+
 .uploadBox h5 {
     font-size: 16px;
     font-weight: 500;
     color: #292D32;
 }
+
 .uploadBox p {
     font-size: 14px;
     font-weight: 500;
     color: #A9ACB4;
     margin-bottom: 18px;
 }
+
 .uploadBox .theFiles {
     margin-bottom: 20px;
 }
+
 .uploadBox .theFiles p {
     margin: 0;
     padding: 0;
     margin-bottom: -8px;
 }
+
 .uploadBox .uploadButton {
     border: 1px solid #CBD0DC;
     border-radius: 10px;
@@ -530,11 +634,13 @@ input[type="file"] {
     justify-content: space-between;
     margin-bottom: 20px;
 }
+
 .box .flexHeader h5 {
     font-size: 18px;
     font-weight: 600;
     color: #292D32;
 }
+
 .flexHeader button {
     background: transparent;
     border: none;
@@ -554,6 +660,7 @@ input[type="file"] {
     align-items: center;
     margin-bottom: 12px;
 }
+
 .section .text {
     display: flex;
     align-items: center;
@@ -562,10 +669,12 @@ input[type="file"] {
     font-weight: 600;
     color: #272727;
 }
+
 .section .text img {
     width: 28px;
     height: 28px;
 }
+
 .section .actionsButton {
     border: 1px solid #A1B2D1;
     outline: none;
@@ -579,6 +688,7 @@ input[type="file"] {
     border-radius: 5px;
     height: fit-content;
 }
+
 .section .actionsButton img {
     width: 20px;
     height: 20px;
@@ -593,17 +703,20 @@ input[type="file"] {
     align-items: start;
     gap: 6%;
 }
+
 .preview h5 {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 10px;
     color: #FFFFFF;
 }
+
 .preview p {
     font-size: 13px;
     font-weight: 300;
     color: #FFFFFF;
 }
+
 .preview button {
     background: #FFFFFF;
     border-radius: 7px;
@@ -651,29 +764,34 @@ label.checkbox {
     border: 1px solid #BDD9FF;
     box-shadow: 0px 3px 5px 0px #00000017;
 }
+
 .head {
     display: flex;
     justify-content: space-between;
     padding-bottom: 8px;
     border-bottom: 1.5px solid #F3F4F6;
 }
+
 .head button {
     border: none;
     outline: none;
     background: transparent;
 }
+
 .contentBody {
     display: flex;
     flex-direction: column;
     margin-top: 12px;
     overflow: auto;
 }
+
 .contentBody label {
     margin-bottom: 4px;
     font-size: 14px;
     font-weight: 600;
     color: #333333;
 }
+
 .contentBody input,
 .contentBody textarea {
     padding: 11px;
@@ -683,9 +801,11 @@ label.checkbox {
     outline: none;
     margin-bottom: 12px;
 }
+
 .contentBody textarea {
     height: 50px;
 }
+
 .contentBody button {
     width: 100%;
     background: #2C2F7E;
@@ -698,6 +818,7 @@ label.checkbox {
     border: none;
     outline: none;
 }
+
 .contentBody .uploadButton {
     margin-top: 12px;
     text-align: center;

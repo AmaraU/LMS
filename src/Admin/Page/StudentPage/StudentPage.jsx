@@ -10,21 +10,21 @@ import { BASE_URL, TEST_URL } from "../../../../config";
 
 export const StudentPage = () => {
 
-    const [ currentPage, setCurrentPage ] = useState(1);
-    const [ itemsPerPage, setItemsPerPage ] = useState(5);
-    const [ actionsOpen, setActionsOpen ] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
+    const [actionsOpen, setActionsOpen] = useState({});
     const scroll = useRef(null);
     const actionsRef = useRef(null);
-    const [ students, setStudents ] = useState([]);
-    const [ allCourses, setAllCourses ] = useState([]);
-    const [ allNotCourses, setAllNotCourses ] = useState([]);
-    const [ isLoading, setIsLoading ] = useState(false);
-    const [ isLoading2, setIsLoading2 ] = useState(false);
-    const [ isLoading3, setIsLoading3 ] = useState(false);
-    const [ isOpenCourse, setIsOpenCourse ] = useState(false);
-    const [ selected, setSelected ] = useState({});
-    const [ type, setType ] = useState('');
-    const [ submitValues, setSubmitValues ] = useState({
+    const [students, setStudents] = useState([]);
+    const [allCourses, setAllCourses] = useState([]);
+    const [allNotCourses, setAllNotCourses] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading2, setIsLoading2] = useState(false);
+    const [isLoading3, setIsLoading3] = useState(false);
+    const [isOpenCourse, setIsOpenCourse] = useState(false);
+    const [selected, setSelected] = useState({});
+    const [type, setType] = useState('');
+    const [submitValues, setSubmitValues] = useState({
         course_name: '',
         course_id: '',
         student_name: '',
@@ -33,13 +33,14 @@ export const StudentPage = () => {
         user: sessionStorage.getItem('full_name')
     });
 
-    
+
     useEffect(() => {
         fetchStudents();
     }, []);
 
     const fetchStudents = async () => {
         setIsLoading(true);
+        setSearch("");
         try {
             const result = await axios(BASE_URL + "/students", {
                 timeout: 10000
@@ -145,9 +146,25 @@ export const StudentPage = () => {
     }
 
 
+    const [search, setSearch] = useState("");
+    const handleSearch = (event) => {
+        setSearch(event.target.value);
+        setCurrentPage(1);
+    };
+    const filteredStudents = students.filter(cour => {
+        const searchLower = search.toLowerCase();
+        return (
+            cour.email?.toLowerCase().includes(searchLower) ||
+            cour.first_name?.toLowerCase().includes(searchLower) ||
+            cour.last_name?.toLowerCase().includes(searchLower) ||
+            cour.phone_number?.toLowerCase().includes(searchLower)
+        )
+    });
+
+
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentStudents = students.slice(indexOfFirstItem, indexOfLastItem);
+    const currentStudents = filteredStudents.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -185,114 +202,125 @@ export const StudentPage = () => {
 
     return (
         <>
-        <div className={styles.whole}>
-            <div className={styles.breadcrumb}><a ref={scroll}>Student</a> {'>'} All</div>
+            <div className={styles.whole}>
+                <div className={styles.breadcrumb}><a ref={scroll}>Student</a> {'>'} All</div>
 
-            <h3>All Students</h3>
+                <div className={styles.title}>
+                    <h1>All Students</h1>
+                    <div className={styles.searchBar}>
+                        <img src={getImageUrl('searchIcon.png')} />
+                        <input
+                            placeholder="Search"
+                            type="text"
+                            value={search}
+                            onChange={handleSearch}
+                        />
+                    </div>
+                </div>
 
                 {isLoading ? <h5 className={styles.loading}>Loading...</h5> :
-                
+
                     currentStudents.length === 0 ?
-                        
+
                         <p className={styles.none}>No Students Found</p>
                         :
                         <>
-            
-                        <table className={styles.studentsTable}>
-                            <thead>
-                                <th><input type="checkbox" /></th>
-                                <th>Name</th>
-                                <th>Courses</th>
-                                <th>Date Added</th>
-                                <th>Email</th>
-                                <th>Phone Number</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody>
-                                {currentStudents.map((student, index) => (
-                                    <tr key={index}>
-                                        <td><input type="checkbox" /></td>
-                                        <td>{student.first_name} {student.last_name}</td>
-                                        <td>{student.course}</td>
-                                        <td>{format(new Date (student.date_added), 'MMMM dd, yyyy')}</td>
-                                        <td>{student.email}</td>
-                                        <td>{student.phone_number}</td>
-                                        <td>
-                                            <div className={new Date (student.last_logged) < new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000) ? styles.inactive : styles.active}>
-                                                {new Date(student.last_logged) < new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000) ? 'Inactive' : 'Active'}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div>
-                                                <button className={styles.actionsButton} onClick={()=>toggleAction(index)}><img src={getImageUrl('threeDots.png')} /></button>
-                                                <div className={`${styles.actionsClosed} ${actionsOpen[index] && styles.theActions}`} ref={actionsRef}>
-                                                    <h5>ACTION</h5>
-                                                    <button onClick={()=>handleAdd(student)}><img src={getImageUrl('approve.png')} />ADD TO COURSE</button>
-                                                    <button onClick={()=>handleRemove(student)}><img src={getImageUrl('delete.png')} />REMOVE FROM COURSE</button>
+
+                            <table className={styles.studentsTable}>
+                                <thead>
+                                    <th><input type="checkbox" /></th>
+                                    <th>Name</th>
+                                    <th>Courses</th>
+                                    <th>Date Added</th>
+                                    <th>Email</th>
+                                    <th>Phone Number</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody>
+                                    {currentStudents.map((student, index) => (
+                                        <tr key={index}>
+                                            <td><input type="checkbox" /></td>
+                                            <td>{student.first_name} {student.last_name}</td>
+                                            <td>{student.course}</td>
+                                            <td>{format(new Date(student.date_added), 'MMMM dd, yyyy')}</td>
+                                            <td>{student.email}</td>
+                                            <td>{student.phone_number}</td>
+                                            <td>
+                                                <div className={new Date(student.last_logged) < new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000) ? styles.inactive : styles.active}>
+                                                    {new Date(student.last_logged) < new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000) ? 'Inactive' : 'Active'}
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <button className={styles.actionsButton} onClick={() => toggleAction(index)}><img src={getImageUrl('threeDots.png')} /></button>
+                                                    <div className={`${styles.actionsClosed} ${actionsOpen[index] && styles.theActions}`} ref={actionsRef}>
+                                                        <h5>ACTION</h5>
+                                                        <button onClick={() => handleAdd(student)}><img src={getImageUrl('approve.png')} />ADD TO COURSE</button>
+                                                        <button onClick={() => handleRemove(student)}><img src={getImageUrl('delete.png')} />REMOVE FROM COURSE</button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
 
-                        <div style={{ w:'100%', display:"flex", alignItems:'center' }}>
-                            <div className={styles.showRows}>
-                                Show
-                                <select onChange={(e) => handlePageNumber(e.target.value)} >
-                                    <option value={5}>5</option>
-                                    <option value={10}>10</option>
-                                    <option value={15}>15</option>
-                                </select>
-                                Rows
+                            <div style={{ w: '100%', display: "flex", alignItems: 'center' }}>
+                                <div className={styles.showRows}>
+                                    Show
+                                    <select onChange={(e) => handlePageNumber(e.target.value)} >
+                                        <option value={5}>5</option>
+                                        <option value={10}>10</option>
+                                        <option value={15}>15</option>
+                                    </select>
+                                    Rows
+                                </div>
+                                <Pagination className={styles.pag}
+                                    currentData={filteredStudents}
+                                    currentPage={currentPage}
+                                    itemsPerPage={itemsPerPage}
+                                    onPageChange={handlePageChange}
+                                />
+
                             </div>
-                            <Pagination className={styles.pag}
-                                currentData={students}
-                                currentPage={currentPage}
-                                itemsPerPage={itemsPerPage}
-                                onPageChange={handlePageChange}
-                            />
-
-                        </div>
                         </>
                 }
-        </div>
-
-
-        <Modal isOpen={isOpenCourse}>
-            <div className={styles.addCohort}>
-                <div className={styles.head}>
-                    <div>
-                        <h3>{type} Student {type === 'Add' ? 'to' : 'from'} Course</h3>
-                        <p>{selected.first_name}</p>
-                    </div>
-                    <button onClick={()=>setIsOpenCourse(false)} className={styles.close}><img src={getImageUrl('close.png')} /></button>
-                </div>
-
-                <form onSubmit={handleSubmit} className={styles.contentBody}>
-                    
-                    {isLoading2 ?
-                        <p className={styles.loading}>Loading...</p>
-                    :
-                        <div className={styles.form}>
-                            <label htmlFor="course">Course</label>
-                            <select name="course_id" id="course_id" onInput={handleCourseInput} required>
-                                <option value="">Select course</option>
-                                {allCourses.map((cours, index) => (
-                                    <option key={index} value={cours.course_id + '-' + cours.name}>{cours.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                    }
-                    <button className={styles.cohortButton} type="submit">{isLoading3 ? "..." : "Submit"}</button>
-
-                </form>
-
-
             </div>
-        </Modal>
+
+
+            <Modal isOpen={isOpenCourse}>
+                <div className={styles.addCohort}>
+                    <div className={styles.head}>
+                        <div>
+                            <h3>{type} Student {type === 'Add' ? 'to' : 'from'} Course</h3>
+                            <p>{selected.first_name}</p>
+                        </div>
+                        <button onClick={() => setIsOpenCourse(false)} className={styles.close}><img src={getImageUrl('close.png')} /></button>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className={styles.contentBody}>
+
+                        {isLoading2 ?
+                            <p className={styles.loading}>Loading...</p>
+                            :
+                            <div className={styles.form}>
+                                <label htmlFor="course">Course</label>
+                                <select name="course_id" id="course_id" onInput={handleCourseInput} required>
+                                    <option value="">Select course</option>
+                                    {allCourses.map((cours, index) => (
+                                        <option key={index} value={cours.course_id + '-' + cours.name}>{cours.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        }
+                        <button className={styles.cohortButton} type="submit">{isLoading3 ? "..." : "Submit"}</button>
+
+                    </form>
+
+
+                </div>
+            </Modal>
         </>
     )
 }

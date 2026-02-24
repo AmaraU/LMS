@@ -84,10 +84,10 @@ export const Header = () => {
 
             <div className={styles.headerRight}>
 
-                <div className={styles.searchBar}>
+                {/* <div className={styles.searchBar}>
                     <img src={getImageUrl('searchIcon.png')} />
                     <input type="text" placeholder="Search" />
-                </div>
+                </div> */}
                 <div className={styles.buttons}>
                     {/* <button><img src={getImageUrl('bell.png')} /></button> */}
                     {/* <button onClick={toSettingsPage}><img src={getImageUrl('settings.png')} /></button> */}

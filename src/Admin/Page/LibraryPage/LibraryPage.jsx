@@ -11,6 +11,7 @@ import Input from "../../../Components/UI/Input";
 import Select from "../../../Components/UI/Select";
 import { Stack } from "@chakra-ui/react";
 import Button from "../../../Components/UI/Button";
+import Pagination from "../../../Components/Pagination/Pagination";
 
 export const LibraryPage = () => {
 
@@ -63,6 +64,38 @@ export const LibraryPage = () => {
         setIsOpenConfirm(true);
     }
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
+    const [search, setSearch] = useState("");
+    const handleSearch = (event) => {
+        setSearch(event.target.value);
+        setCurrentPage(1);
+    };
+    const filteredLibraries = libraries?.filter(cour => {
+        const searchLower = search?.toLowerCase();
+        return (
+            cour.description?.toLowerCase().includes(searchLower) ||
+            cour.instructor_name?.toLowerCase().includes(searchLower) ||
+            cour.level?.toLowerCase().includes(searchLower) ||
+            cour.name?.toLowerCase().includes(searchLower)
+        )
+    });
+
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentLibraries = filteredLibraries?.slice(indexOfFirstItem, indexOfLastItem);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const handlePageNumber = (itemNumber) => {
+        setItemsPerPage(itemNumber);
+        setCurrentPage(1);
+        scroll.current.scrollIntoView();
+    };
+
 
     const toggleAction = (event, index) => {
         event.stopPropagation();
@@ -98,6 +131,15 @@ export const LibraryPage = () => {
                     <div className={styles.title}>
                         <h1>Library</h1>
                         <div className={styles.buttons}>
+                            <div className={styles.searchBar}>
+                                <img src={getImageUrl('searchIcon.png')} />
+                                <input
+                                    placeholder="Search"
+                                    type="text"
+                                    value={search}
+                                    onChange={handleSearch}
+                                />
+                            </div>
                             {/* <button className={styles.buttonOne}>Sort By<img src={getImageUrl('sortIcon.png')} /></button> */}
                             <button className={styles.buttonTwo} onClick={() => setOpen(true)} ><img src={getImageUrl('whitePlus.png')} />Create New Folder</button>
                         </div>
@@ -106,32 +148,54 @@ export const LibraryPage = () => {
 
                     {isLoading ? <h5 className={styles.loading}>Loading...</h5> :
 
-                        libraries?.length === 0 ?
+                        currentLibraries?.length === 0 ?
 
                             <p className={styles.none}>Library is empty</p>
                             :
-                            <div className={styles.library}>
+                            <div>
+                                <div className={styles.library}>
 
-                                {libraries?.map((lib, index) => (
-                                    <div key={index} className={styles.libInfo} id="outer">
-                                        <div className={styles.infoHeader}>
-                                            <h3>{lib.name}</h3>
-                                            <div>
-                                                <button className={styles.actionsButton} onClick={(e) => toggleAction(e, index)}><img src={getImageUrl('threeDots.png')} /></button>
-                                                {actionsOpen[index] && <div className={styles.theActions} ref={actionsRef}>
-                                                    <h5>ACTION</h5>
-                                                    <button onClick={(e) => handleToDetails(e, lib)}><img src={getImageUrl('edit.png')} />EDIT</button>
-                                                    <button onClick={(e) => handleDelete(e, lib)}><img src={getImageUrl('delete.png')} />DELETE</button>
-                                                </div>}
+                                    {currentLibraries?.map((lib, index) => (
+                                        <div key={index} className={styles.libInfo} id="outer">
+                                            <div className={styles.infoHeader}>
+                                                <h3>{lib.name}</h3>
+                                                <div>
+                                                    <button className={styles.actionsButton} onClick={(e) => toggleAction(e, index)}><img src={getImageUrl('threeDots.png')} /></button>
+                                                    {actionsOpen[index] && <div className={styles.theActions} ref={actionsRef}>
+                                                        <h5>ACTION</h5>
+                                                        <button onClick={(e) => handleToDetails(e, lib)}><img src={getImageUrl('edit.png')} />EDIT</button>
+                                                        <button onClick={(e) => handleDelete(e, lib)}><img src={getImageUrl('delete.png')} />DELETE</button>
+                                                    </div>}
+                                                </div>
+                                            </div>
+                                            <p><u>Description:</u> {lib.description}</p>
+                                            <div className={styles.crumb}>
+                                                <div className={styles.profile}><img src={getImageUrl('profile.svg')} alt="" />{lib.instructor_name}</div>
+                                                <div className={styles.students}><img src={getImageUrl('frame5.png')} alt="" />{lib.file_count} {parseInt(lib.file_count) === 1 ? 'File' : 'Files'}</div>
                                             </div>
                                         </div>
-                                        <p><u>Description:</u> {lib.description}</p>
-                                        <div className={styles.crumb}>
-                                            <div className={styles.profile}><img src={getImageUrl('profile.svg')} alt="" />{lib.instructor_name}</div>
-                                            <div className={styles.students}><img src={getImageUrl('frame5.png')} alt="" />{lib.file_count} {parseInt(lib.file_count) === 1 ? 'File' : 'Files'}</div>
-                                        </div>
+                                    ))}
+                                </div>
+
+
+                                <div style={{ w: '100%', display: "flex", alignItems: 'center', marginTop: '25px' }}>
+                                    <div className={styles.showRows}>
+                                        Show
+                                        <select onChange={(e) => handlePageNumber(e.target.value)} >
+                                            <option value={5}>5</option>
+                                            <option value={10}>10</option>
+                                            <option value={15}>15</option>
+                                        </select>
+                                        Rows
                                     </div>
-                                ))}
+                                    <Pagination className={styles.pag}
+                                        currentData={filteredLibraries}
+                                        currentPage={currentPage}
+                                        itemsPerPage={itemsPerPage}
+                                        onPageChange={handlePageChange}
+                                    />
+
+                                </div>
                             </div>
                     }
                 </div>
