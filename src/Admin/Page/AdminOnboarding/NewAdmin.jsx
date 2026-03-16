@@ -12,10 +12,10 @@ export const NewAdmin = () => {
 
   const { id } = useParams();
 
-  const [ teacher, setTeacher ] = useState({});
-  const [ password, setPassword ] = useState('');
-  const [ errorMessage, setErrorMesage ] = useState(false);
-  const [ isLoading, setIsLoading ] = useState(false);
+  const [teacher, setTeacher] = useState({});
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMesage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getInstructor();
@@ -42,7 +42,7 @@ export const NewAdmin = () => {
     }
   }
 
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -63,7 +63,7 @@ export const NewAdmin = () => {
 
       <div className={styles.bread}>
         <img src={getImageUrl("Frame 349.png")} alt="" />
-        <h3>The ultimate financial management solution. Seize control, gain insightful data.</h3>
+        <h3>The ultimate Learning Management System dedicated to training young tech enthusiasts on career boosting IT and Tech courses.</h3>
       </div>
 
       <div className={styles.crumb}>

@@ -46,7 +46,7 @@ export const PasswordPage = () => {
 
             <div className={styles.bread}>
                 <img src={getImageUrl("Frame 349.png")} alt="" />
-                <h3>The ultimate financial management solution. Seize control, gain insightful data.</h3>
+                <h3>The ultimate Learning Management System dedicated to training young tech enthusiasts on career boosting IT and Tech courses.</h3>
             </div>
 
             <div className={styles.crumb}>
