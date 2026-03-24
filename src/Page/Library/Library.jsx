@@ -26,13 +26,13 @@ export const Library = () => {
         setIsLoading(true);
         setSearch("");
         try {
-            const result = await axios(BASE_URL + `/library`);
+            const result = await axios(BASE_URL + `/api/library`);
             // console.log(result);
             setDocs(result.data);
             setIsLoading(false);
         } catch (err) {
             console.log(err);
-            customToastError("We're having trouble fetching the library. Please try again later.")
+            customToastError("We're having trouble fetching the library. Please try again later.");
             setIsLoading(false);
         }
     }

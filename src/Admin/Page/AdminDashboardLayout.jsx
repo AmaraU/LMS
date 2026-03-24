@@ -15,7 +15,7 @@ export const AdminDashboardLayout = () => {
 
     const updateActiveCohort = async () => {
         try {
-            const result = await axios.post(BASE_URL + '/update-active');
+            const result = await axios.post(BASE_URL + '/api/update-active');
             console.log(result.status);
         } catch (err) {
             console.log(err);
@@ -25,11 +25,11 @@ export const AdminDashboardLayout = () => {
 
     return (
         <>
-        <AdminHeader />
-        <div className={styles.withNav}>
-            <AdminNavbar />
-            <Outlet />
-        </div>
+            <AdminHeader />
+            <div className={styles.withNav}>
+                <AdminNavbar />
+                <Outlet />
+            </div>
         </>
     );
 }

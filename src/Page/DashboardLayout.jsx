@@ -14,7 +14,7 @@ export const DashboardLayout = () => {
 
     const updateActiveCohort = async () => {
         try {
-            const result = await axios.post(BASE_URL + '/update-active');
+            const result = await axios.post(BASE_URL + '/api/update-active');
         } catch (err) {
             console.log(err);
         }
@@ -23,11 +23,11 @@ export const DashboardLayout = () => {
 
     return (
         <>
-        <Header />
-        <div className={styles.withNav}>
-            <Navbar />
-            <Outlet className={styles.outlet}/>
-        </div>
+            <Header />
+            <div className={styles.withNav}>
+                <Navbar />
+                <Outlet className={styles.outlet} />
+            </div>
         </>
     );
 }

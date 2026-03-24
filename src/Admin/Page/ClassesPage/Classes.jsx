@@ -37,13 +37,13 @@ export const Classes = () => {
         setSearch("");
         try {
             if (sessionStorage.getItem('role') === 'Admin') {
-                const result = await axios(BASE_URL + "/lessons-info", {
+                const result = await axios(BASE_URL + "/api/lessons-info", {
                     timeout: 20000
                 });
                 setClasses(result.data);
             }
             else if (sessionStorage.getItem('role') === 'Teacher') {
-                const result = await axios(BASE_URL + `/lessons-info/${sessionStorage.getItem('id')}`, {
+                const result = await axios(BASE_URL + `/api/lessons-info/${sessionStorage.getItem('id')}`, {
                     timeout: 20000
                 });
                 setClasses(result.data);
@@ -58,11 +58,11 @@ export const Classes = () => {
     const fetchAllCourses = async () => {
         try {
             if (sessionStorage.getItem('role') === 'Admin') {
-                const result = await axios(BASE_URL + `/courses`);
+                const result = await axios(BASE_URL + `/api/courses`);
                 setAllCourses(result.data);
             }
             else if (sessionStorage.getItem('role') === 'Teacher') {
-                const result = await axios(BASE_URL + `/courses-teacher/${sessionStorage.getItem('id')}`);
+                const result = await axios(BASE_URL + `/api/courses-teacher/${sessionStorage.getItem('id')}`);
                 setAllCourses(result.data);
             }
         } catch (err) {
@@ -108,7 +108,7 @@ export const Classes = () => {
         setIsLoading2(true);
         try {
 
-            const response = await axios.post(BASE_URL + '/new-lesson', newClassValues);
+            const response = await axios.post(BASE_URL + '/api/new-lesson', newClassValues);
             setIsLoading2(false);
             handleClose();
             customToast('Successfully added new class.')

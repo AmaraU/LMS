@@ -24,7 +24,7 @@ export const ConfirmationPage = () => {
   const confirmUser = async () => {
     setIsLoading(true);
     try {
-      const result = await axios.put(BASE_URL + `/confirm-student/${id}`,
+      const result = await axios.put(BASE_URL + `/api/confirm-student/${id}`,
         {
           timeout: 20000,
         }

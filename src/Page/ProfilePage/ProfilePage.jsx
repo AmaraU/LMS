@@ -30,7 +30,7 @@ export const ProfilePage = () => {
     const getUserInfo = async () => {
         try {
             if (sessionStorage.getItem("type") === 'student') {
-                const response = await axios.get(BASE_URL + `/student-profile/${student?.student_id}`)
+                const response = await axios.get(BASE_URL + `/api/student-profile/${student?.student_id}`)
                 setUserInfo(response.data[0]);
                 setNewInfo({
                     first_name: response.data[0].first_name,
@@ -41,7 +41,7 @@ export const ProfilePage = () => {
             }
 
             if (sessionStorage.getItem("type") === 'teacher') {
-                const response = await axios.get(BASE_URL + `/teacher-profile/${sessionStorage.getItem("id")}`)
+                const response = await axios.get(BASE_URL + `/api/teacher-profile/${sessionStorage.getItem("id")}`)
                 setUserInfo(response.data[0]);
                 setNewInfo({
                     first_name: response.data[0].first_name,
@@ -71,7 +71,7 @@ export const ProfilePage = () => {
         try {
 
             if (type === 'student') {
-                const response = await fetch(BASE_URL + `/student-profile/${student?.student_id}`, {
+                const response = await fetch(BASE_URL + `/api/student-profile/${student?.student_id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ export const ProfilePage = () => {
             }
 
             if (type === 'teacher') {
-                const response = await fetch(BASE_URL + `/teacher-profile/${sessionStorage.getItem("id")}`, {
+                const response = await fetch(BASE_URL + `/api/teacher-profile/${sessionStorage.getItem("id")}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -37,7 +37,7 @@ export const AccountPage = () => {
         event.preventDefault();
         setIsLoading(true);
         try {
-            const result = await axios(BASE_URL + `/getStudentWithEmail/${values.email}`,
+            const result = await axios(BASE_URL + `/api/getStudentWithEmail/${values.email}`,
                 { timeout: 20000 }
             );
             if (result.data.length > 0) {

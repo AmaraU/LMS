@@ -31,7 +31,7 @@ export const TheCertificate = () => {
     const fetchCertificate = async () => {
         setIsLoading(true);
         try {
-            const result = await axios(BASE_URL + `/certificates/${student?.student_id}`, {
+            const result = await axios(BASE_URL + `/api/certificates/${student?.student_id}`, {
                 timeout: 25000
             });
             setCertificate(result.data.filter(e => e.certificate_id === parseInt(certId))[0]);

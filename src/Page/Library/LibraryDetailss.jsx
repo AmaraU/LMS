@@ -47,7 +47,7 @@ export const LibraryDetailss = () => {
 
     const handleDownload = async (file) => {
         try {
-            const response = await fetch(BASE_URL + `/library-doc/${file.file_id}`);
+            const response = await fetch(BASE_URL + `/api/library-doc/${file.file_id}`);
 
             if (!response.ok) {
                 customToastError('Failed to download file. Please try again.');

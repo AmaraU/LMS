@@ -22,7 +22,7 @@ export const AdminLogin = () => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post(BASE_URL + '/adminlogin',
+      const response = await axios.post(BASE_URL + '/api/adminlogin',
         { email, password },
         { timeout: 50000 }
       );

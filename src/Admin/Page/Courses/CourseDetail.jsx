@@ -44,14 +44,14 @@ export const CourseDetail = () => {
         setIsLoading(true);
         try {
             if (sessionStorage.getItem("role") === 'Teacher') {
-                const result = await axios(BASE_URL + `/courses-instructor-studentscount-lessons/${sessionStorage.getItem("id")}`);
+                const result = await axios(BASE_URL + `/api/courses-instructor-studentscount-lessons/${sessionStorage.getItem("id")}`);
                 if (result.data.filter(e => e.course_id === parseInt(courseId)).length === 0) {
                     window.location.href = "/admin-dashboard/courses"
                 }
                 else { setCourse(result.data.filter(e => e.course_id === parseInt(courseId))[0]); }
             }
             else if (sessionStorage.getItem("role") === 'Admin') {
-                const result = await axios(BASE_URL + `/courses-instructor-studentscount-lessons`);
+                const result = await axios(BASE_URL + `/api/courses-instructor-studentscount-lessons`);
                 if (result.data.filter(e => e.course_id === parseInt(courseId)).length === 0) {
                     window.location.href = "/admin-dashboard/courses"
                 }
@@ -83,7 +83,7 @@ export const CourseDetail = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(BASE_URL + `/courses/detail/${course.course_id}`, {
+            const response = await fetch(BASE_URL + `/api/courses/detail/${course.course_id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -135,7 +135,7 @@ export const CourseDetail = () => {
         }
 
         try {
-            const response = await fetch(BASE_URL + '/new-lesson', {
+            const response = await fetch(BASE_URL + '/api/new-lesson', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -198,7 +198,7 @@ export const CourseDetail = () => {
         newExam.file !== null && formData.append('file', newExam.file[0]);
 
         try {
-            const response = await fetch(BASE_URL + '/new-exam', {
+            const response = await fetch(BASE_URL + '/api/new-exam', {
                 method: 'POST',
                 body: formData,
             });
@@ -261,7 +261,7 @@ export const CourseDetail = () => {
         }
 
         try {
-            const response = await fetch(BASE_URL + '/update-exam', {
+            const response = await fetch(BASE_URL + '/api/update-exam', {
                 method: 'POST',
                 body: formData,
             });

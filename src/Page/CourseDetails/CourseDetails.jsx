@@ -25,7 +25,7 @@ export const CourseDetails = () => {
     const loadCourseDetails = async () => {
         setIsLoading(true);
         try {
-            const result = await axios(BASE_URL + `/courses-instructor-students-lessons/${student?.student_id}`);
+            const result = await axios(BASE_URL + `/api/courses-instructor-students-lessons/${student?.student_id}`);
             if (result.data.filter(e => e.course_id === parseInt(courseID))[0] === undefined) {
                 window.location.href = "/dashboard/courses";
                 return
@@ -50,11 +50,11 @@ export const CourseDetails = () => {
         try {
             var response;
             if (type === 'lesson') {
-                response = await fetch(BASE_URL + `/lesson-file/${file.file_id}`);
+                response = await fetch(BASE_URL + `/api/lesson-file/${file.file_id}`);
             } else if (type === 'assignment') {
-                response = await fetch(BASE_URL + `/assignment-file/${file.assignment_id}`);
+                response = await fetch(BASE_URL + `/api/assignment-file/${file.assignment_id}`);
             } else if (type === 'exam') {
-                response = await fetch(BASE_URL + `/exam-file/${file.exam_id}`);
+                response = await fetch(BASE_URL + `/api/exam-file/${file.exam_id}`);
             }
 
             if (!response.ok) {
@@ -93,7 +93,7 @@ export const CourseDetails = () => {
             var response = '';
 
             if (type === 'assignment') {
-                response = await fetch(BASE_URL + `/upload-student-assignment/${id}/${student?.student_id}`, {
+                response = await fetch(BASE_URL + `/api/upload-student-assignment/${id}/${student?.student_id}`, {
                     method: 'POST',
                     body: formData
                 })
@@ -101,7 +101,7 @@ export const CourseDetails = () => {
                 setUploading(false)
                 customToast("Successfully submitted your " + type)
             } else if (type === 'exam') {
-                response = await fetch(BASE_URL + `/upload-student-exam/${id}/${student?.student_id}`, {
+                response = await fetch(BASE_URL + `/api/upload-student-exam/${id}/${student?.student_id}`, {
                     method: 'POST',
                     body: formData
                 })
@@ -120,7 +120,7 @@ export const CourseDetails = () => {
     }
 
     const handleComplete = async (les, type) => {
-        await axios.post(BASE_URL + `/complete-lesson/${student?.student_id}/${les.lesson_id}`);
+        await axios.post(BASE_URL + `/api/complete-lesson/${student?.student_id}/${les.lesson_id}`);
         customToast('You have successfully completed this lesson.');
         loadCourseDetails();
     }

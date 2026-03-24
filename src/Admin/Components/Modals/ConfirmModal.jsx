@@ -54,11 +54,11 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
         }
         try {
             if (item.toLowerCase() === "course") {
-                const result = await axios.post(BASE_URL + '/suspend-course', courseValues)
+                const result = await axios.post(BASE_URL + '/api/suspend-course', courseValues)
                 console.log(result.status);
             }
             else if (item.toLowerCase() === "teacher") {
-                const result = await axios.put(BASE_URL + '/suspend-teacher', teacherValues)
+                const result = await axios.put(BASE_URL + '/api/suspend-teacher', teacherValues)
                 console.log(result.status);
             }
 
@@ -92,11 +92,11 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
         // }
         try {
             if (item.toLowerCase() === "course") {
-                await axios.post(BASE_URL + '/resume-course', courseValues)
+                await axios.post(BASE_URL + '/api/resume-course', courseValues)
             }
 
             // else if (item.toLowerCase() === "teacher") {
-            //     const result = await axios.put(BASE_URL + '/suspend-teacher', teacherValues);
+            //     const result = await axios.put(BASE_URL + '/api/suspend-teacher', teacherValues);
             // }
 
             setOpen(false);
@@ -121,7 +121,7 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
             user: sessionStorage.getItem('full_name'),
         }
         try {
-            const result = await axios.post(BASE_URL + '/remove-course', values)
+            const result = await axios.post(BASE_URL + '/api/remove-course', values)
             console.log(result.status);
 
             setOpen(false);
@@ -175,27 +175,27 @@ export const ConfirmModal = ({ isOpen, setOpen, item, cohort, selected, confirmT
 
         try {
             if (item.toLowerCase() === "course") {
-                const result = await axios.put(BASE_URL + '/delete-course', courseValues)
+                const result = await axios.put(BASE_URL + '/api/delete-course', courseValues)
                 console.log(result.status);
             }
 
             if (item.toLowerCase() === "teacher") {
-                const result = await axios.put(BASE_URL + '/delete-teacher', teacherValues)
+                const result = await axios.put(BASE_URL + '/api/delete-teacher', teacherValues)
                 console.log(result.status);
             }
 
             if (item.toLowerCase() === "class") {
-                const result = await axios.put(BASE_URL + '/delete-lesson', lessonValues)
+                const result = await axios.put(BASE_URL + '/api/delete-lesson', lessonValues)
                 console.log(result.status);
             }
 
             if (item.toLowerCase() === "exam") {
-                const result = await axios.put(BASE_URL + '/delete-exam', examValues)
+                const result = await axios.put(BASE_URL + '/api/delete-exam', examValues)
                 console.log(result.status);
             }
 
             if (item.toLowerCase() === "assignment") {
-                const result = await axios.put(BASE_URL + '/delete-assignment', assignmentValues)
+                const result = await axios.put(BASE_URL + '/api/delete-assignment', assignmentValues)
                 console.log(result.status);
             }
 

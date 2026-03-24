@@ -24,7 +24,7 @@ export const CohortPage = () => {
         setIsLoading(true);
         setSearch("");
         try {
-            const result = await axios(BASE_URL + "/cohorts-details", {
+            const result = await axios(BASE_URL + "/api/cohorts-details", {
                 timeout: 20000
             });
             setCohorts(result.data);
@@ -60,7 +60,7 @@ export const CohortPage = () => {
 
 
         try {
-            axios.post(BASE_URL + '/new-cohort', newCohortValues)
+            axios.post(BASE_URL + '/api/new-cohort', newCohortValues)
                 .then(res => {
                     setIsOpenCohort(false);
                     customToast('Cohort added successfully')

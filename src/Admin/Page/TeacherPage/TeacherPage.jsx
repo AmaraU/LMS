@@ -47,7 +47,7 @@ export const TeachersPage = () => {
         setIsLoading(true);
         setSearch("");
         try {
-            const result = await axios(BASE_URL + "/teachers", {
+            const result = await axios(BASE_URL + "/api/teachers", {
                 timeout: 10000
             });
             setTeachers(result.data);
@@ -62,7 +62,7 @@ export const TeachersPage = () => {
     const fetchCourses = async () => {
         setIsLoading(true);
         try {
-            const result = await axios(BASE_URL + "/courses");
+            const result = await axios(BASE_URL + "/api/courses");
             setCourses(result.data);
             setIsLoading(false);
         } catch (err) {
@@ -96,7 +96,7 @@ export const TeachersPage = () => {
         const validEndingsRegex = /@thefifthlab.com$|@cwg-plc.com$/g;
         if (newTeacherValues.email.match(validEndingsRegex)) {
             try {
-                axios.post(BASE_URL + '/new-teacher', newTeacherValues)
+                axios.post(BASE_URL + '/api/new-teacher', newTeacherValues)
                     .then(res => customToast('Teacher added successfully'))
                     .catch(err => console.log(err));
                 setOpen(false);
@@ -116,7 +116,7 @@ export const TeachersPage = () => {
             instructor_id: id
         };
         try {
-            const response = await axios.put(BASE_URL + '/change-teacher-role', values);
+            const response = await axios.put(BASE_URL + '/api/change-teacher-role', values);
             console.log(response.status);
             customToast('Teacher role changed');
             fetchTeachers();

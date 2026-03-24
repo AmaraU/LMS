@@ -24,7 +24,7 @@ export const NewAdmin = () => {
   const getInstructor = async () => {
     setIsLoading(true);
     try {
-      const result = await axios(BASE_URL + `/teachers/${id}`,
+      const result = await axios(BASE_URL + `/api/teachers/${id}`,
         {
           timeout: 30000,
         }
@@ -47,7 +47,7 @@ export const NewAdmin = () => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post(BASE_URL + '/admin-signup', { password, id });
+      const response = await axios.post(BASE_URL + '/api/admin-signup', { password, id });
       console.log(response.status)
       setIsLoading(false);
       window.location.href = "/admin-login";

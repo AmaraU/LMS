@@ -13,22 +13,22 @@ export const CohortDetails = () => {
 
     const { id } = useParams();
 
-    const [ cohort, setCohort ] = useState({});
-    const [ allCourses, setAllCourses ] = useState([]);
-    const [ cohortCourses, setCohortCourses ] = useState([]);
+    const [cohort, setCohort] = useState({});
+    const [allCourses, setAllCourses] = useState([]);
+    const [cohortCourses, setCohortCourses] = useState([]);
 
-    const [ isOpenCourse, setIsOpenCourse ] = useState(false);
-    const [ dateError, setDateError ] = useState(false);
-    const [ isLoading, setIsLoading ] = useState(false);
-    const [ isLoading2, setIsLoading2 ] = useState(false);
+    const [isOpenCourse, setIsOpenCourse] = useState(false);
+    const [dateError, setDateError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading2, setIsLoading2] = useState(false);
 
-    const [ actionsOpen, setActionsOpen ] = useState({});
-    const [ selected, setSelected ] = useState({});
-    const [ confirmType, setConfirmType ] = useState('');
-    const [ isOpenConfirm, setIsOpenConfirm ] = useState(false);
-    const [ currentPage, setCurrentPage ] = useState(1);
-    const [ itemsPerPage, setItemsPerPage ] = useState(5);
-    
+    const [actionsOpen, setActionsOpen] = useState({});
+    const [selected, setSelected] = useState({});
+    const [confirmType, setConfirmType] = useState('');
+    const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
+
     const scroll = useRef(null);
     const actionsRef = useRef(null);
 
@@ -42,7 +42,7 @@ export const CohortDetails = () => {
     const fetchCohortData = async () => {
         setIsLoading(true);
         try {
-            const result = await axios(BASE_URL + `/cohorts-details/${id}`,
+            const result = await axios(BASE_URL + `/api/cohorts-details/${id}`,
                 {
                     timeout: 20000,
                 }
@@ -63,7 +63,7 @@ export const CohortDetails = () => {
 
     const fetchAllCourses = async () => {
         try {
-            const result = await axios(BASE_URL + `/courses`);
+            const result = await axios(BASE_URL + `/api/courses`);
             setAllCourses(result.data)
         } catch (err) {
             console.log(err);
@@ -72,7 +72,7 @@ export const CohortDetails = () => {
 
 
 
-    const [ addedCourseValues, setAddedCourseValues ] = useState({
+    const [addedCourseValues, setAddedCourseValues] = useState({
         cohort_id: '',
         cohort_name: '',
         course_id: 0,
@@ -105,20 +105,20 @@ export const CohortDetails = () => {
         event.preventDefault();
         setIsLoading2(true);
         try {
-            const response = await axios.post(BASE_URL + '/new-cohort-course', addedCourseValues);
+            const response = await axios.post(BASE_URL + '/api/new-cohort-course', addedCourseValues);
 
             setIsOpenCourse(false);
             // handleSuccess();
             fetchCohortData();
             setIsLoading2(false);
-            
+
         } catch (err) {
             console.log(err);
             setIsLoading2(false);
         }
     }
 
-    
+
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -168,135 +168,135 @@ export const CohortDetails = () => {
     return (
         <>
 
-        <div className={styles.whole}>
+            <div className={styles.whole}>
 
-            {(!cohort.cohort_id || isLoading) ? <p className={styles.loading}>Loading...</p> :
+                {(!cohort.cohort_id || isLoading) ? <p className={styles.loading}>Loading...</p> :
 
-                <>
-                <div className={styles.breadcrumb}><a href="/admin-dashboard/overview">Home</a> {'>'} <a href="/admin-dashboard/cohort">Cohorts</a> {'>'} {cohort.cohort_name}</div>
+                    <>
+                        <div className={styles.breadcrumb}><a href="/admin-dashboard/overview">Home</a> {'>'} <a href="/admin-dashboard/cohort">Cohorts</a> {'>'} {cohort.cohort_name}</div>
 
-                <div>
-                    <div className={styles.title}>
-                        <h3>{cohort.cohort_name} Details</h3>
-                        <div className={styles.buttons}>
-                            {sessionStorage.getItem('role') === 'Admin' && <button className={styles.buttonTwo} onClick={()=>setIsOpenCourse(true)}>
-                                <img src={getImageUrl('whitePlus.png')} alt="" />
-                                Add Course
-                            </button>}
-                        </div>
-                    </div>
-
-                    <div className={styles.whiteBox}>
-                        <div className={styles.headerBox}>
-                            <h3>Cohort {cohort.cohort_number}</h3>
-                            <p>{cohort.description}</p>
-                            <div className={styles.cohortData}>
-                                <div>
-                                    <img src={getImageUrl('blueCalendar.png')} alt="" />
-                                    {format( new Date(cohort.start_date), 'MMMM')} - {format( new Date(cohort.end_date), 'MMMM')}
-                                </div>
-                                <div>
-                                    <img src={getImageUrl('forStudents.png')} alt="" />
-                                    {cohort.course.reduce((sum, item) => sum + item.student_count, 0)} Students
+                        <div>
+                            <div className={styles.title}>
+                                <h3>{cohort.cohort_name} Details</h3>
+                                <div className={styles.buttons}>
+                                    {sessionStorage.getItem('role') === 'Admin' && <button className={styles.buttonTwo} onClick={() => setIsOpenCourse(true)}>
+                                        <img src={getImageUrl('whitePlus.png')} alt="" />
+                                        Add Course
+                                    </button>}
                                 </div>
                             </div>
-                            <div className={styles.cohortLoader2}>
-                                <p>{cohort.course.filter(e => e.completed === true).length}/{cohort.course.length}</p>
-                                <progress
-                                    id="progress"
-                                    className={`${cohort.course.filter(e => e.completed === true).length === cohort.course.length ? styles.complete : ''} ${styles.progress}`}
-                                    max={cohort.course.length}
-                                    value={cohort.course.filter(e => e.completed === true).length}
-                                />
-                            </div>
-                        </div>
 
-                        {cohort.course.length < 1 ?
-                            <p className={styles.loading}>No Courses under this Cohort</p>
-                            :
-                            <div>
-                                <table className={styles.cohortTable}>
-                                    <thead>
-                                        <th><input type="checkbox" /></th>
-                                        <th>Course Title</th>
-                                        <th>No. Of Students</th>
-                                        <th>No. of Classes</th>
-                                        {sessionStorage.getItem('role') === 'Admin' && <th>Action</th>}
-                                    </thead>
-                                    <tbody>
-                                        {currentCourses.map((cour, index) => (
-                                            <tr key={index}>
-                                                <td><input type="checkbox" /></td>
-                                                <td>{cour.course_name}</td>
-                                                <td>{cour.student_count}</td>
-                                                <td>{cour.lesson_count}</td>
-                                                {sessionStorage.getItem('role') === 'Admin' && <td>
-                                                    <button className={styles.actionsButton} onClick={()=>toggleAction(index)}><img src={getImageUrl('threeDots.png')} /></button>
-                                                    {actionsOpen[index] && <div className={styles.theActions} ref={actionsRef}>
-                                                        <h5>ACTION</h5>
-                                                        <button onClick={()=>toCourseDetail(cour.course_id)}><img src={getImageUrl('edit.png')} />EDIT</button>
-                                                        <button onClick={()=>handleOpenConfirm(cour, 'suspend')}><img src={getImageUrl('approve.png')} />SUSPEND</button>
-                                                        <button onClick={()=>handleOpenConfirm(cour, 'remove')}><img src={getImageUrl('delete.png')} />REMOVE</button>
-                                                    </div>}
-                                                </td>}
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-
-                                <div style={{ w:'100%', display:"flex", alignItems:'center' }}>
-                                    <div className={styles.showRows}>
-                                        Show
-                                        <select onChange={(e) => handlePageNumber(e.target.value)} >
-                                            <option value={5}>5</option>
-                                            <option value={10}>10</option>
-                                            <option value={15}>15</option>
-                                        </select>
-                                        Rows
+                            <div className={styles.whiteBox}>
+                                <div className={styles.headerBox}>
+                                    <h3>Cohort {cohort.cohort_number}</h3>
+                                    <p>{cohort.description}</p>
+                                    <div className={styles.cohortData}>
+                                        <div>
+                                            <img src={getImageUrl('blueCalendar.png')} alt="" />
+                                            {format(new Date(cohort.start_date), 'MMMM')} - {format(new Date(cohort.end_date), 'MMMM')}
+                                        </div>
+                                        <div>
+                                            <img src={getImageUrl('forStudents.png')} alt="" />
+                                            {cohort.course.reduce((sum, item) => sum + item.student_count, 0)} Students
+                                        </div>
                                     </div>
-                                    <Pagination className={styles.pag}
-                                        currentData={cohort?.course}
-                                        currentPage={currentPage}
-                                        itemsPerPage={itemsPerPage}
-                                        onPageChange={handlePageChange}
-                                    />
-
+                                    <div className={styles.cohortLoader2}>
+                                        <p>{cohort.course.filter(e => e.completed === true).length}/{cohort.course.length}</p>
+                                        <progress
+                                            id="progress"
+                                            className={`${cohort.course.filter(e => e.completed === true).length === cohort.course.length ? styles.complete : ''} ${styles.progress}`}
+                                            max={cohort.course.length}
+                                            value={cohort.course.filter(e => e.completed === true).length}
+                                        />
+                                    </div>
                                 </div>
+
+                                {cohort.course.length < 1 ?
+                                    <p className={styles.loading}>No Courses under this Cohort</p>
+                                    :
+                                    <div>
+                                        <table className={styles.cohortTable}>
+                                            <thead>
+                                                <th><input type="checkbox" /></th>
+                                                <th>Course Title</th>
+                                                <th>No. Of Students</th>
+                                                <th>No. of Classes</th>
+                                                {sessionStorage.getItem('role') === 'Admin' && <th>Action</th>}
+                                            </thead>
+                                            <tbody>
+                                                {currentCourses.map((cour, index) => (
+                                                    <tr key={index}>
+                                                        <td><input type="checkbox" /></td>
+                                                        <td>{cour.course_name}</td>
+                                                        <td>{cour.student_count}</td>
+                                                        <td>{cour.lesson_count}</td>
+                                                        {sessionStorage.getItem('role') === 'Admin' && <td>
+                                                            <button className={styles.actionsButton} onClick={() => toggleAction(index)}><img src={getImageUrl('threeDots.png')} /></button>
+                                                            {actionsOpen[index] && <div className={styles.theActions} ref={actionsRef}>
+                                                                <h5>ACTION</h5>
+                                                                <button onClick={() => toCourseDetail(cour.course_id)}><img src={getImageUrl('edit.png')} />EDIT</button>
+                                                                <button onClick={() => handleOpenConfirm(cour, 'suspend')}><img src={getImageUrl('approve.png')} />SUSPEND</button>
+                                                                <button onClick={() => handleOpenConfirm(cour, 'remove')}><img src={getImageUrl('delete.png')} />REMOVE</button>
+                                                            </div>}
+                                                        </td>}
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+
+                                        <div style={{ w: '100%', display: "flex", alignItems: 'center' }}>
+                                            <div className={styles.showRows}>
+                                                Show
+                                                <select onChange={(e) => handlePageNumber(e.target.value)} >
+                                                    <option value={5}>5</option>
+                                                    <option value={10}>10</option>
+                                                    <option value={15}>15</option>
+                                                </select>
+                                                Rows
+                                            </div>
+                                            <Pagination className={styles.pag}
+                                                currentData={cohort?.course}
+                                                currentPage={currentPage}
+                                                itemsPerPage={itemsPerPage}
+                                                onPageChange={handlePageChange}
+                                            />
+
+                                        </div>
+                                    </div>
+                                }
+
                             </div>
-                        }
 
-                    </div>
-                
-                </div>
-                </>
-            }
-        </div>
+                        </div>
+                    </>
+                }
+            </div>
 
 
 
-        <Modal isOpen={isOpenCourse}>
-            <div className={styles.addCohort}>
-                <div className={styles.head}>
-                    <div>
-                        <h3>Add Course</h3>
-                        <p>{cohort.cohort_name}</p>
-                    </div>
-                    <button onClick={()=>setIsOpenCourse(false)} className={styles.close}><img src={getImageUrl('close.png')} /></button>
-                </div>
-
-                <form onSubmit={submitNewCourse} className={styles.contentBody}>
-                    
-                    <div className={styles.form}>
-                        <label htmlFor="course">Course</label>
-                        <select name="course_id" id="course_id" onInput={handleInput} required>
-                            <option value="">Select course</option>
-                            {allCourses.map((cours, index) => (
-                                <option key={index} value={cours.course_id + '-' + cours.name}>{cours.name}</option>
-                            ))}
-                        </select>
+            <Modal isOpen={isOpenCourse}>
+                <div className={styles.addCohort}>
+                    <div className={styles.head}>
+                        <div>
+                            <h3>Add Course</h3>
+                            <p>{cohort.cohort_name}</p>
+                        </div>
+                        <button onClick={() => setIsOpenCourse(false)} className={styles.close}><img src={getImageUrl('close.png')} /></button>
                     </div>
 
-                    {/* <div className={styles.flex}>
+                    <form onSubmit={submitNewCourse} className={styles.contentBody}>
+
+                        <div className={styles.form}>
+                            <label htmlFor="course">Course</label>
+                            <select name="course_id" id="course_id" onInput={handleInput} required>
+                                <option value="">Select course</option>
+                                {allCourses.map((cours, index) => (
+                                    <option key={index} value={cours.course_id + '-' + cours.name}>{cours.name}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {/* <div className={styles.flex}>
                         <div className={styles.form}>
                             <label htmlFor="title">Start Date</label>
                             <input type="text" name="start_date" id="start_date" value={cohort.start_date ? format(new Date(cohort.start_date), 'MM/dd/yyyy'): ''} readOnly  />
@@ -314,17 +314,17 @@ export const CohortDetails = () => {
                                 required />
                         </div>                        
                     </div> */}
-                    {/* <p style={{marginTop: '-12px', color: 'red'}}>{dateError && "End date must be after start date"}</p>                     */}
+                        {/* <p style={{marginTop: '-12px', color: 'red'}}>{dateError && "End date must be after start date"}</p>                     */}
 
-                    <button className={styles.cohortButton} type="submit">{isLoading2 ? "..." : "Submit"}</button>
+                        <button className={styles.cohortButton} type="submit">{isLoading2 ? "..." : "Submit"}</button>
 
-                </form>
+                    </form>
 
 
-            </div>
-        </Modal>
+                </div>
+            </Modal>
 
-        <ConfirmModal isOpen={isOpenConfirm} setOpen={setIsOpenConfirm} item={'Course'} cohort={cohort} selected={selected} confirmType={confirmType} reload={fetchCohortData} />
+            <ConfirmModal isOpen={isOpenConfirm} setOpen={setIsOpenConfirm} item={'Course'} cohort={cohort} selected={selected} confirmType={confirmType} reload={fetchCohortData} />
         </>
     )
 }

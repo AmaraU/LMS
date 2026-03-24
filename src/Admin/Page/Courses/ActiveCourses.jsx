@@ -41,13 +41,13 @@ export const ActiveCourses = () => {
         setSearch("");
         try {
             if (sessionStorage.getItem('role') === 'Admin') {
-                const result = await axios(BASE_URL + "/courses-instructor-studentscount-lessons", {
+                const result = await axios(BASE_URL + "/api/courses-instructor-studentscount-lessons", {
                     timeout: 20000
                 });
                 setCourses(result.data.filter(e => e.is_active === true));
             }
             else if (sessionStorage.getItem('role') === 'Teacher') {
-                const result = await axios(BASE_URL + `/courses-instructor-studentscount-lessons/${sessionStorage.getItem('id')}`, {
+                const result = await axios(BASE_URL + `/api/courses-instructor-studentscount-lessons/${sessionStorage.getItem('id')}`, {
                     timeout: 20000
                 });
                 setCourses(result.data.filter(e => e.is_active === true));
@@ -63,7 +63,7 @@ export const ActiveCourses = () => {
     const fetchStudentsForCourse = async (course_id) => {
         setIsLoadingCourse(true);
         try {
-            const result = await axios(BASE_URL + `/students-for-course/${course_id}`, {
+            const result = await axios(BASE_URL + `/api/students-for-course/${course_id}`, {
                 timeout: 20000
             });
             setSelectedStudents(result.data);
@@ -156,7 +156,7 @@ export const ActiveCourses = () => {
         })
         try {
 
-            const response = await axios.post(BASE_URL + '/unenroll-student', submitValues);
+            const response = await axios.post(BASE_URL + '/api/unenroll-student', submitValues);
 
             fetchStudentsForCourse(selected.course_id);
             fetchCoursesTeachersStudents();

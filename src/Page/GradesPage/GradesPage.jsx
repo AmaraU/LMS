@@ -29,7 +29,7 @@ export const GradesPage = () => {
     const getGrades = async () => {
         setIsLoading(true);
         try {
-            const result = await axios(BASE_URL + `/grades/${student?.student_id}`, {
+            const result = await axios(BASE_URL + `/api/grades/${student?.student_id}`, {
                 timeout: 20000
             });
             setGrades(result.data);

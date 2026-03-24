@@ -14,14 +14,14 @@ import { customToast } from "../../../Components/Notifications";
 
 export const SchedulePage = () => {
 
-    const [ events, setEvents ] = useState([]);
-    const [ allCourses, setAllCourses ] = useState([]);
-    const [ allLessons, setAllLessons ] = useState([]);
-    const [ isLoading, setIsLoading ] = useState(false);
-    const [ isLoading2, setIsLoading2 ] = useState(false);
-    const [ search, setSearch ] = useState("");
-    const [ viewType, setViewType ] = useState('timeGridWeek');
-    const [ open, setOpen ] = useState(false);
+    const [events, setEvents] = useState([]);
+    const [allCourses, setAllCourses] = useState([]);
+    const [allLessons, setAllLessons] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading2, setIsLoading2] = useState(false);
+    const [search, setSearch] = useState("");
+    const [viewType, setViewType] = useState('timeGridWeek');
+    const [open, setOpen] = useState(false);
     const calendarRef = useRef(null);
     const calendarAPI = calendarRef?.current?.getApi();
 
@@ -34,13 +34,13 @@ export const SchedulePage = () => {
         setIsLoading(true);
         try {
             if (sessionStorage.getItem('role') === 'Admin') {
-                const result = await axios(BASE_URL + "/events", {
+                const result = await axios(BASE_URL + "/api/events", {
                     timeout: 20000
                 });
                 setEvents(result.data);
             }
             else if (sessionStorage.getItem('role') === 'Teacher') {
-                const result = await axios(BASE_URL + `/events-teacher/${sessionStorage.getItem('id')}`, {
+                const result = await axios(BASE_URL + `/api/events-teacher/${sessionStorage.getItem('id')}`, {
                     timeout: 20000
                 });
                 setEvents(result.data);
@@ -56,11 +56,11 @@ export const SchedulePage = () => {
     const fetchAllCourses = async () => {
         try {
             if (sessionStorage.getItem('role') === 'Admin') {
-                const result = await axios(BASE_URL + `/courses`);
+                const result = await axios(BASE_URL + `/api/courses`);
                 setAllCourses(result.data);
             }
             else if (sessionStorage.getItem('role') === 'Teacher') {
-                const result = await axios(BASE_URL + `/courses-teacher/${sessionStorage.getItem('id')}`);
+                const result = await axios(BASE_URL + `/api/courses-teacher/${sessionStorage.getItem('id')}`);
                 setAllCourses(result.data);
             }
         } catch (err) {
@@ -70,7 +70,7 @@ export const SchedulePage = () => {
 
     const fetchAllLessons = async (Id) => {
         try {
-            const result = await axios(BASE_URL + `/lessons-course/${Id}`);
+            const result = await axios(BASE_URL + `/api/lessons-course/${Id}`);
             setAllLessons(result.data)
         } catch (err) {
             console.log(err);
@@ -78,7 +78,7 @@ export const SchedulePage = () => {
     }
 
 
-    const [ newEventValues, setNewEventValues ] = useState({
+    const [newEventValues, setNewEventValues] = useState({
         name: null,
         type: null,
         course_id: null,
@@ -88,7 +88,7 @@ export const SchedulePage = () => {
         end_date: null,
         due_date: null
     })
-    
+
     const handleClose = () => {
         setOpen(false);
         setNewEventValues({
@@ -133,11 +133,11 @@ export const SchedulePage = () => {
         setNewEventValues(prev => ({ ...prev, [event.target.name]: event.target.value }))
 
         if ((event.target.name === 'due_date')
-        || (event.target.name === 'start_date')
-        || (event.target.name === 'end_date')) {
+            || (event.target.name === 'start_date')
+            || (event.target.name === 'end_date')) {
             setNewEventValues(prev => ({ ...prev, [event.target.name]: event.target.value.replace('T', ' ') + '+01' }))
         }
-        
+
         if (event.target.name === 'type' && event.target.value === 'Assignment' && newEventValues.course_id) {
             fetchAllLessons(newEventValues.course_id);
         }
@@ -153,23 +153,23 @@ export const SchedulePage = () => {
             var response = '';
 
             if (newEventValues.type === 'Class') {
-                response = await axios.post(BASE_URL + '/new-lesson', newEventValues);
+                response = await axios.post(BASE_URL + '/api/new-lesson', newEventValues);
                 setIsLoading2(false);
                 customToast('Successfully added class');
             }
             else if (newEventValues.type === 'Assignment') {
-                response = await axios.post(BASE_URL + '/new-assignment', newEventValues);
+                response = await axios.post(BASE_URL + '/api/new-assignment', newEventValues);
                 setIsLoading2(false);
                 customToast('Successfully added assignment');
             }
             else if (newEventValues.type === 'Exam') {
-                response = await axios.post(BASE_URL + '/new-exam', newEventValues);
+                response = await axios.post(BASE_URL + '/api/new-exam', newEventValues);
                 setIsLoading2(false);
                 customToast('Successfully added exam');
             }
             setOpen(false);
             fetchEvents();
-            
+
         } catch (err) {
             console.log(err);
             setIsLoading2(false);
@@ -180,175 +180,175 @@ export const SchedulePage = () => {
 
     return (
         <>
-        <div className={styles.whole}>
+            <div className={styles.whole}>
 
-            <a>Schedule</a>
+                <a>Schedule</a>
 
-            <div className={styles.scheduleHeader}>
-                Recent Schedules
+                <div className={styles.scheduleHeader}>
+                    Recent Schedules
 
-                <div className={styles.buttons}>
-                    <button className={styles.buttonOne}>Sort By<img src={getImageUrl('sortIcon.png')} /></button>
-                    <button className={styles.buttonTwo} onClick={handleOpen}><img src={getImageUrl('whitePlus.png')} />Create Event</button>
-                </div>
-            </div>
-
-            <Modal isOpen={open} >
-                <form className={styles.course_modal} onSubmit={handleSubmitEvent}>
-                    <div className={styles.head}>
-                        <h3>Create Event</h3>
-                        <button onClick={handleClose} className={styles.close}><img src={getImageUrl('close.png')} alt="" /></button>
+                    <div className={styles.buttons}>
+                        <button className={styles.buttonOne}>Sort By<img src={getImageUrl('sortIcon.png')} /></button>
+                        <button className={styles.buttonTwo} onClick={handleOpen}><img src={getImageUrl('whitePlus.png')} />Create Event</button>
                     </div>
+                </div>
 
-                    <div style={{overflow: 'auto'}}>
-                        <div className={styles.content}>
-                            <div>
-                                <h5>Event Name</h5>
-                                <input type="text" name="name" placeholder="Enter Event Name" onChange={handleInput} required></input>
-                            </div>
-                            <div>
-                                <h5>Event Type</h5>
-                                <select name="type" onChange={handleInput} required>
-                                    <option className={styles.first} value="">Select Event Type</option>
-                                    <option value="Class">Class</option>
-                                    <option value="Assignment">Assignment</option>
-                                    <option value="Exam">Exam</option>
-                                </select>
-                            </div>
+                <Modal isOpen={open} >
+                    <form className={styles.course_modal} onSubmit={handleSubmitEvent}>
+                        <div className={styles.head}>
+                            <h3>Create Event</h3>
+                            <button onClick={handleClose} className={styles.close}><img src={getImageUrl('close.png')} alt="" /></button>
+                        </div>
 
-                            <div>
-                                <h5>Course</h5>
-                                <select name="course_id" onChange={handleInput} required>
-                                    <option className={styles.first} value="">Select Course</option>
-                                    {allCourses.map((cours, index) => (
-                                        <option key={index} value={cours.course_id}>{cours.name}</option>
-                                    ))}
-                                </select>
-                            </div>
+                        <div style={{ overflow: 'auto' }}>
+                            <div className={styles.content}>
+                                <div>
+                                    <h5>Event Name</h5>
+                                    <input type="text" name="name" placeholder="Enter Event Name" onChange={handleInput} required></input>
+                                </div>
+                                <div>
+                                    <h5>Event Type</h5>
+                                    <select name="type" onChange={handleInput} required>
+                                        <option className={styles.first} value="">Select Event Type</option>
+                                        <option value="Class">Class</option>
+                                        <option value="Assignment">Assignment</option>
+                                        <option value="Exam">Exam</option>
+                                    </select>
+                                </div>
 
-                            {newEventValues.type === 'Assignment' && newEventValues.course_id && <div>
-                                <h5>Lesson</h5>
-                                <select name="lesson_id" onChange={handleInput} required>
-                                    <option value={null}>Select Lesson</option>
-                                    {allLessons.map((less, index) => (
-                                        <option key={index} value={less.lesson_id}>{less.title}</option>
-                                    ))}
-                                </select>
+                                <div>
+                                    <h5>Course</h5>
+                                    <select name="course_id" onChange={handleInput} required>
+                                        <option className={styles.first} value="">Select Course</option>
+                                        {allCourses.map((cours, index) => (
+                                            <option key={index} value={cours.course_id}>{cours.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {newEventValues.type === 'Assignment' && newEventValues.course_id && <div>
+                                    <h5>Lesson</h5>
+                                    <select name="lesson_id" onChange={handleInput} required>
+                                        <option value={null}>Select Lesson</option>
+                                        {allLessons.map((less, index) => (
+                                            <option key={index} value={less.lesson_id}>{less.title}</option>
+                                        ))}
+                                    </select>
+                                </div>}
+
+                            </div>
+                            {newEventValues.type != 'Assignment' && <div className={styles.contain}>
+                                <div>
+                                    <h5>Start Date & Time</h5>
+                                    <input type="datetime-local" name="start_date" onChange={handleInput} />
+                                </div>
+                                <div>
+                                    <h5>End Date & Time</h5>
+                                    <input type="datetime-local" name="end_date" onChange={handleInput} />
+                                </div>
                             </div>}
 
-                        </div>
-                        {newEventValues.type != 'Assignment' && <div className={styles.contain}>
-                            <div>
-                                <h5>Start Date & Time</h5>
-                                <input type="datetime-local" name="start_date" onChange={handleInput} />
-                            </div>
-                            <div>
-                                <h5>End Date & Time</h5>
-                                <input type="datetime-local" name="end_date" onChange={handleInput}/>
-                            </div>
-                        </div>}
-
-                        {newEventValues.type === 'Assignment' && <div className={styles.contain}>
-                            <div>
-                                <h5>Due Date & Time</h5>
-                                <input type="datetime-local" name="due_date" onChange={handleInput}/>
-                            </div>
-                        </div>}
-                    </div>
-
-                    <button className={styles.submit}>{isLoading2 ? '...' : 'Submit'}</button>
-
-                </form>
-            </Modal>
-
-
-            {isLoading ? <p className={styles.loading}>Loading Schedule...</p> :
-                <div className={styles.biggerDiv}>
-
-                    <div className={styles.bigDiv}>
-
-                        <div className={styles.calendarHeader}>
-                            <div className={`${styles.buttons} ${styles.move}`}>
-                                <button className={styles.prev} onClick={() => calendarAPI?.prev()}><img src={getImageUrl('prevIcon.png')} /></button>
-                                <button className={styles.today} onClick={() => calendarAPI?.today()}>Today</button>
-                                <button className={styles.next} onClick={() => calendarAPI?.next()}><img src={getImageUrl('nextIcon.png')} /></button>
-                            </div>
-
-                            <div className={styles.buttons}>
-                                <button className={viewType === 'timeGridDay' ? styles.activeGrid : styles.grid} onClick={() => setViewType('timeGridDay')}>Day</button>
-                                <button className={viewType === 'timeGridWeek' ? styles.activeGrid : styles.grid} onClick={() => setViewType('timeGridWeek')}>Week</button>
-                                <button className={viewType === 'dayGridMonth' ? styles.activeGrid : styles.grid} onClick={() => setViewType('dayGridMonth')}>Month</button>
-                                <button className={viewType === 'dayGridYear' ? styles.activeGrid : styles.grid} onClick={() => setViewType('dayGridYear')}>Year</button>
-                            </div>
-
-                            <div className={styles.search}>
-                                <img src={getImageUrl('searchIcon.png')} alt="" />
-                                <input onChange={handleSearch} type="text" placeholder="Search" />
-                            </div>
+                            {newEventValues.type === 'Assignment' && <div className={styles.contain}>
+                                <div>
+                                    <h5>Due Date & Time</h5>
+                                    <input type="datetime-local" name="due_date" onChange={handleInput} />
+                                </div>
+                            </div>}
                         </div>
 
-                        {viewType === 'dayGridMonth' && <div className={styles.monthHeader}>
-                            {/* {calendarAPI?.getDate().toLocaleString("default", { month: "long" })} */}
-                        </div>}
+                        <button className={styles.submit}>{isLoading2 ? '...' : 'Submit'}</button>
 
-                        <FullCalendar
-                            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                            ref={calendarRef}
-                            initialView={'timeGridWeek'}
-                            allDaySlot={false}
-                            headerToolbar={false}
-                            slotEventOverlap={false}
-                            eventOverlap={false}
-                            events={filteredEvents}
-                            startParam="start"
-                            endParam="end"
-                            eventBorderColor="transparent"
-                            dayHeaderContent={(args) => {
-                                const { date, view } = args;
-                                const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
-                                const dayOfMonth = date.getDate();
-                                // const month = date.toLocaleDateString('en-US', { month: 'short' });
+                    </form>
+                </Modal>
 
-                                const isDayGridView = view.type.startsWith('dayGrid');
 
-                                return (
-                                    <div className={styles.dayHeader}>
-                                        {/* {isDayGridView && <h2>{month}</h2>} */}
-                                        <h1>{dayOfWeek.toUpperCase()}</h1>
-                                        {!isDayGridView && <h2>{dayOfMonth}</h2>}
-                                    </div>
-                                );
-                            }}
-                            eventDidMount={(info) => {
-                                const eventType = info.event.extendedProps.event_type;
+                {isLoading ? <p className={styles.loading}>Loading Schedule...</p> :
+                    <div className={styles.biggerDiv}>
 
-                                info.el.style.padding = '4px';
-                                info.el.style.fontSize = '12px';
-                                info.el.style.fontWeight = 500;
-                                info.el.style.textOverflow = 'ellipses';
+                        <div className={styles.bigDiv}>
 
-                                if (eventType.toLowerCase() === 'lesson') {
-                                    info.el.style.backgroundColor = '#0EA5E91A';
-                                    info.el.style.borderLeft = '3px solid #0EA5E9';
-                                    info.el.classList.add('class-event');
-                                }
-                                else if (eventType.toLowerCase() === 'assignment') {
-                                    info.el.style.backgroundColor = '#10B9811A';
-                                    info.el.style.borderLeft = '3px solid #10B981';
-                                    info.el.classList.add('assignment-event');
-                                }
-                                else {
-                                    info.el.style.backgroundColor = '#8B5CF61A';
-                                    info.el.style.borderLeft = '3px solid #8B5CF6';
-                                    info.el.classList.add('other-event');
-                                }
-                            }}
-                        />
+                            <div className={styles.calendarHeader}>
+                                <div className={`${styles.buttons} ${styles.move}`}>
+                                    <button className={styles.prev} onClick={() => calendarAPI?.prev()}><img src={getImageUrl('prevIcon.png')} /></button>
+                                    <button className={styles.today} onClick={() => calendarAPI?.today()}>Today</button>
+                                    <button className={styles.next} onClick={() => calendarAPI?.next()}><img src={getImageUrl('nextIcon.png')} /></button>
+                                </div>
 
+                                <div className={styles.buttons}>
+                                    <button className={viewType === 'timeGridDay' ? styles.activeGrid : styles.grid} onClick={() => setViewType('timeGridDay')}>Day</button>
+                                    <button className={viewType === 'timeGridWeek' ? styles.activeGrid : styles.grid} onClick={() => setViewType('timeGridWeek')}>Week</button>
+                                    <button className={viewType === 'dayGridMonth' ? styles.activeGrid : styles.grid} onClick={() => setViewType('dayGridMonth')}>Month</button>
+                                    <button className={viewType === 'dayGridYear' ? styles.activeGrid : styles.grid} onClick={() => setViewType('dayGridYear')}>Year</button>
+                                </div>
+
+                                <div className={styles.search}>
+                                    <img src={getImageUrl('searchIcon.png')} alt="" />
+                                    <input onChange={handleSearch} type="text" placeholder="Search" />
+                                </div>
+                            </div>
+
+                            {viewType === 'dayGridMonth' && <div className={styles.monthHeader}>
+                                {/* {calendarAPI?.getDate().toLocaleString("default", { month: "long" })} */}
+                            </div>}
+
+                            <FullCalendar
+                                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                                ref={calendarRef}
+                                initialView={'timeGridWeek'}
+                                allDaySlot={false}
+                                headerToolbar={false}
+                                slotEventOverlap={false}
+                                eventOverlap={false}
+                                events={filteredEvents}
+                                startParam="start"
+                                endParam="end"
+                                eventBorderColor="transparent"
+                                dayHeaderContent={(args) => {
+                                    const { date, view } = args;
+                                    const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
+                                    const dayOfMonth = date.getDate();
+                                    // const month = date.toLocaleDateString('en-US', { month: 'short' });
+
+                                    const isDayGridView = view.type.startsWith('dayGrid');
+
+                                    return (
+                                        <div className={styles.dayHeader}>
+                                            {/* {isDayGridView && <h2>{month}</h2>} */}
+                                            <h1>{dayOfWeek.toUpperCase()}</h1>
+                                            {!isDayGridView && <h2>{dayOfMonth}</h2>}
+                                        </div>
+                                    );
+                                }}
+                                eventDidMount={(info) => {
+                                    const eventType = info.event.extendedProps.event_type;
+
+                                    info.el.style.padding = '4px';
+                                    info.el.style.fontSize = '12px';
+                                    info.el.style.fontWeight = 500;
+                                    info.el.style.textOverflow = 'ellipses';
+
+                                    if (eventType.toLowerCase() === 'lesson') {
+                                        info.el.style.backgroundColor = '#0EA5E91A';
+                                        info.el.style.borderLeft = '3px solid #0EA5E9';
+                                        info.el.classList.add('class-event');
+                                    }
+                                    else if (eventType.toLowerCase() === 'assignment') {
+                                        info.el.style.backgroundColor = '#10B9811A';
+                                        info.el.style.borderLeft = '3px solid #10B981';
+                                        info.el.classList.add('assignment-event');
+                                    }
+                                    else {
+                                        info.el.style.backgroundColor = '#8B5CF61A';
+                                        info.el.style.borderLeft = '3px solid #8B5CF6';
+                                        info.el.classList.add('other-event');
+                                    }
+                                }}
+                            />
+
+                        </div>
                     </div>
-                </div>
-            }
-        </div>
+                }
+            </div>
         </>
     )
 }

@@ -42,7 +42,7 @@ export const StudentPage = () => {
         setIsLoading(true);
         setSearch("");
         try {
-            const result = await axios(BASE_URL + "/students", {
+            const result = await axios(BASE_URL + "/api/students", {
                 timeout: 10000
             });
             setStudents(result.data);
@@ -57,13 +57,13 @@ export const StudentPage = () => {
         setIsLoading2(true);
         try {
             if (sessionStorage.getItem('role') === 'Admin') {
-                const result = await axios(BASE_URL + `/courses-not/${student_id}`, {
+                const result = await axios(BASE_URL + `/api/courses-not/${student_id}`, {
                     timeout: 20000
                 });
                 setAllCourses(result.data);
             }
             else if (sessionStorage.getItem('role') === 'Teacher') {
-                const result = await axios(BASE_URL + `/courses-not/${student_id}/${sessionStorage.getItem("id")}`, {
+                const result = await axios(BASE_URL + `/api/courses-not/${student_id}/${sessionStorage.getItem("id")}`, {
                     timeout: 20000
                 });
                 setAllCourses(result.data);
@@ -78,13 +78,13 @@ export const StudentPage = () => {
         setIsLoading2(true);
         try {
             if (sessionStorage.getItem('role') === 'Admin') {
-                const result = await axios(BASE_URL + `/courses/${student_id}`, {
+                const result = await axios(BASE_URL + `/api/courses/${student_id}`, {
                     timeout: 20000
                 });
                 setAllCourses(result.data);
             }
             else if (sessionStorage.getItem('role') === 'Teacher') {
-                const result = await axios(BASE_URL + `/coursesss/${student_id}/${sessionStorage.getItem("id")}`, {
+                const result = await axios(BASE_URL + `/api/coursesss/${student_id}/${sessionStorage.getItem("id")}`, {
                     timeout: 20000
                 });
                 setAllCourses(result.data);
@@ -124,13 +124,13 @@ export const StudentPage = () => {
         try {
             var response;
             if (type === 'Add') {
-                response = await axios.post(BASE_URL + '/enroll-student', submitValues);
+                response = await axios.post(BASE_URL + '/api/enroll-student', submitValues);
 
                 setIsOpenCourse(false);
                 // handleSuccess();
 
             } else if (type === 'Remove') {
-                response = await axios.post(BASE_URL + '/unenroll-student', submitValues);
+                response = await axios.post(BASE_URL + '/api/unenroll-student', submitValues);
 
                 setIsOpenCourse(false);
                 // handleSuccess();

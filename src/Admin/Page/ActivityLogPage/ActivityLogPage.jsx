@@ -32,7 +32,7 @@ export const ActivityLogPage = () => {
     const fetchActivityLog = async () => {
         setIsLoading(true);
         try {
-            const result = await axios(BASE_URL + "/activity-log", {
+            const result = await axios(BASE_URL + "/api/activity-log", {
                 timeout: 10000
             });
             setActivities(result.data);

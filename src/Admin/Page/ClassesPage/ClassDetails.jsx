@@ -44,14 +44,14 @@ export const ClassDetails = () => {
         setIsLoading(true);
         try {
             if (sessionStorage.getItem("role") === 'Teacher') {
-                const result = await axios(BASE_URL + `/all-lesson-info/${sessionStorage.getItem("id")}`);
+                const result = await axios(BASE_URL + `/api/all-lesson-info/${sessionStorage.getItem("id")}`);
                 if (result.data.filter(e => e.lesson_id === parseInt(id)).length === 0) {
                     window.location.href = "/admin-dashboard/classes"
                 }
                 else { setClass(result.data.filter(e => e.lesson_id === parseInt(id))[0]); }
             }
             else if (sessionStorage.getItem("role") === 'Admin') {
-                const result = await axios(BASE_URL + `/all-lesson-info`);
+                const result = await axios(BASE_URL + `/api/all-lesson-info`);
                 if (result.data.filter(e => e.lesson_id === parseInt(id)).length === 0) {
                     window.location.href = "/admin-dashboard/classes"
                 }
@@ -110,7 +110,7 @@ export const ClassDetails = () => {
             });
         }
         try {
-            const response = await fetch(BASE_URL + `/lesson-info`, {
+            const response = await fetch(BASE_URL + `/api/lesson-info`, {
                 method: 'POST',
                 body: formData,
             });
@@ -143,7 +143,7 @@ export const ClassDetails = () => {
         }
 
         try {
-            const result = await axios.post(BASE_URL + '/delete-lesson-file', deleteValues)
+            const result = await axios.post(BASE_URL + '/api/delete-lesson-file', deleteValues)
             loadLessonDetails();
             setActionsOpen({});
         } catch (error) {
@@ -193,7 +193,7 @@ export const ClassDetails = () => {
         newAssignment.file !== null && formData.append('file', newAssignment.file[0]);
 
         try {
-            const response = await fetch(BASE_URL + '/new-assignment', {
+            const response = await fetch(BASE_URL + '/api/new-assignment', {
                 method: 'POST',
                 body: formData,
             });
@@ -255,7 +255,7 @@ export const ClassDetails = () => {
         }
 
         try {
-            const response = await fetch(BASE_URL + '/update-assignment', {
+            const response = await fetch(BASE_URL + '/api/update-assignment', {
                 method: 'POST',
                 body: formData,
             });

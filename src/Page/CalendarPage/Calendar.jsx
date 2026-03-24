@@ -34,7 +34,7 @@ export const CalendarPage = () => {
     const fetchEvents = async () => {
         setIsLoading(true);
         try {
-            const result = await axios(BASE_URL + `/events/${student.student_id}`, {
+            const result = await axios(BASE_URL + `/api/events/${student.student_id}`, {
                 timeout: 25000
             });
             setEvents(result.data.filter(e => e.is_active));

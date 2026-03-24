@@ -26,7 +26,7 @@ export const CompletedCourse = () => {
         setIsLoading(true);
         setSearch("");
         try {
-            const result = await axios(BASE_URL + `/courses-instructor-students-lessons/${student?.student_id}`);
+            const result = await axios(BASE_URL + `/api/courses-instructor-students-lessons/${student?.student_id}`);
             setCourses(result.data.filter(e => e.completed === true));
             setIsLoading(false);
         } catch (err) {

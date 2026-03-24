@@ -23,7 +23,7 @@ export const Certificate = () => {
         setIsLoading(true);
         setSearch("");
         try {
-            const result = await axios(BASE_URL + `/certificates/${student?.student_id}`, {
+            const result = await axios(BASE_URL + `/api/certificates/${student?.student_id}`, {
                 timeout: 25000
             });
             setCertificates(result.data);

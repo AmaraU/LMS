@@ -47,7 +47,7 @@ export const Overview = () => {
         setLoadingDL(true);
         setLoadingDA(true);
         try {
-            const result = await axios(BASE_URL + `/lessons/${student?.student_id}`, {
+            const result = await axios(BASE_URL + `/api/lessons/${student?.student_id}`, {
                 timeout: 10000
             });
             setAllLess(result.data);
@@ -73,7 +73,7 @@ export const Overview = () => {
     const fetchCoursesTeachersStudents = async () => {
         setLoadingCourse(true);
         try {
-            const result = await axios(BASE_URL + `/courses-instructor-students-lessons/${student?.student_id}`);
+            const result = await axios(BASE_URL + `/api/courses-instructor-students-lessons/${student?.student_id}`);
             setCourses(result.data.filter(e => e.is_active === true));
             setLoadingCourse(false);
         } catch (err) {
@@ -86,7 +86,7 @@ export const Overview = () => {
     const fetchEvents = async () => {
         setLoadingEvents(true);
         try {
-            const result = await axios(BASE_URL + `/events/${student?.student_id}`, {
+            const result = await axios(BASE_URL + `/api/events/${student?.student_id}`, {
                 timeout: 25000
             });
             setEvents(result.data.filter(e => e.completed === false));

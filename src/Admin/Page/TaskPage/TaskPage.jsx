@@ -35,13 +35,13 @@ export const TaskPage = () => {
         setIsLoading(true);
         try {
             if (sessionStorage.getItem('role') === 'Admin') {
-                const result = await axios(BASE_URL + "/tasks", {
+                const result = await axios(BASE_URL + "/api/tasks", {
                     timeout: 20000
                 });
                 setTasks(result.data);
             }
             else if (sessionStorage.getItem('role') === 'Teacher') {
-                const result = await axios(BASE_URL + `/tasks/${sessionStorage.getItem('id')}`, {
+                const result = await axios(BASE_URL + `/api/tasks/${sessionStorage.getItem('id')}`, {
                     timeout: 20000
                 });
                 setTasks(result.data);
@@ -107,9 +107,9 @@ export const TaskPage = () => {
         try {
             var response;
             if (task.type === 'assignment') {
-                response = await fetch(BASE_URL + `/assignment-file/${task.id}`);
+                response = await fetch(BASE_URL + `/api/assignment-file/${task.id}`);
             } else if (task.type === 'exam') {
-                response = await fetch(BASE_URL + `/exam-file/${task.id}`);
+                response = await fetch(BASE_URL + `/api/exam-file/${task.id}`);
             }
 
             if (!response.ok) {
@@ -151,11 +151,11 @@ export const TaskPage = () => {
         try {
             var response;
             if (selected.type === 'assignment') {
-                response = await axios.post(BASE_URL + `/grade-assignment/${selected.id}/${selected.student_id}`,
+                response = await axios.post(BASE_URL + `/api/grade-assignment/${selected.id}/${selected.student_id}`,
                     { grade }
                 );
             } else if (selected.type === 'exam') {
-                response = await axios.post(BASE_URL + `/grade-exam/${selected.id}/${selected.student_id}`,
+                response = await axios.post(BASE_URL + `/api/grade-exam/${selected.id}/${selected.student_id}`,
                     { grade }
                 );
             }
