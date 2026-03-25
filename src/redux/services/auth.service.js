@@ -16,7 +16,7 @@ export const authApi = createApi({
 
         login: builder.mutation({
             query: (body) => ({
-                url: "/login",
+                url: "/api/login",
                 method: "POST",
                 body: body,
             }),
@@ -24,7 +24,7 @@ export const authApi = createApi({
 
         academyLogin: builder.mutation({
             query: (body) => ({
-                url: "academy-login",
+                url: "/api/academy-login",
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -35,9 +35,8 @@ export const authApi = createApi({
 
         getUserProfile: builder.mutation({
             query: (body) => (
-                console.log(body),
                 {
-                    url: "/academy-user-profile",
+                    url: "/api/academy-user-profile",
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -53,7 +52,7 @@ export const authApi = createApi({
         registerFromAcademy: builder.mutation({
             query: (body) => (
                 console.log(body), {
-                    url: "/register-academy-student",
+                    url: "/api/register-academy-student",
                     method: "POST",
                     body: body,
                 }),
@@ -61,7 +60,7 @@ export const authApi = createApi({
 
         adminLogin: builder.mutation({
             query: (body) => ({
-                url: "/adminlogin",
+                url: "/api/adminlogin",
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -72,7 +71,7 @@ export const authApi = createApi({
 
         resetPassword: builder.mutation({
             query: (body) => ({
-                url: "reset-password",
+                url: "/api/reset-password",
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -83,7 +82,7 @@ export const authApi = createApi({
 
         changePassword: builder.mutation({
             query: (body) => ({
-                url: "change-password",
+                url: "/api/change-password",
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

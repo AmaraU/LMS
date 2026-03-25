@@ -14,6 +14,7 @@
 .crumb {
     flex-direction: column;
     display: flex;
+    width: 40%;
 }
 
 .crumb img {

@@ -97,14 +97,19 @@ export const TeachersPage = () => {
         if (newTeacherValues.email.match(validEndingsRegex)) {
             try {
                 axios.post(BASE_URL + '/api/new-teacher', newTeacherValues)
-                    .then(res => customToast('Teacher added successfully'))
-                    .catch(err => console.log(err));
-                setOpen(false);
-                fetchTeachers();
+                    .then(res => {
+                        customToast('Teacher added successfully');
+                        setOpen(false);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        customToastError('Error adding teacher. Please try again.');
+                    });
             } catch (err) {
                 console.log(err);
                 customToastError('Error adding teacher. Please try again.')
             }
+            fetchTeachers();
         }
         else {
             customToastError('Email must be a CWG or Fifthlab email.')
@@ -117,7 +122,6 @@ export const TeachersPage = () => {
         };
         try {
             const response = await axios.put(BASE_URL + '/api/change-teacher-role', values);
-            console.log(response.status);
             customToast('Teacher role changed');
             fetchTeachers();
         } catch (err) {
@@ -141,8 +145,6 @@ export const TeachersPage = () => {
         setConfirmType('suspend');
         setIsOpenConfirm(true);
     }
-
-    console.log(teachers);
 
     const [search, setSearch] = useState("");
     const handleSearch = (event) => {

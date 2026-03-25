@@ -224,7 +224,7 @@ export const Classes = () => {
                                     {currentClasses?.map((clas, index) => (
                                         <div key={index} className={styles.classInfo} id="outer">
                                             {/* <div className={styles.classImage}>
-                                                <img src={getImageUrl('frame7.png')} />
+                                                <img src={getImageUrl('course_img.jpg')} />
                                             </div> */}
                                             <div className={styles.infoHeader}>
                                                 <h3>{clas.title}</h3>

@@ -256,7 +256,7 @@
 
 .courseImage {
     width: 100%;
-    height: auto;
+    height: 170px;
     align-items: center;
     justify-content: center;
     display: flex;
@@ -265,7 +265,8 @@
 
 .courseImage img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    border-radius: 8px;
 }
 
 .courseInfo {
@@ -294,7 +295,7 @@
     font-size: 18px;
     line-height: 28px;
     color: #2c2f7e;
-    font-family: Work, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'WorkSans';
     margin-right: 8px;
 }
 
@@ -544,7 +545,7 @@
     font-weight: 600;
     font-size: 16px;
     color: #2C2F7E;
-    font-family: 'Work', 'Gill Sans', sans-serif;
+    font-family: 'WorkSans';
 }
 
 .Header span {

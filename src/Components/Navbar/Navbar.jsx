@@ -34,7 +34,7 @@ export const Navbar = () => {
             </div>
             <div className={navOpen ? styles.theWholeOpen : styles.theWhole} ref={navRef}>
                 <div className={styles.logo} onClick={() => setNavOpen(!navOpen)}>
-                    <img src={getImageUrl('Frame 349.png')} alt="CWG Academy" />
+                    <img src={getImageUrl('academy_logo.svg')} alt="CWG Academy" />
                 </div>
 
                 <div className={styles.linkList} >

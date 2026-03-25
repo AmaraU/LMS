@@ -63,7 +63,7 @@ export const AdminLogin = () => {
     <div className={styles.big}>
 
       <div className={styles.bread}>
-        <img src={getImageUrl("Frame 349.png")} alt="" />
+        <img src={getImageUrl("academy_logo.svg")} alt="" />
         <h3>The ultimate Learning Management System dedicated to training young tech enthusiasts on career boosting IT and Tech courses.</h3>
       </div>
 

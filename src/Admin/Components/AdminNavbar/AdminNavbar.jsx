@@ -9,7 +9,7 @@ export const AdminNavbar = () => {
     return (
         <div className={styles.theWhole}>
             <div className={styles.logo}>
-                <img src={getImageUrl('Frame 349.png')} alt="CWG Academy" />
+                <img src={getImageUrl('academy_logo.svg')} alt="CWG Academy" />
             </div>
 
             <div className={styles.linkList} >

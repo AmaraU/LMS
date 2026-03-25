@@ -9,35 +9,35 @@ export const libraryApi = createApi({
 
         getAllLibraries: builder.query({
             query: () => ({
-                url: `library`,
+                url: `/api/library`,
                 method: "GET",
             }),
         }),
 
         getLibraryById: builder.query({
             query: (id) => ({
-                url: `library-by-id/${id}`,
+                url: `/api/library-by-id/${id}`,
                 method: "GET",
             }),
         }),
 
         getLibrariesForIntructor: builder.query({
             query: (id) => ({
-                url: `library-for-instructor/${id}`,
+                url: `/api/library-for-instructor/${id}`,
                 method: "GET",
             }),
         }),
 
         getLibraryByIdForInstructor: builder.query({
             query: ({ instructor_id, library_id }) => ({
-                url: `library-by-id-for-instructor/${instructor_id}/${library_id}`,
+                url: `/api/library-by-id-for-instructor/${instructor_id}/${library_id}`,
                 method: "GET",
             }),
         }),
 
         createLibrary: builder.mutation({
             query: (body) => ({
-                url: "new-library",
+                url: "/api/new-library",
                 method: "POST",
                 body: body,
             }),
@@ -46,7 +46,7 @@ export const libraryApi = createApi({
         editLibrary: builder.mutation({
             query: (body) => (
                 console.log(body), {
-                    url: "library-info",
+                    url: "/api/library-info",
                     method: "POST",
                     body: body,
                 }),
@@ -55,7 +55,7 @@ export const libraryApi = createApi({
         deleteLibrary: builder.mutation({
             query: (body) => (
                 console.log(body), {
-                    url: "delete-library",
+                    url: "/api/delete-library",
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -66,7 +66,7 @@ export const libraryApi = createApi({
 
         addDocument: builder.mutation({
             query: (body) => ({
-                url: "change-password",
+                url: "/api/change-password",
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -78,7 +78,7 @@ export const libraryApi = createApi({
         removeDocument: builder.mutation({
             query: (body) => (
                 console.log(body), {
-                    url: "delete-library-file",
+                    url: "/api/delete-library-file",
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -89,7 +89,7 @@ export const libraryApi = createApi({
 
         getDocument: builder.query({
             query: (file_id) => ({
-                url: `library-doc/${file_id}`,
+                url: `/api/library-doc/${file_id}`,
                 method: "GET",
             }),
         }),

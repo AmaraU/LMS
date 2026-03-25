@@ -287,7 +287,7 @@ export const ActiveCourses = () => {
                                     {currentCourses.map((cour, index) => (
                                         <div key={index} className={styles.courseInfo} onClick={(e) => handleOpenCourse(e, cour)} id="outer">
                                             <div className={styles.courseImage}>
-                                                <img src={getImageUrl('frame7.png')} />
+                                                <img src={getImageUrl('course_img.jpg')} />
                                             </div>
                                             <div className={styles.infoHeader}>
                                                 <div><h3>{cour.course_name}</h3>{cour.suspended ? <span className={styles.susp}>Suspended</span> : ''}</div>

@@ -248,7 +248,7 @@ export const AdminOverview = () => {
                                 {courses.sort((a, b) => new Date(b.date_added) - new Date(a.date_added)).slice(0, 3).map((course, index) => (
                                     <div className={styles.course} key={index}>
                                         <div className={styles.courseImage}>
-                                            <img src={getImageUrl('frame7.png')} />
+                                            <img src={getImageUrl('course_img.jpg')} />
                                         </div>
                                         <div className={styles.courseInfo}>
 
