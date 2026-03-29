@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { getImageUrl } from "../../utilis";
+import { getImageUrl } from "../../../utilis";
 import styles from "./Onboarding.module.css";
-import { customToast, customToastError } from "../../Components/Notifications";
+import { customToast, customToastError } from "../../../Components/Notifications";
 import { useParams } from "react-router-dom";
 import { useAdminChangePasswordMutation } from "../../../redux/services/auth.service";
 
