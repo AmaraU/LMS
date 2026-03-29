@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Navigate, Routes, Route, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import styles from './App.module.css'
 import { Toaster } from "react-hot-toast";
 import { useAppSelector } from './redux/store';
@@ -94,6 +94,8 @@ function App() {
 
     { path: '/blank', element: <BlankPage /> },
     { path: '/404', element: <PageNotFound /> },
+    { path: "*", element: <Navigate to="/CWG" replace />, },
+
 
     {
       path: '/dashboard',
@@ -118,6 +120,7 @@ function App() {
         { path: 'profile', element: <ProfilePage /> },
         { path: 'profile/:id', element: <ProfilePage /> },
         { path: 'settings', element: <BlankPage /> },
+        { path: "*", element: <Navigate to="overview" replace />, },
 
       ]
     },
