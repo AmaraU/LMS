@@ -211,7 +211,7 @@ export const Overview = () => {
                     {courses.length < 1 ? (
                         <h4 className={styles.loading}>NO ACTIVE COURSES</h4>
                     ) : (
-                        courses.slice(0, 2).map((course, index) => (
+                        courses?.slice(0, 2)?.map((course, index) => (
                             <div className={styles.course} key={index}>
                                 <div className={styles.courseImage}>
                                     <img src={getImageUrl('course_image.png')} />
@@ -267,7 +267,7 @@ export const Overview = () => {
                                         <th>Action</th>
                                     </thead>
                                     <tbody>
-                                        {currentEvents.map((event, index) => (
+                                        {currentEvents?.map((event, index) => (
                                             <tr key={index}>
                                                 <td><input type="checkbox" /></td>
                                                 <td>{event.title}{' - '}<span>{event.event_type}</span>{' - '}{event.course_name}</td>

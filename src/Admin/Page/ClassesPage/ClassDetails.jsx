@@ -369,7 +369,7 @@ export const ClassDetails = () => {
                                             <p>JPEG, PNG, and PDF formats, up to 50MB</p>
 
                                             {showFileName && <div className={styles.theFiles}>Selected file(s):
-                                                {fileNames.map((fil, i) => (
+                                                {fileNames?.map((fil, i) => (
                                                     <p key={i}>{fil}</p>
                                                 ))}
                                             </div>}
@@ -387,7 +387,7 @@ export const ClassDetails = () => {
                                         <h5>Content</h5>
                                         <button type="button" onClick={() => setIsOpenAssignment(true)}>+ Add new assignment</button>
                                     </div>
-                                    {theClass.lesson_files && theClass.lesson_files.map((file, i) => (
+                                    {theClass?.lesson_files && theClass?.lesson_files?.map((file, i) => (
                                         <div className={styles.section} key={i}>
                                             <div className={styles.text}>
                                                 {file.file_name}
@@ -401,7 +401,7 @@ export const ClassDetails = () => {
                                             </div>
                                         </div>
                                     ))}
-                                    {theClass.assignments && theClass.assignments.map((assignment, i) => (
+                                    {theClass?.assignments && theClass?.assignments?.map((assignment, i) => (
                                         <div className={styles.section} key={i}>
                                             <div className={styles.text}>
                                                 {assignment.assignment_name}

@@ -109,7 +109,7 @@ export const AdminHeader = () => {
             <div className={styles.headerLeft}>
                 <h3>{PageTitle}</h3>
                 <div className={styles.links}>
-                    {linkList.map(({ title, link }, index) => (
+                    {linkList?.map(({ title, link }, index) => (
                         <a key={index} href={link} className={currentPath === link ? styles.activeLink : styles.inactiveLink}>
                             {title}
                         </a>

@@ -90,6 +90,28 @@ export const authApi = createApi({
                 body: body,
             }),
         }),
+
+        adminResetPassword: builder.mutation({
+            query: (body) => ({
+                url: "/api/admin-reset-password",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: body,
+            }),
+        }),
+
+        adminChangePassword: builder.mutation({
+            query: (body) => ({
+                url: "/api/admin-change-password",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: body,
+            }),
+        }),
     }),
 });
 
@@ -101,4 +123,6 @@ export const {
     useGetUserProfileMutation,
     useResetPasswordMutation,
     useChangePasswordMutation,
+    useAdminResetPasswordMutation,
+    useAdminChangePasswordMutation,
 } = authApi;

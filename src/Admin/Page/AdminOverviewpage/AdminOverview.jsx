@@ -160,7 +160,7 @@ export const AdminOverview = () => {
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentActivities = activities.slice(indexOfFirstItem, indexOfLastItem);
+    const currentActivities = activities?.slice(indexOfFirstItem, indexOfLastItem) || [];
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -245,7 +245,7 @@ export const AdminOverview = () => {
                             :
                             <div className={styles.flow}>
 
-                                {courses.sort((a, b) => new Date(b.date_added) - new Date(a.date_added)).slice(0, 3).map((course, index) => (
+                                {courses?.sort((a, b) => new Date(b.date_added) - new Date(a.date_added))?.slice(0, 3)?.map((course, index) => (
                                     <div className={styles.course} key={index}>
                                         <div className={styles.courseImage}>
                                             <img src={getImageUrl('course_img.jpg')} />
@@ -303,7 +303,7 @@ export const AdminOverview = () => {
                                         <th className={styles.action}>Action</th>
                                     </thead>
                                     <tbody>
-                                        {currentActivities.map((act, index) => (
+                                        {currentActivities?.map((act, index) => (
                                             <tr key={index}>
                                                 <td><input type="checkbox" /></td>
                                                 <td className={styles.bread}>{act.activity}</td>
@@ -348,7 +348,7 @@ export const AdminOverview = () => {
 
                     {isActivityLoading ? <h5 className={styles.loading}>Loading...</h5> :
 
-                        currentActivities.length === 0 ?
+                        currentActivities?.length === 0 ?
 
                             <p className={styles.none}>No Tasks Found</p>
                             :
@@ -364,7 +364,7 @@ export const AdminOverview = () => {
                                         <th className={styles.action}>Action</th>
                                     </thead>
                                     <tbody>
-                                        {currentActivities.map((task, index) => (
+                                        {currentActivities?.map((task, index) => (
                                             <tr key={index}>
                                                 <td><input type="checkbox" /></td>
                                                 <td>{task.student_name}</td>

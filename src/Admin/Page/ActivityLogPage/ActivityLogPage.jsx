@@ -45,7 +45,7 @@ export const ActivityLogPage = () => {
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentActivities = activities.slice(indexOfFirstItem, indexOfLastItem);
+    const currentActivities = activities?.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -110,7 +110,7 @@ export const ActivityLogPage = () => {
                                     <th className={styles.act}>Action</th>
                                 </thead>
                                 <tbody>
-                                    {currentActivities.map((activity, index) => (
+                                    {currentActivities?.map((activity, index) => (
                                         <tr>
                                             <td><input type="checkbox" /></td>
                                             <td>{activity.activity}</td>
