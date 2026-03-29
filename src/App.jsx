@@ -14,6 +14,7 @@ import { ChangePasswordPage } from './Page/Onboarding/ChangePasswordPage';
 import { AccountPage } from './Page/Onboarding/AccountPage';
 import { PasswordPage } from './Page/Onboarding/PasswordPage';
 import { NewAdmin } from './Admin/Page/AdminOnboarding/NewAdmin';
+import { AdminChangePasswordPage } from './Admin/Page/AdminOnboarding/AdminChangePasswordPage';
 
 import { DashboardLayout } from './Page/DashboardLayout'
 import { AdminDashboardLayout } from './Admin/Page/AdminDashboardLayout';
@@ -88,6 +89,7 @@ function App() {
     { path: '/Password', element: <PasswordPage /> },
     { path: '/Reset', element: <ResetPage /> },
     { path: '/change-password/:id', element: <ChangePasswordPage /> },
+    { path: '/admin-change-password/:id', element: <AdminChangePasswordPage /> },
     { path: '/admin-reset', element: <AdminReset /> },
 
     { path: '/blank', element: <BlankPage /> },
