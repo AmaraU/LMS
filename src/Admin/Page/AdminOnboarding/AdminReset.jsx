@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { getImageUrl } from "../../../utilis";
 import styles from "./AdminOnboarding.module.css";
-import { useAdminResetPasswordMutation, useResetPasswordMutation } from "../../../redux/services/auth.service";
+import { useAdminResetPasswordMutation } from "../../../redux/services/auth.service";
 
 
 export const AdminReset = () => {
