@@ -95,21 +95,18 @@ export const TeachersPage = () => {
         event.preventDefault();
         const validEndingsRegex = /@thefifthlab.com$|@cwg-plc.com$/g;
         if (newTeacherValues.email.match(validEndingsRegex)) {
-            try {
-                axios.post(BASE_URL + '/api/new-teacher', newTeacherValues)
+            // try {
+                await axios.post(BASE_URL + '/api/new-teacher', newTeacherValues)
                     .then(res => {
                         customToast('Teacher added successfully');
                         setOpen(false);
+                        fetchTeachers();
                     })
                     .catch(err => {
                         console.log(err);
                         customToastError('Error adding teacher. Please try again.');
+                        fetchTeachers();
                     });
-            } catch (err) {
-                console.log(err);
-                customToastError('Error adding teacher. Please try again.')
-            }
-            fetchTeachers();
         }
         else {
             customToastError('Email must be a CWG or Fifthlab email.')

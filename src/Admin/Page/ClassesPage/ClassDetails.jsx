@@ -102,6 +102,7 @@ export const ClassDetails = () => {
         formData.append('lesson_id', theClass.lesson_id);
         formData.append('title', theClass.title);
         formData.append('description', theClass.description);
+        formData.append('link', theClass.lesson_link);
         formData.append('level', theClass.level);
         formData.append('status', theClass.status);
         if (selectedFiles && selectedFiles.length > 0) {
@@ -354,6 +355,9 @@ export const ClassDetails = () => {
                                         <label htmlFor="description">Description</label>
                                         <textarea style={{ width: '100%', height: '160px' }} type="text" name="description" id="description" value={theClass.description} onChange={handleInputChange} />
                                         <p>{charCount} characters left</p>
+
+                                        <label htmlFor="title">Class Link</label>
+                                        <input type="text" name="lesson_link" id="lesson_link" value={theClass.lesson_link} onChange={handleInputChange} />
                                     </div>
                                 </div>
 

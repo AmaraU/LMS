@@ -27,7 +27,6 @@ export const LibraryPage = () => {
     const { data: libraries, refetch, isError, isLoading } = useGetLibrariesForIntructorQuery(
         sessionStorage.getItem('id')
     );
-    // console.log(libraries)
     useEffect(() => {
         if (isError) {
             customToastError("Error getting library. Please try again")
@@ -45,7 +44,6 @@ export const LibraryPage = () => {
         })
             .unwrap()
             .then(res => {
-                console.log(res)
                 setOpen(false);
                 refetch();
                 customToast('Successfully added new folder.')
@@ -212,7 +210,6 @@ export const LibraryPage = () => {
 
                         }}
                         onSubmit={(values, actions) => {
-                            // console.log(values);
                             createNewLibrary(values);
                         }}
                     >

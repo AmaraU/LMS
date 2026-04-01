@@ -5,6 +5,8 @@ import Pagination from "../../../Components/Pagination/Pagination";
 import { format } from 'date-fns';
 import axios from 'axios';
 import Modal from "../../Components/Modals/Modal";
+import { useGetAllStudentsQuery, useEnrollStudentMutation, useUnenrollStudentMutation } from "../../../redux/services/student.service";
+import { useGetLibrariesForIntructorQuery } from "../../../redux/services/library.service";
 import { BASE_URL, TEST_URL } from "../../../../config";
 
 
@@ -15,7 +17,7 @@ export const StudentPage = () => {
     const [actionsOpen, setActionsOpen] = useState({});
     const scroll = useRef(null);
     const actionsRef = useRef(null);
-    const [students, setStudents] = useState([]);
+    // const [students, setStudents] = useState([]);
     const [allCourses, setAllCourses] = useState([]);
     const [allNotCourses, setAllNotCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -33,30 +35,19 @@ export const StudentPage = () => {
         user: sessionStorage.getItem('full_name')
     });
 
+    const { data: students, refetch, isError, isLoading: isLoadingg } = useGetAllStudentsQuery();
+    const [enrollStudent, { isLoading: isEnrollLoading }] = useEnrollStudentMutation();
+    const [unenrollStudent, { isLoading: isUnenrollLoading }] = useUnenrollStudentMutation();
 
-    useEffect(() => {
-        fetchStudents();
-    }, []);
-
-    const fetchStudents = async () => {
-        setIsLoading(true);
-        setSearch("");
-        try {
-            const result = await axios(BASE_URL + "/api/students", {
-                timeout: 10000
-            });
-            setStudents(result.data);
-            setIsLoading(false);
-        } catch (err) {
-            setIsLoading(false);
-            console.log(err);
-        }
-    }
 
     const fetchAllNotCourses = async (student_id) => {
         setIsLoading2(true);
         try {
             if (sessionStorage.getItem('role') === 'Admin') {
+                // await newLibrary({
+                //     ...values,
+                //     instructor_id: sessionStorage.getItem('id'),
+                // })
                 const result = await axios(BASE_URL + `/api/courses-not/${student_id}`, {
                     timeout: 20000
                 });
@@ -124,20 +115,15 @@ export const StudentPage = () => {
         try {
             var response;
             if (type === 'Add') {
-                response = await axios.post(BASE_URL + '/api/enroll-student', submitValues);
-
-                setIsOpenCourse(false);
-                // handleSuccess();
+                await axios.post(BASE_URL + '/api/enroll-student', submitValues);
 
             } else if (type === 'Remove') {
                 response = await axios.post(BASE_URL + '/api/unenroll-student', submitValues);
-
-                setIsOpenCourse(false);
-                // handleSuccess();
             }
 
+            setIsOpenCourse(false);
             setIsLoading3(false);
-            fetchStudents();
+            refetch();
 
         } catch (err) {
             console.log(err);
@@ -151,7 +137,7 @@ export const StudentPage = () => {
         setSearch(event.target.value);
         setCurrentPage(1);
     };
-    const filteredStudents = students.filter(cour => {
+    const filteredStudents = students?.filter(cour => {
         const searchLower = search.toLowerCase();
         return (
             cour.email?.toLowerCase().includes(searchLower) ||
@@ -159,12 +145,12 @@ export const StudentPage = () => {
             cour.last_name?.toLowerCase().includes(searchLower) ||
             cour.phone_number?.toLowerCase().includes(searchLower)
         )
-    });
+    }) || [];
 
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentStudents = filteredStudents.slice(indexOfFirstItem, indexOfLastItem);
+    const currentStudents = filteredStudents?.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -220,7 +206,7 @@ export const StudentPage = () => {
 
                 {isLoading ? <h5 className={styles.loading}>Loading...</h5> :
 
-                    currentStudents.length === 0 ?
+                    currentStudents?.length === 0 ?
 
                         <p className={styles.none}>No Students Found</p>
                         :
@@ -238,7 +224,7 @@ export const StudentPage = () => {
                                     <th>Action</th>
                                 </thead>
                                 <tbody>
-                                    {currentStudents.map((student, index) => (
+                                    {currentStudents?.map((student, index) => (
                                         <tr key={index}>
                                             <td><input type="checkbox" /></td>
                                             <td>{student.first_name} {student.last_name}</td>

@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 // services
 import { authApi } from "./services/auth.service";
 import { libraryApi } from "./services/library.service";
+import { studentApi } from "./services/student.service";
 
 // reducers
 import authReducer from "./slices/authSlice";
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     [authApi.reducerPath]: authApi.reducer,
     [libraryApi.reducerPath]: libraryApi.reducer,
+    [studentApi.reducerPath]: studentApi.reducer,
 });
 
 // Wrap with persist
@@ -41,6 +43,7 @@ export const store = configureStore({
         app: persistedReducer,
         [authApi.reducerPath]: authApi.reducer,
         [libraryApi.reducerPath]: libraryApi.reducer,
+        [studentApi.reducerPath]: studentApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
@@ -50,6 +53,7 @@ export const store = configureStore({
         }).concat([
             authApi.middleware,
             libraryApi.middleware,
+            studentApi.middleware,
         ]),
 });
 

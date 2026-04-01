@@ -86,7 +86,8 @@ export const SchedulePage = () => {
         lesson_id: null,
         start_date: null,
         end_date: null,
-        due_date: null
+        due_date: null,
+        link: null
     })
 
     const handleClose = () => {
@@ -99,7 +100,8 @@ export const SchedulePage = () => {
             lesson_id: null,
             start_date: null,
             end_date: null,
-            due_date: null
+            due_date: null,
+            link: null
         })
     };
     const handleOpen = () => {
@@ -236,6 +238,11 @@ export const SchedulePage = () => {
                                     </select>
                                 </div>}
 
+                                {newEventValues.type === 'Class' && <div>
+                                    <h5>Class Link</h5>
+                                    <input type="text" name="link" placeholder="Enter Class Link" onChange={handleInput}></input>
+                                </div>}
+
                             </div>
                             {newEventValues.type != 'Assignment' && <div className={styles.contain}>
                                 <div>
@@ -254,6 +261,7 @@ export const SchedulePage = () => {
                                     <input type="datetime-local" name="due_date" onChange={handleInput} />
                                 </div>
                             </div>}
+
                         </div>
 
                         <button className={styles.submit}>{isLoading2 ? '...' : 'Submit'}</button>

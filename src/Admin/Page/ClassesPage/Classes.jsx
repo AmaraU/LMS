@@ -239,6 +239,7 @@ export const Classes = () => {
                                                 </div>
                                             </div>
                                             <p>Course: {clas.course_name}</p>
+                                            {clas.lesson_link && <p>Class Link: <a style={{ color: "#2C2F7E" }} target="_blank" href={clas.lesson_link}>{clas.lesson_link}</a></p>}
                                             <div className={styles.classData}>
                                                 {/* <div className={styles.timeData}><img src={getImageUrl('timer.png')} alt="" />{(Math.abs(new Date(clas.end_date) - new Date(clas.start_date))/1000 * 60 * 60).toFixed(1)}</div> */}
                                                 {clas.start_date != null && <div className={styles.timeData}><img src={getImageUrl('blueCalendar.png')} alt="" />{format(new Date(clas.start_date), 'd MMM')}</div>}

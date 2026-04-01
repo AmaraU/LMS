@@ -147,18 +147,18 @@ export const CourseDetails = () => {
                                     <div>
                                         <h3>{course.course_name}</h3>
                                         <div className={styles.titleInfo}>
-                                            <div className={styles.teach}>
+                                            {course.instructors?.length > 0 && <div className={styles.teach}>
                                                 <img src={getImageUrl('profile.svg')} alt="" />
                                                 {course.instructors?.map((inst, ind) => (
                                                     ind != course.instructors.length - 1 ? inst.full_name + ', ' : inst.full_name
                                                 ))}
-                                            </div>
+                                            </div>}
                                             <div className={styles.stud}>
-                                                <div className={styles.stack}>
+                                                {/* <div className={styles.stack}>
                                                     {course.students?.map((img, i) =>
                                                         <img src={getImageUrl('profile.svg')} alt="" key={i} />
                                                     )}
-                                                </div>
+                                                </div> */}
                                                 {course.students?.length} Registered student{course.students?.length != 1 && `s`}
                                             </div>
                                         </div>
@@ -257,7 +257,7 @@ export const CourseDetails = () => {
                                                             <div className={styles.accHeader} onClick={() => toggleAccordion(lesson.lesson_id)}>
                                                                 <span style={{
                                                                     ...styles.arrow,
-                                                                    transform: openAccId === lesson.lesson_id ? 'rotate(180deg)' : 'rotate(0deg)'
+                                                                    transform: openAccId === lesson.lesson_id ? 'rotate(180deg)' : 'rotate(90deg)'
                                                                 }}>
                                                                     ^
                                                                 </span>
@@ -266,6 +266,7 @@ export const CourseDetails = () => {
                                                         </div>
 
                                                         {openAccId === lesson.lesson_id && <>
+                                                            {lesson.lesson_link && <a className={styles.noLessons} style={{ color: "#2C2F7E" }} target="_blank" href={lesson.lesson_link}>{lesson.lesson_link}</a>}
                                                             {lesson.content.length < 1 ? <p className={styles.noLessons}>No content for this lesson</p>
                                                                 :
                                                                 <>
@@ -310,7 +311,7 @@ export const CourseDetails = () => {
                                                     <div className={styles.accHeader} onClick={() => toggleAccordion(1000)}>
                                                         <span style={{
                                                             ...styles.arrow,
-                                                            transform: openAccId === 1000 ? 'rotate(180deg)' : 'rotate(0deg)'
+                                                            transform: openAccId === 1000 ? 'rotate(180deg)' : 'rotate(90deg)'
                                                         }}>
                                                             ^
                                                         </span>
